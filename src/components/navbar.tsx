@@ -1,0 +1,282 @@
+import { useLayoutEffect, useRef, useState } from "react";
+import { Link as RouterLink, useLocation } from "react-router-dom";
+import { gsap } from "gsap";
+import { 
+  HomeIcon, 
+  BuildingStorefrontIcon, 
+  MapIcon, 
+  HeartIcon,
+  MagnifyingGlassIcon,
+  ArrowUpRightIcon,
+} from "@heroicons/react/24/outline";
+import { ThemeSwitch } from "@/components/theme-switch";
+
+interface NavbarProps {
+  onSearchOpen?: () => void;
+}
+
+export default function Navbar({ onSearchOpen }: NavbarProps) {
+  const location = useLocation();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navRef = useRef<HTMLDivElement>(null);
+  const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
+  const tlRef = useRef<gsap.core.Timeline | null>(null);
+
+  const navItems = [
+    {
+      label: "Beranda",
+      href: "/",
+      icon: HomeIcon,
+      bgColor: "from-orange-500 to-orange-600",
+      description: "Halaman utama",
+      links: [
+        { label: "Jelajahi UMKM", href: "/direktori", description: "Temukan bisnis lokal" },
+        { label: "UMKM Unggulan", href: "/#featured", description: "Bisnis terpopuler" }
+      ]
+    },
+    {
+      label: "Direktori",
+      href: "/direktori",
+      icon: BuildingStorefrontIcon,
+      bgColor: "from-blue-500 to-blue-600",
+      description: "Cari UMKM",
+      links: [
+        { label: "Semua UMKM", href: "/direktori", description: "Lihat semua bisnis" },
+        { label: "Kategori", href: "/direktori/kategori", description: "Jelajah berdasarkan kategori" },
+        { label: "Terbaru", href: "/direktori/terbaru", description: "UMKM yang baru terdaftar" }
+      ]
+    },
+    {
+      label: "Peta",
+      href: "/peta",
+      icon: MapIcon,
+      bgColor: "from-green-500 to-green-600",
+      description: "Lokasi UMKM",
+      links: [
+        { label: "Lihat Peta", href: "/peta", description: "Peta interaktif UMKM" },
+        { label: "Terdekat", href: "/peta/terdekat", description: "UMKM di sekitar Anda" }
+      ]
+    },
+    {
+      label: "Favorit",
+      href: "/favorit",
+      icon: HeartIcon,
+      bgColor: "from-pink-500 to-pink-600",
+      description: "UMKM Favorit",
+      links: [
+        { label: "Daftar Favorit", href: "/favorit", description: "UMKM yang Anda simpan" },
+        { label: "Koleksi", href: "/favorit/koleksi", description: "Kelola koleksi Anda" }
+      ]
+    }
+  ];
+
+  const calculateHeight = () => {
+    const navEl = navRef.current;
+    if (!navEl) return 300;
+
+    const isMobile = window.matchMedia("(max-width: 640px)").matches;
+    const isTablet = window.matchMedia("(min-width: 641px) and (max-width: 1023px)").matches;
+    
+    if (isMobile) {
+      // Mobile: 4 cards stacked vertically - increased for better spacing
+      return 680; // Increased dari 600 ke 680 untuk menampilkan semua cards
+    } else if (isTablet) {
+      // Tablet: 2x2 grid
+      return 480;
+    }
+    // Desktop: 4 cards horizontal
+    return 320;
+  };
+
+  const createTimeline = () => {
+    const navEl = navRef.current;
+    if (!navEl) return null;
+
+    gsap.set(navEl, { height: 70, overflow: "hidden" });
+    gsap.set(cardsRef.current, { y: 30, opacity: 0, scale: 0.95 });
+
+    const tl = gsap.timeline({ paused: true });
+
+    tl.to(navEl, {
+      height: calculateHeight,
+      duration: 0.5,
+      ease: "power3.out",
+    });
+
+    tl.to(
+      cardsRef.current,
+      {
+        y: 0,
+        opacity: 1,
+        scale: 1,
+        duration: 0.4,
+        ease: "back.out(1.4)",
+        stagger: 0.06,
+      },
+      "-=0.2"
+    );
+
+    return tl;
+  };
+
+  useLayoutEffect(() => {
+    const tl = createTimeline();
+    tlRef.current = tl;
+
+    return () => {
+      tl?.kill();
+      tlRef.current = null;
+    };
+  }, []);
+
+  const toggleMenu = () => {
+    const tl = tlRef.current;
+    if (!tl) return;
+
+    if (!isMenuOpen) {
+      setIsMenuOpen(true);
+      tl.play(0);
+    } else {
+      tl.eventCallback("onReverseComplete", () => setIsMenuOpen(false));
+      tl.reverse();
+    }
+  };
+
+  const handleSearchClick = () => {
+    if (onSearchOpen) {
+      onSearchOpen();
+    }
+  };
+
+  const setCardRef = (i: number) => (el: HTMLDivElement | null) => {
+    if (el) cardsRef.current[i] = el;
+  };
+
+  return (
+    <div className="fixed inset-x-0 top-0 z-[100] flex justify-center px-4 pt-6">
+      <nav
+        ref={navRef}
+        className={`w-full max-w-7xl bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl border border-gray-200 dark:border-gray-800 rounded-2xl shadow-xl transition-all duration-300 overflow-hidden ${
+          isMenuOpen ? "shadow-2xl" : ""
+        }`}
+        style={{ height: 70 }}
+      >
+        {/* Top Bar */}
+        <div className="absolute top-0 left-0 right-0 h-[70px] flex items-center justify-between px-6 z-10">
+          {/* Left: Hamburger Menu Button */}
+          <button
+            onClick={toggleMenu}
+            className="p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors order-1"
+            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+          >
+            <div className="w-6 h-6 flex flex-col justify-center items-center gap-1.5">
+              <div
+                className={`w-full h-0.5 bg-gray-900 dark:bg-gray-100 transition-all duration-300 ${
+                  isMenuOpen ? "rotate-45 translate-y-2" : ""
+                }`}
+              />
+              <div
+                className={`w-full h-0.5 bg-gray-900 dark:bg-gray-100 transition-all duration-300 ${
+                  isMenuOpen ? "-rotate-45 -translate-y-1" : ""
+                }`}
+              />
+            </div>
+          </button>
+
+          {/* Center: Logo */}
+          <RouterLink to="/" className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center gap-3 group order-2">
+            <div className="w-10 h-10 rounded-xl overflow-hidden shadow-lg group-hover:scale-110 transition-transform">
+              <img 
+                src="/assets/images/logo.png" 
+                alt="LokalKu Logo" 
+                className="w-full h-full object-contain"
+              />
+            </div>
+            <span className="font-bold text-xl text-gray-900 dark:text-white hidden sm:block">
+              LokalKu
+            </span>
+          </RouterLink>
+
+          {/* Right Actions */}
+          <div className="hidden md:flex items-center gap-3 order-3">
+            <button
+              onClick={handleSearchClick}
+              className="flex items-center gap-2 px-5 py-2 text-sm text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors min-w-[280px]"
+            >
+              <MagnifyingGlassIcon className="w-4 h-4 text-gray-400" />
+              <span className="flex-1 text-left">Cari UMKM...</span>
+              <kbd className="hidden lg:inline-block px-2 py-0.5 text-xs font-semibold text-gray-600 dark:text-gray-400 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded">
+                ⌘K
+              </kbd>
+            </button>
+            <ThemeSwitch />
+          </div>
+
+          {/* Mobile Actions */}
+          <div className="flex md:hidden items-center gap-2 order-3">
+            <button
+              onClick={handleSearchClick}
+              className="p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              aria-label="Search"
+            >
+              <MagnifyingGlassIcon className="w-5 h-5 text-gray-600 dark:text-gray-300" />
+            </button>
+            <ThemeSwitch />
+          </div>
+        </div>
+
+        {/* Cards Content */}
+        <div
+          className={`absolute left-0 right-0 top-[70px] bottom-0 p-4 overflow-y-auto ${
+            isMenuOpen ? "pointer-events-auto" : "pointer-events-none"
+          }`}
+        >
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 min-h-full">
+            {navItems.map((item, idx) => {
+              const IconComponent = item.icon;
+              const isActive = location.pathname === item.href;
+
+              return (
+                <div
+                  key={item.href}
+                  ref={setCardRef(idx)}
+                  className={`bg-gradient-to-br ${item.bgColor} rounded-xl p-5 flex flex-col gap-3 shadow-lg hover:shadow-xl transition-shadow lg:h-full ${
+                    isActive ? "ring-2 ring-white ring-offset-2" : ""
+                  }`}
+                >
+                  {/* Card Header */}
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-lg flex items-center justify-center flex-shrink-0">
+                      <IconComponent className="w-5 h-5 text-white" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="text-white font-bold font-display text-lg leading-tight">
+                        {item.label}
+                      </h3>
+                      <p className="text-white/70 text-xs truncate">{item.description}</p>
+                    </div>
+                  </div>
+
+                  {/* Card Links */}
+                  <div className="flex flex-col gap-1.5 mt-auto">
+                    {item.links.map((link) => (
+                      <RouterLink
+                        key={link.href}
+                        to={link.href}
+                        onClick={() => toggleMenu()}
+                        className="group flex items-center gap-2 text-white/90 hover:text-white text-sm font-medium transition-all hover:translate-x-1"
+                      >
+                        <ArrowUpRightIcon className="w-4 h-4 flex-shrink-0 group-hover:scale-110 transition-transform" />
+                        <span className="truncate">{link.label}</span>
+                      </RouterLink>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </nav>
+    </div>
+  );
+}
