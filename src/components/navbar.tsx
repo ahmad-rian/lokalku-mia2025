@@ -9,7 +9,9 @@ import {
   MagnifyingGlassIcon,
   ArrowUpRightIcon,
 } from "@heroicons/react/24/outline";
-import { ThemeSwitch } from "@/components/theme-switch";
+import { AnimatedThemeToggler } from "@/components/animated-theme-toggler";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface NavbarProps {
   onSearchOpen?: () => void;
@@ -17,6 +19,7 @@ interface NavbarProps {
 
 export default function Navbar({ onSearchOpen }: NavbarProps) {
   const location = useLocation();
+  const { t } = useLanguage();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
@@ -24,7 +27,7 @@ export default function Navbar({ onSearchOpen }: NavbarProps) {
 
   const navItems = [
     {
-      label: "Beranda",
+      label: t("navbar.home"),
       href: "/",
       icon: HomeIcon,
       bgColor: "from-orange-500 to-orange-600",
@@ -35,7 +38,7 @@ export default function Navbar({ onSearchOpen }: NavbarProps) {
       ]
     },
     {
-      label: "Direktori",
+      label: t("navbar.directory"),
       href: "/direktori",
       icon: BuildingStorefrontIcon,
       bgColor: "from-blue-500 to-blue-600",
@@ -79,7 +82,7 @@ export default function Navbar({ onSearchOpen }: NavbarProps) {
     
     if (isMobile) {
       // Mobile: 4 cards stacked vertically - increased for better spacing
-      return 680; // Increased dari 600 ke 680 untuk menampilkan semua cards
+      return Math.min(window.innerHeight - 140, 720); // Responsive to screen height
     } else if (isTablet) {
       // Tablet: 2x2 grid
       return 480;
@@ -153,85 +156,102 @@ export default function Navbar({ onSearchOpen }: NavbarProps) {
   };
 
   return (
-    <div className="fixed inset-x-0 top-0 z-[100] flex justify-center px-4 pt-6">
+    <div className="fixed inset-x-0 top-0 z-[100] flex justify-center px-2 sm:px-4 pt-4 sm:pt-6">
       <nav
         ref={navRef}
-        className={`w-full max-w-7xl bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl border border-gray-200 dark:border-gray-800 rounded-2xl shadow-xl transition-all duration-300 overflow-hidden ${
+        className={`w-full max-w-7xl bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl border border-gray-200 dark:border-gray-800 rounded-xl sm:rounded-2xl shadow-xl transition-all duration-300 overflow-hidden ${
           isMenuOpen ? "shadow-2xl" : ""
         }`}
         style={{ height: 70 }}
       >
         {/* Top Bar */}
-        <div className="absolute top-0 left-0 right-0 h-[70px] flex items-center justify-between px-6 z-10">
-          {/* Left: Hamburger Menu Button */}
-          <button
-            onClick={toggleMenu}
-            className="p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors order-1"
-            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-          >
-            <div className="w-6 h-6 flex flex-col justify-center items-center gap-1.5">
-              <div
-                className={`w-full h-0.5 bg-gray-900 dark:bg-gray-100 transition-all duration-300 ${
-                  isMenuOpen ? "rotate-45 translate-y-2" : ""
-                }`}
-              />
-              <div
-                className={`w-full h-0.5 bg-gray-900 dark:bg-gray-100 transition-all duration-300 ${
-                  isMenuOpen ? "-rotate-45 -translate-y-1" : ""
-                }`}
-              />
-            </div>
-          </button>
+        <div className="absolute top-0 left-0 right-0 h-[70px] flex items-center justify-between px-3 sm:px-6 z-10">
+          {/* Left: Hamburger Menu Button + Mia Competitions */}
+          <div className="flex items-center gap-2 order-1">
+            <button
+              onClick={toggleMenu}
+              className="p-2 rounded-lg sm:rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+            >
+              <div className="w-5 h-5 sm:w-6 sm:h-6 flex flex-col justify-center items-center gap-1 sm:gap-1.5">
+                <div
+                  className={`w-full h-0.5 bg-gray-900 dark:bg-gray-100 transition-all duration-300 ${
+                    isMenuOpen ? "rotate-45 translate-y-1.5 sm:translate-y-2" : ""
+                  }`}
+                />
+                <div
+                  className={`w-full h-0.5 bg-gray-900 dark:bg-gray-100 transition-all duration-300 ${
+                    isMenuOpen ? "-rotate-45 -translate-y-0.5 sm:-translate-y-1" : ""
+                  }`}
+                />
+              </div>
+            </button>
+            
+            {/* Mia Competitions - Desktop Only */}
+            <a
+              href="https://mia2025.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden lg:flex px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors whitespace-nowrap"
+            >
+              Mia Competitions
+              <ArrowUpRightIcon className="w-4 h-4 ml-1" />
+            </a>
+          </div>
 
           {/* Center: Logo */}
-          <RouterLink to="/" className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center gap-3 group order-2">
-            <div className="w-10 h-10 rounded-xl overflow-hidden shadow-lg group-hover:scale-110 transition-transform">
+          <RouterLink to="/" className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center gap-2 sm:gap-3 group order-2">
+            <div className="w-8 h-8 sm:w-10 sm:h-10">
               <img 
-                src="/assets/images/logo.png" 
+                src="/assets/images/logo.webp" 
                 alt="LokalKu Logo" 
                 className="w-full h-full object-contain"
               />
             </div>
-            <span className="font-bold text-xl text-gray-900 dark:text-white hidden sm:block">
+
+            <span className="font-bold text-lg sm:text-xl text-gray-900 dark:text-white hidden sm:block">
               LokalKu
             </span>
           </RouterLink>
 
           {/* Right Actions */}
-          <div className="hidden md:flex items-center gap-3 order-3">
+          <div className="hidden lg:flex items-center gap-3 order-3">
             <button
               onClick={handleSearchClick}
-              className="flex items-center gap-2 px-5 py-2 text-sm text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors min-w-[280px]"
+              className="flex items-center gap-2 px-4 py-2 text-sm text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors min-w-[280px]"
             >
               <MagnifyingGlassIcon className="w-4 h-4 text-gray-400" />
-              <span className="flex-1 text-left">Cari UMKM...</span>
-              <kbd className="hidden lg:inline-block px-2 py-0.5 text-xs font-semibold text-gray-600 dark:text-gray-400 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded">
+              <span className="flex-1 text-left">{t("navbar.search")}</span>
+              <kbd className="hidden xl:inline-block px-2 py-0.5 text-xs font-semibold text-gray-600 dark:text-gray-400 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded">
                 ⌘K
               </kbd>
             </button>
-            <ThemeSwitch />
+            
+            <LanguageSwitcher />
+            <AnimatedThemeToggler />
           </div>
 
-          {/* Mobile Actions */}
-          <div className="flex md:hidden items-center gap-2 order-3">
+          {/* Mobile/Tablet Actions */}
+          <div className="flex lg:hidden items-center gap-1 sm:gap-2 order-3">
             <button
               onClick={handleSearchClick}
-              className="p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              className="p-1.5 sm:p-2 rounded-lg sm:rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
               aria-label="Search"
             >
-              <MagnifyingGlassIcon className="w-5 h-5 text-gray-600 dark:text-gray-300" />
+              <MagnifyingGlassIcon className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600 dark:text-gray-300" />
             </button>
-            <ThemeSwitch />
+            <LanguageSwitcher />
+            <AnimatedThemeToggler />
           </div>
         </div>
 
         {/* Cards Content */}
         <div
-          className={`absolute left-0 right-0 top-[70px] bottom-0 p-4 overflow-y-auto ${
+          className={`absolute left-0 right-0 top-[70px] bottom-0 p-2 sm:p-4 overflow-y-auto ${
             isMenuOpen ? "pointer-events-auto" : "pointer-events-none"
           }`}
         >
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 min-h-full">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 min-h-full">
             {navItems.map((item, idx) => {
               const IconComponent = item.icon;
               const isActive = location.pathname === item.href;
@@ -240,17 +260,17 @@ export default function Navbar({ onSearchOpen }: NavbarProps) {
                 <div
                   key={item.href}
                   ref={setCardRef(idx)}
-                  className={`bg-gradient-to-br ${item.bgColor} rounded-xl p-5 flex flex-col gap-3 shadow-lg hover:shadow-xl transition-shadow lg:h-full ${
+                  className={`bg-gradient-to-br ${item.bgColor} rounded-lg sm:rounded-xl p-3 sm:p-5 flex flex-col gap-2 sm:gap-3 shadow-lg hover:shadow-xl transition-shadow lg:h-full ${
                     isActive ? "ring-2 ring-white ring-offset-2" : ""
                   }`}
                 >
                   {/* Card Header */}
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-lg flex items-center justify-center flex-shrink-0">
-                      <IconComponent className="w-5 h-5 text-white" />
+                  <div className="flex items-center gap-2 sm:gap-3">
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-white/20 backdrop-blur-sm rounded-md sm:rounded-lg flex items-center justify-center flex-shrink-0">
+                      <IconComponent className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h3 className="text-white font-bold font-display text-lg leading-tight">
+                      <h3 className="text-white font-bold font-display text-base sm:text-lg leading-tight">
                         {item.label}
                       </h3>
                       <p className="text-white/70 text-xs truncate">{item.description}</p>
@@ -258,15 +278,15 @@ export default function Navbar({ onSearchOpen }: NavbarProps) {
                   </div>
 
                   {/* Card Links */}
-                  <div className="flex flex-col gap-1.5 mt-auto">
+                  <div className="flex flex-col gap-1 sm:gap-1.5 mt-auto">
                     {item.links.map((link) => (
                       <RouterLink
                         key={link.href}
                         to={link.href}
                         onClick={() => toggleMenu()}
-                        className="group flex items-center gap-2 text-white/90 hover:text-white text-sm font-medium transition-all hover:translate-x-1"
+                        className="group flex items-center gap-2 text-white/90 hover:text-white text-xs sm:text-sm font-medium transition-all hover:translate-x-1"
                       >
-                        <ArrowUpRightIcon className="w-4 h-4 flex-shrink-0 group-hover:scale-110 transition-transform" />
+                        <ArrowUpRightIcon className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0 group-hover:scale-110 transition-transform" />
                         <span className="truncate">{link.label}</span>
                       </RouterLink>
                     ))}

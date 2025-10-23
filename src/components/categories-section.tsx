@@ -1,103 +1,129 @@
-import { Card, CardBody } from "@heroui/card";
-import { Button } from "@heroui/button";
+import { Button, Card, CardBody } from "@heroui/react";
+import { Link } from "react-router-dom";
 import { 
-  BuildingStorefrontIcon,
-  CakeIcon,
+  ShoppingBagIcon, 
+  CakeIcon, 
   WrenchScrewdriverIcon,
-  ShoppingBagIcon,
+  ChevronRightIcon,
   HeartIcon,
   ComputerDesktopIcon,
   TruckIcon,
   AcademicCapIcon,
-  ArrowRightIcon
+  BuildingStorefrontIcon
 } from "@heroicons/react/24/outline";
-import { Link } from "react-router-dom";
+import LazySection from "./LazySection";
+import { useLanguage } from "../contexts/LanguageContext";
+import { useState, useEffect } from "react";
 
 export default function CategoriesSection() {
+  const { t } = useLanguage();
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  useEffect(() => {
+    // Check initial theme
+    const checkTheme = () => {
+      setIsDarkMode(document.documentElement.classList.contains('dark'));
+    };
+    
+    checkTheme();
+
+    // Watch for theme changes
+    const observer = new MutationObserver(checkTheme);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class']
+    });
+
+    return () => observer.disconnect();
+  }, []);
+  
   const categories = [
     {
       id: 1,
-      name: "Makanan & Minuman",
+      name: t("categories.items.food.name"),
       count: 45,
       icon: CakeIcon,
-      description: "Kuliner khas Banyumas",
+      description: t("categories.items.food.description"),
       gradient: "from-orange-500 to-red-500",
       bgGradient: "from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20"
     },
     {
       id: 2,
-      name: "Fashion & Pakaian",
+      name: t("categories.items.fashion.name"),
       count: 28,
       icon: ShoppingBagIcon,
-      description: "Batik dan pakaian lokal",
+      description: t("categories.items.fashion.description"),
       gradient: "from-purple-500 to-pink-500",
       bgGradient: "from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20"
     },
     {
       id: 3,
-      name: "Jasa & Layanan",
+      name: t("categories.items.services.name"),
       count: 32,
       icon: WrenchScrewdriverIcon,
-      description: "Berbagai layanan profesional",
+      description: t("categories.items.services.description"),
       gradient: "from-blue-500 to-cyan-500",
       bgGradient: "from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20"
     },
     {
       id: 4,
-      name: "Kesehatan & Kecantikan",
+      name: t("categories.items.health.name"),
       count: 19,
       icon: HeartIcon,
-      description: "Perawatan dan kesehatan",
+      description: t("categories.items.health.description"),
       gradient: "from-pink-500 to-rose-500",
       bgGradient: "from-pink-50 to-rose-50 dark:from-pink-900/20 dark:to-rose-900/20"
     },
     {
       id: 5,
-      name: "Teknologi & Digital",
+      name: t("categories.items.technology.name"),
       count: 15,
       icon: ComputerDesktopIcon,
-      description: "Layanan IT dan digital",
+      description: t("categories.items.technology.description"),
       gradient: "from-indigo-500 to-blue-500",
       bgGradient: "from-indigo-50 to-blue-50 dark:from-indigo-900/20 dark:to-blue-900/20"
     },
     {
       id: 6,
-      name: "Transportasi",
+      name: t("categories.items.transportation.name"),
       count: 12,
       icon: TruckIcon,
-      description: "Jasa transportasi lokal",
+      description: t("categories.items.transportation.description"),
       gradient: "from-green-500 to-emerald-500",
       bgGradient: "from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20"
     },
     {
       id: 7,
-      name: "Pendidikan",
+      name: t("categories.items.education.name"),
       count: 8,
       icon: AcademicCapIcon,
-      description: "Kursus dan pelatihan",
+      description: t("categories.items.education.description"),
       gradient: "from-amber-500 to-yellow-500",
       bgGradient: "from-amber-50 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/20"
     },
     {
       id: 8,
-      name: "Lainnya",
+      name: t("categories.items.others.name"),
       count: 23,
       icon: BuildingStorefrontIcon,
-      description: "Kategori lainnya",
+      description: t("categories.items.others.description"),
       gradient: "from-gray-500 to-slate-500",
       bgGradient: "from-gray-50 to-slate-50 dark:from-gray-900/20 dark:to-slate-900/20"
     }
   ];
 
   return (
-    <section className="py-16 md:py-24 bg-gradient-to-br from-blue-50/30 via-white to-orange-50/20 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+    <LazySection 
+      animationType="slideLeft" 
+      className="py-16 md:py-24 bg-gradient-to-br from-blue-50/30 via-white to-orange-50/20 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 relative overflow-hidden"
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold font-display text-gray-900 dark:text-white mb-4">
-            Jelajahi{" "}
+            {t("categories.title")}{" "}
             <span className="bg-gradient-to-r from-primary-600 to-orange-500 bg-clip-text text-transparent">
-              Kategori
+              {t("categories.subtitle")}
             </span>
           </h2>
           
@@ -109,7 +135,7 @@ export default function CategoriesSection() {
           </div>
           
           <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-            Temukan berbagai kategori UMKM sesuai kebutuhan Anda
+            {t("categories.description")}
           </p>
         </div>
 
@@ -140,7 +166,7 @@ export default function CategoriesSection() {
 
                 {/* Count Badge */}
                 <div className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-gradient-to-r ${category.gradient} text-white shadow-md`}>
-                  {category.count} UMKM
+                  {category.count} {t("categories.umkmLabel")}
                 </div>
               </CardBody>
             </Card>
@@ -154,9 +180,9 @@ export default function CategoriesSection() {
             as={Link}
             to="/direktori"
             className="bg-gradient-to-r from-primary-600 to-orange-500 text-white font-semibold shadow-lg hover:shadow-xl transition-all px-8"
-            endContent={<ArrowRightIcon className="w-4 h-4" />}
+            endContent={<ChevronRightIcon className="w-4 h-4" />}
           >
-            Lihat Semua Kategori
+            {t("categories.viewAll")}
           </Button>
         </div>
 
@@ -167,6 +193,6 @@ export default function CategoriesSection() {
           </div>
         </div>
       </div>
-    </section>
+    </LazySection>
   );
 }

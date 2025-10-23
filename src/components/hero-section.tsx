@@ -32,7 +32,7 @@ const LightRays = ({ isDarkMode }: { isDarkMode: boolean }) => {
   };
 
   useEffect(() => {
-    if (!containerRef.current || !isDarkMode) return;
+    if (!containerRef.current) return;
 
     if (cleanupFunctionRef.current) {
       cleanupFunctionRef.current();
@@ -114,15 +114,20 @@ void main() {
   gl_FragColor = fragColor;
 }`;
 
+      // Different colors for light and dark mode
+      // Light mode: Warm amber/yellow (#fbbf24)
+      // Dark mode: Orange (#f97316)
+      const rayColor = isDarkMode ? '#f97316' : '#fbbf24';
+      
       const uniforms = {
         iTime: { value: 0 },
         iResolution: { value: [1, 1] },
         rayPos: { value: [0, 0] },
         rayDir: { value: [0, 1] },
-        raysColor: { value: hexToRgb('#f97316') }, // Orange color
-        raysSpeed: { value: 1.0 },
-        lightSpread: { value: 0.8 },
-        rayLength: { value: 2.0 },
+        raysColor: { value: hexToRgb(rayColor) },
+        raysSpeed: { value: isDarkMode ? 1.0 : 0.7 },
+        lightSpread: { value: isDarkMode ? 0.8 : 1.2 },
+        rayLength: { value: isDarkMode ? 2.0 : 1.8 },
       };
       uniformsRef.current = uniforms;
 
@@ -210,13 +215,14 @@ void main() {
     };
   }, [isDarkMode]);
 
-  if (!isDarkMode) return null;
-
   return (
     <div 
       ref={containerRef} 
       className="absolute inset-0 w-full h-full pointer-events-none z-0"
-      style={{ mixBlendMode: 'screen' }}
+      style={{ 
+        mixBlendMode: isDarkMode ? 'screen' : 'multiply',
+        opacity: isDarkMode ? 1 : 0.2
+      }}
     />
   );
 };
@@ -242,13 +248,21 @@ export default function HeroSection() {
     return () => observer.disconnect();
   }, []);
 
-  
+  // Unsplash images - Indonesian food & business
+  const umkmImages = [
+    "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=400&h=500&fit=crop",
+    "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&h=500&fit=crop",
+    "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&h=500&fit=crop",
+    "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400&h=500&fit=crop",
+    "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400&h=500&fit=crop",
+    "https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?w=400&h=500&fit=crop",
+  ];
 
   return (
     <>
       {/* Hero Section */}
       <section className="relative overflow-hidden min-h-screen bg-gradient-to-b from-gray-50 via-white to-gray-50 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 flex items-center justify-center">
-        {/* Light Rays Background - Only in dark mode */}
+        {/* Light Rays Background - Works in both modes */}
         <div className="absolute inset-0 overflow-hidden">
           <LightRays isDarkMode={isDarkMode} />
           {isDarkMode && (
@@ -289,7 +303,7 @@ export default function HeroSection() {
             </div>
 
             {/* Main Heading */}
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold font-display leading-tight mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>
               <span className="block text-gray-900 dark:text-white mb-2">
                 Platform Terdepan
               </span>

@@ -2,27 +2,48 @@ import { Link } from "react-router-dom";
 import { 
   MapPinIcon,
   EnvelopeIcon,
-  PhoneIcon,
   HomeIcon,
   BuildingStorefrontIcon,
   MapIcon,
   HeartIcon
 } from "@heroicons/react/24/outline";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { useState, useEffect } from "react";
 
 export default function Footer() {
+  const { t } = useLanguage();
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  useEffect(() => {
+    // Check initial theme
+    const checkTheme = () => {
+      setIsDarkMode(document.documentElement.classList.contains('dark'));
+    };
+    
+    checkTheme();
+
+    // Watch for theme changes
+    const observer = new MutationObserver(checkTheme);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class']
+    });
+
+    return () => observer.disconnect();
+  }, []);
   const navigationLinks = [
-    { label: "Beranda", href: "/", icon: HomeIcon },
-    { label: "Direktori UMKM", href: "/direktori", icon: BuildingStorefrontIcon },
-    { label: "Peta", href: "/peta", icon: MapIcon },
-    { label: "Favorit", href: "/favorit", icon: HeartIcon }
+    { label: t("footer.navigation.home"), href: "/", icon: HomeIcon },
+    { label: t("footer.navigation.directory"), href: "/direktori", icon: BuildingStorefrontIcon },
+    { label: t("footer.navigation.map"), href: "/peta", icon: MapIcon },
+    { label: t("footer.navigation.favorites"), href: "/favorit", icon: HeartIcon }
   ];
 
   const informationLinks = [
-    { label: "Tentang Kami", href: "/tentang" },
-    { label: "Hubungi Kami", href: "/kontak" },
-    { label: "Kebijakan Privasi", href: "/privasi" },
-    { label: "Syarat & Ketentuan", href: "/syarat" },
-    { label: "FAQ", href: "/faq" }
+    { label: t("footer.information.about"), href: "/tentang" },
+    { label: t("footer.information.contact"), href: "/kontak" },
+    { label: t("footer.information.privacy"), href: "/privasi" },
+    { label: t("footer.information.terms"), href: "/syarat" },
+    { label: t("footer.information.faq"), href: "/faq" }
   ];
 
   const socialLinks = [
@@ -67,18 +88,22 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="relative bg-gradient-to-b from-gray-900 via-gray-950 to-black dark:from-black dark:via-gray-950 dark:to-black">
+    <footer className="relative bg-gradient-to-b from-gray-900 via-gray-950 to-black dark:from-black dark:via-gray-950 dark:to-black overflow-hidden">
       {/* Decorative gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary-500/5 via-transparent to-orange-500/5 pointer-events-none" />
       
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
         {/* Main Footer Content */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 py-16 border-b border-gray-800/50">
           {/* Column 1 - Brand */}
           <div className="space-y-6">
             <div className="flex items-center gap-3">
-              <div className="w-11 h-11 bg-gradient-to-br from-primary-600 to-orange-500 rounded-xl flex items-center justify-center shadow-lg shadow-primary-500/20">
-                <span className="text-white font-bold text-xl">LK</span>
+              <div className="w-11 h-11 rounded-xl overflow-hidden shadow-lg shadow-primary-500/20">
+                <img 
+                  src="/assets/images/logo.webp" 
+                  alt="LokalKu Logo" 
+                  className="w-full h-full object-contain"
+                />
               </div>
               <span className="text-white font-bold text-2xl">LokalKu</span>
             </div>
@@ -94,17 +119,17 @@ export default function Footer() {
             </div>
             
             <p className="text-gray-400 text-sm leading-relaxed max-w-xs">
-              Platform direktori digital yang menghubungkan masyarakat dengan UMKM lokal terbaik di Banyumas. Temukan, jelajahi, dan dukung bisnis lokal dengan mudah.
+              {t("footer.description")}
             </p>
             <div className="flex items-center gap-2 text-gray-400 group hover:text-primary-400 transition-colors">
               <MapPinIcon className="w-5 h-5 group-hover:scale-110 transition-transform" />
-              <span className="text-sm font-medium">Purwokerto, Banyumas</span>
+              <span className="text-sm font-medium">{t("footer.location")}</span>
             </div>
           </div>
 
           {/* Column 2 - Navigation */}
           <div className="space-y-5">
-            <h3 className="text-white font-bold font-display text-lg">Navigasi</h3>
+            <h3 className="text-white font-bold font-display text-lg">{t("footer.navigation.title")}</h3>
             <ul className="space-y-3">
               {navigationLinks.map((link) => {
                 const IconComponent = link.icon;
@@ -127,7 +152,7 @@ export default function Footer() {
 
           {/* Column 3 - Information */}
           <div className="space-y-5">
-            <h3 className="text-white font-bold font-display text-lg">Informasi</h3>
+            <h3 className="text-white font-bold font-display text-lg">{t("footer.information.title")}</h3>
             <ul className="space-y-3">
               {informationLinks.map((link) => (
                 <li key={link.href}>
@@ -144,7 +169,7 @@ export default function Footer() {
 
           {/* Column 4 - Contact */}
           <div className="space-y-5">
-            <h3 className="text-white font-bold font-display text-lg">Kontak</h3>
+            <h3 className="text-white font-bold font-display text-lg">{t("footer.contact.title")}</h3>
             <div className="space-y-4">
               <a 
                 href="mailto:alriansr@gmail.com" 
@@ -181,17 +206,17 @@ export default function Footer() {
           <div className="flex flex-col lg:flex-row justify-between items-center gap-6">
             {/* Copyright */}
             <div className="text-gray-500 text-sm text-center lg:text-left">
-              © {currentYear} <span className="text-gray-400 font-semibold">LokalKu Banyumas</span>. All rights reserved.
+              © {currentYear} <span className="text-gray-400 font-semibold">LokalKu Banyumas</span>. {t("footer.copyright")}
             </div>
 
             {/* Creator Info */}
             <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
               <div className="text-center sm:text-right">
                 <div className="text-gray-300 text-sm font-semibold">
-                  Dibuat oleh Ahmad Rian Syaifullah
+                  {t("footer.creator.name")}
                 </div>
                 <div className="text-gray-500 text-xs mt-0.5">
-                  Universitas Jenderal Soedirman
+                  {t("footer.creator.university")}
                 </div>
               </div>
 

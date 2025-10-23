@@ -12,7 +12,6 @@ export default function IndexPage() {
       <FeaturedUMKMSection />
       <CategoriesSection />
       <WhyChooseSection />
-    
       <Footer />
     </DefaultLayout>
   );

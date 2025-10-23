@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/png" href="/assets/images/logo.png" />
+    <link rel="icon" type="image/png" href="/assets/images/logo.webp" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>LokalKu - Direktori UMKM</title>
     <meta key="title" content="LokalKu - Direktori UMKM" property="og:title" />
@@ -19,8 +19,10 @@
       content="viewport-fit=cover, width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
       name="viewport"
     />
-    <!-- Noto Sans Javanese Font -->
-    <link rel="stylesheet" media="screen" href="https://fontlibrary.org//face/notojavanese" type="text/css"/>
+    <!-- Noto Sans Javanese Font - Preload for better performance -->
+    <link rel="preconnect" href="https://fontlibrary.org">
+    <link rel="preload" href="https://fontlibrary.org//face/notojavanese" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fontlibrary.org//face/notojavanese"></noscript>
   </head>
   <body>
     <div id="root"></div>
