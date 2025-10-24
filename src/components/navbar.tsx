@@ -9,7 +9,7 @@ import {
   MagnifyingGlassIcon,
   ArrowUpRightIcon,
 } from "@heroicons/react/24/outline";
-import { AnimatedThemeToggler } from "@/components/animated-theme-toggler";
+import { AnimatedThemeToggler } from "./animated-theme-toggler";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { useLanguage } from "@/contexts/LanguageContext";
 
@@ -156,10 +156,10 @@ export default function Navbar({ onSearchOpen }: NavbarProps) {
   };
 
   return (
-    <div className="fixed inset-x-0 top-0 z-[100] flex justify-center px-2 sm:px-4 pt-4 sm:pt-6">
+    <div className="fixed inset-x-0 top-0 z-[100] flex justify-center px-2 sm:px-4 pt-2 sm:pt-4">
       <nav
         ref={navRef}
-        className={`w-full max-w-7xl bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl border border-gray-200 dark:border-gray-800 rounded-xl sm:rounded-2xl shadow-xl transition-all duration-300 overflow-hidden ${
+        className={`w-full max-w-7xl bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl border border-gray-200 dark:border-gray-800 rounded-xl sm:rounded-2xl shadow-xl transition-all duration-300 overflow-hidden ${
           isMenuOpen ? "shadow-2xl" : ""
         }`}
         style={{ height: 70 }}
@@ -187,15 +187,16 @@ export default function Navbar({ onSearchOpen }: NavbarProps) {
               </div>
             </button>
             
-            {/* Mia Competitions - Desktop Only */}
+            {/* Mia Competitions - All Devices */}
             <a
               href="https://mia2025.com/"
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden lg:flex px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors whitespace-nowrap"
+              className="flex items-center px-2 sm:px-3 py-1.5 sm:py-2 text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md sm:rounded-lg transition-colors whitespace-nowrap"
             >
-              Mia Competitions
-              <ArrowUpRightIcon className="w-4 h-4 ml-1" />
+              <span className="hidden sm:inline">Mia Competitions</span>
+              <span className="sm:hidden">Mia</span>
+              <ArrowUpRightIcon className="w-3 h-3 sm:w-4 sm:h-4 ml-1" />
             </a>
           </div>
 
@@ -227,8 +228,21 @@ export default function Navbar({ onSearchOpen }: NavbarProps) {
               </kbd>
             </button>
             
-            <LanguageSwitcher />
-            <AnimatedThemeToggler />
+            <div className="relative group">
+              <LanguageSwitcher />
+              <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 px-3 py-1.5 bg-gray-900 dark:bg-gray-700 text-white text-xs font-medium rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap pointer-events-none z-[999]">
+                Ubah Bahasa
+                <div className="absolute bottom-full left-1/2 -translate-x-1/2 -mb-1 border-4 border-transparent border-b-gray-900 dark:border-b-gray-700"></div>
+              </div>
+            </div>
+            
+            <div className="relative group">
+              <AnimatedThemeToggler />
+              <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 px-3 py-1.5 bg-gray-900 dark:bg-gray-700 text-white text-xs font-medium rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap pointer-events-none z-[999]">
+                Change Mode
+                <div className="absolute bottom-full left-1/2 -translate-x-1/2 -mb-1 border-4 border-transparent border-b-gray-900 dark:border-b-gray-700"></div>
+              </div>
+            </div>
           </div>
 
           {/* Mobile/Tablet Actions */}
@@ -240,8 +254,22 @@ export default function Navbar({ onSearchOpen }: NavbarProps) {
             >
               <MagnifyingGlassIcon className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600 dark:text-gray-300" />
             </button>
-            <LanguageSwitcher />
-            <AnimatedThemeToggler />
+            
+            <div className="relative group">
+              <LanguageSwitcher />
+              <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 px-2 sm:px-3 py-1 sm:py-1.5 bg-gray-900 dark:bg-gray-700 text-white text-[10px] sm:text-xs font-medium rounded-md sm:rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap pointer-events-none z-[999]">
+                Ubah Bahasa
+                <div className="absolute bottom-full left-1/2 -translate-x-1/2 -mb-1 border-[3px] sm:border-4 border-transparent border-b-gray-900 dark:border-b-gray-700"></div>
+              </div>
+            </div>
+            
+            <div className="relative group">
+              <AnimatedThemeToggler />
+              <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 px-2 sm:px-3 py-1 sm:py-1.5 bg-gray-900 dark:bg-gray-700 text-white text-[10px] sm:text-xs font-medium rounded-md sm:rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap pointer-events-none z-[999]">
+                Change Mode
+                <div className="absolute bottom-full left-1/2 -translate-x-1/2 -mb-1 border-[3px] sm:border-4 border-transparent border-b-gray-900 dark:border-b-gray-700"></div>
+              </div>
+            </div>
           </div>
         </div>
 

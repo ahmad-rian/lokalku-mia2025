@@ -1,6 +1,7 @@
 import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import '../styles/Masonry.css';
+import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 
 const useMedia = (queries: string[], values: number[], defaultValue: number): number => {
   const get = () => values[queries.findIndex(q => matchMedia(q).matches)] ?? defaultValue;
@@ -72,6 +73,7 @@ interface MasonryProps {
   hoverScale?: number;
   blurToFocus?: boolean;
   colorShiftOnHover?: boolean;
+  animateOnView?: boolean;
 }
 
 const Masonry: React.FC<MasonryProps> = ({
@@ -83,7 +85,8 @@ const Masonry: React.FC<MasonryProps> = ({
   scaleOnHover = true,
   hoverScale = 0.98,
   blurToFocus = true,
-  colorShiftOnHover = false
+  colorShiftOnHover = false,
+  animateOnView = true,
 }) => {
   // Better responsive breakpoints
   const columns = useMedia(
@@ -93,6 +96,15 @@ const Masonry: React.FC<MasonryProps> = ({
   );
 
   const [containerRef, { width }] = useMeasure<HTMLDivElement>();
+  const { elementRef, isIntersecting } = useIntersectionObserver({
+    threshold: 0.15,
+    rootMargin: '0px',
+    triggerOnce: true,
+  });
+  const combinedRef = (el: HTMLDivElement | null) => {
+    (containerRef as any).current = el;
+    (elementRef as any).current = el as any;
+  };
   const [imagesReady, setImagesReady] = useState(false);
 
   const getInitialPosition = (item: GridItem) => {
@@ -162,7 +174,7 @@ const Masonry: React.FC<MasonryProps> = ({
         x: item.x,
         y: item.y,
         width: item.w,
-        height: item.h
+        height: item.h,
       };
 
       if (!hasMounted.current) {
@@ -173,29 +185,46 @@ const Masonry: React.FC<MasonryProps> = ({
           y: initialPos.y,
           width: item.w,
           height: item.h,
-          ...(blurToFocus && { filter: 'blur(10px)' })
+          ...(blurToFocus && { filter: 'blur(10px)' }),
         };
 
-        gsap.fromTo(selector, initialState, {
-          opacity: 1,
-          ...animationProps,
-          ...(blurToFocus && { filter: 'blur(0px)' }),
-          duration: 0.8,
-          ease: 'power3.out',
-          delay: index * stagger
-        });
+        if (animateOnView) {
+          if (isIntersecting) {
+            gsap.fromTo(selector, initialState, {
+              opacity: 1,
+              ...animationProps,
+              ...(blurToFocus && { filter: 'blur(0px)' }),
+              duration: 0.8,
+              ease: 'power3.out',
+              delay: index * stagger,
+            });
+          } else {
+            gsap.set(selector, initialState);
+          }
+        } else {
+          gsap.fromTo(selector, initialState, {
+            opacity: 1,
+            ...animationProps,
+            ...(blurToFocus && { filter: 'blur(0px)' }),
+            duration: 0.8,
+            ease: 'power3.out',
+            delay: index * stagger,
+          });
+        }
       } else {
         gsap.to(selector, {
           ...animationProps,
           duration: duration,
           ease: ease,
-          overwrite: 'auto'
+          overwrite: 'auto',
         });
       }
     });
 
-    hasMounted.current = true;
-  }, [grid, imagesReady, stagger, animateFrom, blurToFocus, duration, ease]);
+    if (!hasMounted.current && (!animateOnView || isIntersecting)) {
+      hasMounted.current = true;
+    }
+  }, [grid, imagesReady, stagger, animateFrom, blurToFocus, duration, ease, isIntersecting, animateOnView]);
 
   const handleMouseEnter = (e: React.MouseEvent, item: GridItem) => {
     const element = e.currentTarget as HTMLElement;
@@ -344,7 +373,7 @@ const Masonry: React.FC<MasonryProps> = ({
   };
 
   return (
-    <div ref={containerRef} className="masonry-list">
+    <div ref={combinedRef} className="masonry-list">
       {grid.map(item => {
         return (
           <div

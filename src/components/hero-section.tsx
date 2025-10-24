@@ -1,13 +1,15 @@
 import { Button } from "@heroui/button";
-import { Input } from "@heroui/input";
 import { 
-  MagnifyingGlassIcon, 
   ArrowRightIcon,
-  PlayIcon,
+  MapPinIcon,
 } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import { useRef, useEffect, useState } from 'react';
 import { Renderer, Program, Triangle, Mesh } from 'ogl';
+import { useLanguage } from '@/contexts/LanguageContext';
+import { PlaceholdersAndVanishInput } from './ui/placeholders-and-vanish-input';
+import TextType from './ui/TextType';
+import { InteractiveHoverButton } from './ui/interactive-hover-button';
 
 // Import Playfair Display font
 const fontLink = document.createElement('link');
@@ -229,6 +231,7 @@ void main() {
 
 export default function HeroSection() {
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const { t } = useLanguage();
 
   useEffect(() => {
     // Check initial theme
@@ -248,6 +251,24 @@ export default function HeroSection() {
     return () => observer.disconnect();
   }, []);
 
+  // Search placeholders for PlaceholdersAndVanishInput
+  const searchPlaceholders = [
+    t('hero.searchPlaceholder'),
+    "Warung makan terdekat...",
+    "Jasa laundry 24 jam...",
+    "Toko batik Banyumas...",
+    "Bengkel motor terpercaya...",
+  ];
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log('Search value:', e.target.value);
+  };
+
+  const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log('Search submitted');
+  };
+
   // Unsplash images - Indonesian food & business
   const umkmImages = [
     "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=400&h=500&fit=crop",
@@ -261,7 +282,7 @@ export default function HeroSection() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative overflow-hidden min-h-screen bg-gradient-to-b from-gray-50 via-white to-gray-50 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 flex items-center justify-center">
+      <section className="relative overflow-hidden min-h-screen bg-gradient-to-b from-gray-50 via-white to-gray-50 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 flex items-center justify-center pt-20 sm:pt-24">
         {/* Light Rays Background - Works in both modes */}
         <div className="absolute inset-0 overflow-hidden">
           <LightRays isDarkMode={isDarkMode} />
@@ -291,78 +312,64 @@ export default function HeroSection() {
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center max-w-5xl mx-auto">
-            {/* Badge */}
-            <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-white/80 dark:bg-white/10 backdrop-blur-md rounded-full border border-gray-200 dark:border-white/20 shadow-lg mb-8">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
-              </span>
-              <span className="text-sm font-medium text-gray-900 dark:text-white/90">
-                150+ UMKM Terdaftar di Banyumas
-              </span>
-            </div>
 
             {/* Main Heading */}
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>
               <span className="block text-gray-900 dark:text-white mb-2">
-                Platform Terdepan
+                {t('hero.title')}
               </span>
               <span className="block bg-gradient-to-r from-primary-600 via-orange-500 to-orange-600 bg-clip-text text-transparent">
-                UMKM Banyumas
+                {t('hero.titleHighlight')}
               </span>
             </h1>
 
-            {/* Javanese Script */}
+            {/* Javanese Script with Typing Effect */}
             <div className="mb-6">
-              <p className="text-2xl md:text-3xl font-medium text-orange-600 dark:text-orange-400/80" style={{ fontFamily: 'NotoJavaneseRegular, serif' }}>
-                ꦢꦶꦫꦺꦏ꧀ꦠꦺꦴꦂꦶ ꦈꦩ꧀ꦏꦺꦩ꧀ ꦧꦚꦸꦩꦱ꧀
-              </p>
+              <TextType
+                text={[
+                  "ꦢꦶꦫꦺꦏ꧀ꦠꦺꦴꦂꦶ ꦈꦩ꧀ꦏꦺꦩ꧀ ꦧꦚꦸꦩꦱ꧀",
+                  "ꦭꦺꦴꦏꦭ꧀ꦏꦸ꧈ ꦱꦺꦴꦭꦸꦱꦶ ꦥꦭꦶꦁ ꦲꦥꦶꦏ꧀"
+                ]}
+                typingSpeed={75}
+                deletingSpeed={50}
+                pauseDuration={2000}
+                showCursor={true}
+                cursorCharacter="|"
+                loop={true}
+                className="text-2xl md:text-3xl font-medium text-orange-600 dark:text-orange-400/80"
+                style={{ fontFamily: 'NotoJavaneseRegular, serif' }}
+              />
             </div>
 
             {/* Subheading */}
             <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300 leading-relaxed mb-12 max-w-3xl mx-auto">
-              Jelajahi ribuan UMKM lokal di Banyumas. Temukan makanan lezat, 
-              produk unik, dan layanan terpercaya dari pengusaha lokal.
+              {t('hero.subtitle')}
             </p>
 
-            {/* Search Bar */}
-            <div className="flex flex-col sm:flex-row gap-3 mb-10 max-w-2xl mx-auto">
-              <Input
-                size="lg"
-                placeholder="Cari UMKM, makanan, jasa..."
-                startContent={<MagnifyingGlassIcon className="w-5 h-5 text-gray-400" />}
-                classNames={{
-                  input: "text-base",
-                  inputWrapper: "bg-white dark:bg-white/10 backdrop-blur-md border border-gray-200 dark:border-white/20 hover:bg-gray-50 dark:hover:bg-white/15 transition-all shadow-lg"
-                }}
-                className="flex-1"
+            {/* Search Bar with PlaceholdersAndVanishInput */}
+            <div className="mb-10 max-w-2xl mx-auto">
+              <PlaceholdersAndVanishInput
+                placeholders={searchPlaceholders}
+                onChange={handleSearchChange}
+                onSubmit={handleSearchSubmit}
               />
-              <Button 
-                size="lg" 
-                className="bg-gradient-to-r from-primary-600 to-orange-500 text-white font-semibold shadow-lg hover:shadow-xl hover:shadow-orange-500/30 transition-all px-8"
-              >
-                Cari
-              </Button>
             </div>
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <Button 
-                size="lg"
-                as={Link}
-                to="/direktori"
+              <InteractiveHoverButton 
                 className="bg-gray-900 dark:bg-white/10 backdrop-blur-md border border-gray-900 dark:border-white/20 text-white font-semibold hover:bg-gray-800 dark:hover:bg-white/20 transition-all shadow-lg"
-                endContent={<ArrowRightIcon className="w-4 h-4" />}
+                onClick={() => window.location.href = '/direktori'}
               >
-                Jelajahi UMKM
-              </Button>
+                {t('hero.exploreButton')}
+              </InteractiveHoverButton>
               <Button 
                 size="lg"
                 variant="bordered"
                 className="border-2 border-gray-300 dark:border-white/30 text-gray-900 dark:text-white font-semibold hover:bg-gray-100 dark:hover:bg-white/10 transition-colors"
-                startContent={<PlayIcon className="w-4 h-4" />}
+                startContent={<MapPinIcon className="w-4 h-4" />}
               >
-                Lihat Video
+                {t('hero.nearbyButton')}
               </Button>
             </div>
 
@@ -370,24 +377,17 @@ export default function HeroSection() {
             <div className="grid grid-cols-3 gap-8 mt-16 max-w-2xl mx-auto">
               <div className="text-center">
                 <div className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-1">150+</div>
-                <div className="text-xs md:text-sm text-gray-600 dark:text-gray-400">UMKM Terdaftar</div>
+                <div className="text-xs md:text-sm text-gray-600 dark:text-gray-400">{t('hero.stats.registered')}</div>
               </div>
               <div className="text-center">
                 <div className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-1">4.8</div>
-                <div className="text-xs md:text-sm text-gray-600 dark:text-gray-400">Rating Rata-rata</div>
+                <div className="text-xs md:text-sm text-gray-600 dark:text-gray-400">{t('hero.stats.rating')}</div>
               </div>
               <div className="text-center">
                 <div className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-1">2.5K+</div>
-                <div className="text-xs md:text-sm text-gray-600 dark:text-gray-400">Pengguna Aktif</div>
+                <div className="text-xs md:text-sm text-gray-600 dark:text-gray-400">{t('hero.stats.users')}</div>
               </div>
             </div>
-          </div>
-        </div>
-
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-          <div className="w-6 h-10 border-2 border-gray-400 dark:border-white/30 rounded-full flex items-start justify-center p-2">
-            <div className="w-1 h-3 bg-gray-600 dark:bg-white/50 rounded-full animate-pulse" />
           </div>
         </div>
       </section>

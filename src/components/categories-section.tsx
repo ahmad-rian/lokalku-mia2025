@@ -1,114 +1,111 @@
-import { Button, Card, CardBody } from "@heroui/react";
+import { Button } from "@heroui/react";
 import { Link } from "react-router-dom";
 import { 
-  ShoppingBagIcon, 
-  CakeIcon, 
-  WrenchScrewdriverIcon,
-  ChevronRightIcon,
-  HeartIcon,
-  ComputerDesktopIcon,
-  TruckIcon,
-  AcademicCapIcon,
-  BuildingStorefrontIcon
-} from "@heroicons/react/24/outline";
+  ShoppingBag, 
+  Cake, 
+  Wrench,
+  ChevronRight,
+  Heart,
+  Monitor,
+  Truck,
+  GraduationCap,
+  Store
+} from "lucide-react";
 import LazySection from "./LazySection";
 import { useLanguage } from "../contexts/LanguageContext";
-import { useState, useEffect } from "react";
+import { BentoGrid, BentoGridItem } from "./ui/bento-grid";
 
 export default function CategoriesSection() {
   const { t } = useLanguage();
-  const [isDarkMode, setIsDarkMode] = useState(false);
-
-  useEffect(() => {
-    // Check initial theme
-    const checkTheme = () => {
-      setIsDarkMode(document.documentElement.classList.contains('dark'));
-    };
-    
-    checkTheme();
-
-    // Watch for theme changes
-    const observer = new MutationObserver(checkTheme);
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ['class']
-    });
-
-    return () => observer.disconnect();
-  }, []);
   
   const categories = [
     {
       id: 1,
       name: t("categories.items.food.name"),
       count: 45,
-      icon: CakeIcon,
+      icon: Cake,
       description: t("categories.items.food.description"),
       gradient: "from-orange-500 to-red-500",
-      bgGradient: "from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20"
+      bgGradient: "from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20",
+      image: "https://i.pinimg.com/736x/4e/79/6c/4e796c5b6d568c9c0426d175ec2a120c.jpg",
+      imageCredit: "Image from Pinterest"
     },
     {
       id: 2,
       name: t("categories.items.fashion.name"),
       count: 28,
-      icon: ShoppingBagIcon,
+      icon: ShoppingBag,
       description: t("categories.items.fashion.description"),
       gradient: "from-purple-500 to-pink-500",
-      bgGradient: "from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20"
+      bgGradient: "from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20",
+      image: "https://i.pinimg.com/1200x/15/09/be/1509bef8db025bc59797be9648989a1c.jpg",
+      imageCredit: "Image from Pinterest"
     },
     {
       id: 3,
       name: t("categories.items.services.name"),
       count: 32,
-      icon: WrenchScrewdriverIcon,
+      icon: Wrench,
       description: t("categories.items.services.description"),
       gradient: "from-blue-500 to-cyan-500",
-      bgGradient: "from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20"
+      bgGradient: "from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20",
+      image: "https://i.pinimg.com/736x/2d/d3/79/2dd379968693700ec12af8f1974b491e.jpg",
+      imageCredit: "Image from Pinterest"
     },
     {
       id: 4,
       name: t("categories.items.health.name"),
       count: 19,
-      icon: HeartIcon,
+      icon: Heart,
       description: t("categories.items.health.description"),
       gradient: "from-pink-500 to-rose-500",
-      bgGradient: "from-pink-50 to-rose-50 dark:from-pink-900/20 dark:to-rose-900/20"
+      bgGradient: "from-pink-50 to-rose-50 dark:from-pink-900/20 dark:to-rose-900/20",
+      image: "https://i.pinimg.com/736x/17/f4/5d/17f45db9cd9938c75370719e5d96df27.jpg",
+      imageCredit: "Image from Pinterest"
     },
     {
       id: 5,
       name: t("categories.items.technology.name"),
       count: 15,
-      icon: ComputerDesktopIcon,
+      icon: Monitor,
       description: t("categories.items.technology.description"),
       gradient: "from-indigo-500 to-blue-500",
-      bgGradient: "from-indigo-50 to-blue-50 dark:from-indigo-900/20 dark:to-blue-900/20"
+      bgGradient: "from-indigo-50 to-blue-50 dark:from-indigo-900/20 dark:to-blue-900/20",
+      image: "https://i.pinimg.com/736x/c8/7d/c7/c87dc716059603feb54ba4c3d1fe7e57.jpg",
+      imageCredit: "Image from Pinterest"
     },
     {
       id: 6,
       name: t("categories.items.transportation.name"),
       count: 12,
-      icon: TruckIcon,
+      icon: Truck,
       description: t("categories.items.transportation.description"),
       gradient: "from-green-500 to-emerald-500",
-      bgGradient: "from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20"
+      bgGradient: "from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20",
+      image: "https://i.pinimg.com/1200x/64/ac/75/64ac757a814b7c07d8e8189696448bf0.jpg",
+      imageCredit: "Image from Pinterest"
     },
     {
       id: 7,
       name: t("categories.items.education.name"),
       count: 8,
-      icon: AcademicCapIcon,
+      icon: GraduationCap,
       description: t("categories.items.education.description"),
       gradient: "from-amber-500 to-yellow-500",
-      bgGradient: "from-amber-50 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/20"
+      bgGradient: "from-amber-50 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/20",
+      image: "https://i.pinimg.com/736x/d4/19/13/d41913a1f61c46ada0920df5b047e5ef.jpg",
+      imageCredit: "Image from Pinterest"
     },
     {
       id: 8,
       name: t("categories.items.others.name"),
       count: 23,
-      icon: BuildingStorefrontIcon,
+      icon: Store,
       description: t("categories.items.others.description"),
       gradient: "from-gray-500 to-slate-500",
-      bgGradient: "from-gray-50 to-slate-50 dark:from-gray-900/20 dark:to-slate-900/20"
+      bgGradient: "from-gray-50 to-slate-50 dark:from-gray-900/20 dark:to-slate-900/20",
+      image: "https://i.pinimg.com/1200x/eb/4a/1a/eb4a1ad072f2581084099c3f9ddc728d.jpg",
+      imageCredit: "Image from Pinterest"
     }
   ];
 
@@ -120,7 +117,7 @@ export default function CategoriesSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold font-display text-gray-900 dark:text-white mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold font-playfair text-gray-900 dark:text-white mb-4">
             {t("categories.title")}{" "}
             <span className="bg-gradient-to-r from-primary-600 to-orange-500 bg-clip-text text-transparent">
               {t("categories.subtitle")}
@@ -139,39 +136,36 @@ export default function CategoriesSection() {
           </p>
         </div>
 
-        {/* Categories Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-12">
-          {categories.map((category) => (
-            <Card 
+        {/* Bento Grid Categories */}
+        <BentoGrid className="mb-12">
+          {categories.map((category, i) => (
+            <BentoGridItem
               key={category.id}
-              className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-lg border-0 shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-105 group cursor-pointer"
-              isPressable
-            >
-              <CardBody className="text-center p-6">
-                {/* Icon Container */}
-                <div className={`w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br ${category.bgGradient} p-4 group-hover:scale-110 transition-transform duration-300`}>
-                  <div className={`w-full h-full rounded-xl bg-gradient-to-br ${category.gradient} p-2 shadow-lg`}>
-                    <category.icon className="w-full h-full text-white" />
+              title={category.name}
+              description={`${category.description} - ${category.count} ${t("categories.umkmLabel")}`}
+              header={
+                <div className="relative w-full h-full min-h-[6rem] rounded-xl overflow-hidden">
+                  <img 
+                    src={category.image}
+                    alt={category.name}
+                    className="w-full h-full object-cover"
+                    loading="lazy"
+                  />
+                  <div className={`absolute inset-0 bg-gradient-to-br ${category.gradient} opacity-20`} />
+                  <div className="absolute bottom-2 right-2 text-xs text-white/70 bg-black/30 px-2 py-1 rounded">
+                    {category.imageCredit}
                   </div>
                 </div>
-
-                {/* Category Info */}
-                <h3 className="font-bold text-gray-900 dark:text-white text-lg mb-2 line-clamp-2">
-                  {category.name}
-                </h3>
-                
-                <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
-                  {category.description}
-                </p>
-
-                {/* Count Badge */}
-                <div className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-gradient-to-r ${category.gradient} text-white shadow-md`}>
-                  {category.count} {t("categories.umkmLabel")}
-                </div>
-              </CardBody>
-            </Card>
+              }
+              icon={<category.icon className="h-4 w-4 text-neutral-500" />}
+              className={
+                i === 0 || i === 1 ? "md:col-span-2" : // Baris pertama: 2 item besar
+                i === 6 || i === 7 ? "md:col-span-2" : // Baris terakhir: 2 item besar
+                ""
+              }
+            />
           ))}
-        </div>
+        </BentoGrid>
 
         {/* View All Button */}
         <div className="text-center">
@@ -180,7 +174,7 @@ export default function CategoriesSection() {
             as={Link}
             to="/direktori"
             className="bg-gradient-to-r from-primary-600 to-orange-500 text-white font-semibold shadow-lg hover:shadow-xl transition-all px-8"
-            endContent={<ChevronRightIcon className="w-4 h-4" />}
+            endContent={<ChevronRight className="w-4 h-4" />}
           >
             {t("categories.viewAll")}
           </Button>

@@ -133,7 +133,7 @@ export default function BenefitsMarquee3D() {
     <>
       {/* Mobile: Horizontal Marquee */}
       <div className="block lg:hidden relative w-full overflow-hidden rounded-3xl bg-gradient-to-br from-orange-50/30 via-white/50 to-blue-50/30 dark:from-gray-900/30 dark:via-gray-800/50 dark:to-gray-900/30 py-8">
-        <Marquee repeat={4} className="[--duration:40s] [--gap:1.5rem]">
+        <Marquee repeat={3} className="[--duration:35s] [--gap:1.5rem]">
           {benefits.map((benefit, idx) => (
             <BenefitCard key={`mobile-${idx}`} benefit={benefit} />
           ))}
@@ -154,19 +154,19 @@ export default function BenefitsMarquee3D() {
             transformStyle: "preserve-3d",
           }}
         >
-          <Marquee vertical repeat={6} className="[--duration:30s] [--gap:2rem]">
+          <Marquee vertical repeat={4} className="[--duration:30s] [--gap:2rem]">
             {firstCol.map((benefit, idx) => (
               <BenefitCard key={`col1-${idx}`} benefit={benefit} />
             ))}
           </Marquee>
           
-          <Marquee reverse vertical repeat={6} className="[--duration:35s] [--gap:2rem]">
+          <Marquee reverse vertical repeat={4} className="[--duration:35s] [--gap:2rem]">
             {secondCol.map((benefit, idx) => (
               <BenefitCard key={`col2-${idx}`} benefit={benefit} />
             ))}
           </Marquee>
           
-          <Marquee vertical repeat={6} className="[--duration:28s] [--gap:2rem]">
+          <Marquee vertical repeat={4} className="[--duration:28s] [--gap:2rem]">
             {thirdCol.map((benefit, idx) => (
               <BenefitCard key={`col3-${idx}`} benefit={benefit} />
             ))}

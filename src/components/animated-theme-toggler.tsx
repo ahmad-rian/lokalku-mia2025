@@ -1,57 +1,116 @@
-import { Button } from "@heroui/button";
-import { useTheme } from "@heroui/use-theme";
-import { SunIcon, MoonIcon } from "@heroicons/react/24/outline";
-import { useEffect, useState } from "react";
+"use client"
 
-export function AnimatedThemeToggler() {
-  const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
+import { useCallback, useEffect, useRef, useState } from "react"
+import { SunFilledIcon, MoonFilledIcon } from "./icons"
+import { flushSync } from "react-dom"
+import { cn } from "../lib/utils"
+
+interface AnimatedThemeTogglerProps
+  extends React.ComponentPropsWithoutRef<"button"> {
+  duration?: number
+}
+
+export const AnimatedThemeToggler = ({
+  className,
+  duration = 800,
+  ...props
+}: AnimatedThemeTogglerProps) => {
+  const [isDark, setIsDark] = useState(false)
+  const buttonRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
-    setMounted(true);
-  }, []);
+    const updateTheme = () => {
+      setIsDark(document.documentElement.classList.contains("dark"))
+    }
 
-  if (!mounted) {
-    return (
-      <Button
-        isIconOnly
-        variant="ghost"
-        className="w-10 h-10"
-        aria-label="Toggle theme"
-      >
-        <div className="w-5 h-5" />
-      </Button>
-    );
-  }
+    updateTheme()
 
-  const toggleTheme = () => {
-    setTheme(theme === "dark" ? "light" : "dark");
-  };
+    const observer = new MutationObserver(updateTheme)
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    })
+
+    return () => observer.disconnect()
+  }, [])
+
+  const toggleTheme = useCallback(async () => {
+    if (!buttonRef.current) return
+
+    // Check if View Transition API is supported
+    if (!document.startViewTransition) {
+      // Fallback for browsers that don't support View Transition API
+      flushSync(() => {
+        const newTheme = !isDark
+        setIsDark(newTheme)
+        document.documentElement.classList.toggle("dark")
+        localStorage.setItem("theme", newTheme ? "dark" : "light")
+      })
+      return
+    }
+
+    const transition = document.startViewTransition(() => {
+      flushSync(() => {
+        const newTheme = !isDark
+        setIsDark(newTheme)
+        document.documentElement.classList.toggle("dark")
+        localStorage.setItem("theme", newTheme ? "dark" : "light")
+      })
+    })
+
+    await transition.ready
+
+    const { top, left, width, height } =
+      buttonRef.current.getBoundingClientRect()
+    const x = left + width / 2
+    const y = top + height / 2
+    const maxRadius = Math.hypot(
+      Math.max(left, window.innerWidth - left),
+      Math.max(top, window.innerHeight - top)
+    )
+
+    document.documentElement.animate(
+      {
+        clipPath: [
+          `circle(0px at ${x}px ${y}px)`,
+          `circle(${maxRadius}px at ${x}px ${y}px)`,
+        ],
+      },
+      {
+        duration,
+        easing: "cubic-bezier(0.4, 0, 0.2, 1)",
+        pseudoElement: "::view-transition-new(root)",
+      }
+    )
+  }, [isDark, duration])
 
   return (
-    <Button
-      isIconOnly
-      variant="ghost"
-      className="w-10 h-10 transition-all duration-300 hover:scale-110 hover:bg-primary-50 dark:hover:bg-primary-900/20"
-      onPress={toggleTheme}
-      aria-label="Toggle theme"
+    <button
+      ref={buttonRef}
+      onClick={toggleTheme}
+      className={cn(
+        "w-10 h-10 rounded-lg transition-all duration-500 hover:scale-110 hover:bg-primary-50 dark:hover:bg-primary-900/20 flex items-center justify-center group",
+        className
+      )}
+      {...props}
     >
       <div className="relative w-5 h-5 overflow-hidden">
-        <SunIcon 
-          className={`absolute inset-0 w-5 h-5 transition-all duration-500 ${
-            theme === "dark" 
-              ? "rotate-90 scale-0 opacity-0" 
+        <SunFilledIcon 
+          className={`absolute inset-0 w-5 h-5 transition-all duration-700 ease-in-out transform ${
+            isDark 
+              ? "rotate-180 scale-0 opacity-0" 
               : "rotate-0 scale-100 opacity-100"
-          }`}
+          } group-hover:scale-110`}
         />
-        <MoonIcon 
-          className={`absolute inset-0 w-5 h-5 transition-all duration-500 ${
-            theme === "dark" 
+        <MoonFilledIcon 
+          className={`absolute inset-0 w-5 h-5 transition-all duration-700 ease-in-out transform ${
+            isDark 
               ? "rotate-0 scale-100 opacity-100" 
-              : "-rotate-90 scale-0 opacity-0"
-          }`}
+              : "-rotate-180 scale-0 opacity-0"
+          } group-hover:scale-110`}
         />
       </div>
-    </Button>
-  );
+      <span className="sr-only">Toggle theme</span>
+    </button>
+  )
 }
