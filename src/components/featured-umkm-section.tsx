@@ -115,6 +115,7 @@ export default function FeaturedUMKMSection() {
 
   return (
     <LazySection 
+      id="featured"
       animationType="slideUp" 
       className="py-16 md:py-24 bg-gradient-to-br from-gray-50 via-orange-50/30 to-blue-50/20 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800 relative overflow-hidden"
     >
@@ -171,18 +172,20 @@ export default function FeaturedUMKMSection() {
           />
         </div>
 
-        {/* View All Button */}
+        {/* View All Button - Improved Mobile Responsiveness */}
         <div className="text-center mb-16">
           <Button
             size="lg"
             as={Link}
             to="/direktori"
-            className="bg-gradient-to-r from-primary-600 via-orange-500 to-orange-600 text-white font-semibold shadow-xl hover:shadow-2xl hover:shadow-orange-500/30 transition-all px-8 group"
+            className="bg-gradient-to-r from-primary-600 via-orange-500 to-orange-600 text-white font-semibold shadow-xl hover:shadow-2xl hover:shadow-orange-500/30 transition-all px-6 sm:px-8 text-sm sm:text-base group w-auto"
             endContent={
               <ArrowRightIcon className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             }
           >
-            {t("featuredUmkm.viewAll") || "Lihat Semua UMKM"}
+            <span className="whitespace-nowrap">
+              {t("featuredUmkm.viewAll") || "Lihat Semua UMKM"}
+            </span>
           </Button>
         </div>
 

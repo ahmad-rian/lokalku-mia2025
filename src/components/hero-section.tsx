@@ -1,7 +1,8 @@
-import { Button } from "@heroui/button";
 import { 
-  ArrowRightIcon,
   MapPinIcon,
+  BuildingStorefrontIcon,
+  StarIcon,
+  MapIcon,
 } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import { useRef, useEffect, useState } from 'react';
@@ -10,6 +11,14 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { PlaceholdersAndVanishInput } from './ui/placeholders-and-vanish-input';
 import TextType from './ui/TextType';
 import { InteractiveHoverButton } from './ui/interactive-hover-button';
+import { 
+  Modal, 
+  ModalBody, 
+  ModalContent, 
+  ModalFooter, 
+  ModalTrigger 
+} from './ui/animated-modal';
+import { motion } from 'framer-motion';
 
 // Import Playfair Display font
 const fontLink = document.createElement('link');
@@ -276,7 +285,14 @@ export default function HeroSection() {
     "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&h=500&fit=crop",
     "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400&h=500&fit=crop",
     "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400&h=500&fit=crop",
-    "https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?w=400&h=500&fit=crop",
+  ];
+
+  // Nearby UMKM features
+  const nearbyFeatures = [
+    { icon: BuildingStorefrontIcon, text: "150+ UMKM Terdaftar" },
+    { icon: StarIcon, text: "Rating 4.8/5" },
+    { icon: MapIcon, text: "Radius 5 KM" },
+    { icon: MapPinIcon, text: "Lokasi Real-time" },
   ];
 
   return (
@@ -363,14 +379,88 @@ export default function HeroSection() {
               >
                 {t('hero.exploreButton')}
               </InteractiveHoverButton>
-              <Button 
-                size="lg"
-                variant="bordered"
-                className="border-2 border-gray-300 dark:border-white/30 text-gray-900 dark:text-white font-semibold hover:bg-gray-100 dark:hover:bg-white/10 transition-colors"
-                startContent={<MapPinIcon className="w-4 h-4" />}
-              >
-                {t('hero.nearbyButton')}
-              </Button>
+              
+              <Modal>
+                <ModalTrigger className="border-2 border-gray-300 dark:border-white/30 text-gray-900 dark:text-white font-semibold hover:bg-gray-100 dark:hover:bg-white/10 transition-colors px-6 py-3 rounded-xl text-base group">
+                  <span className="flex items-center gap-2">
+                    <MapPinIcon className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                    <span className="group-hover:translate-x-1 transition-transform duration-300">
+                      {t('hero.nearbyButton')}
+                    </span>
+                  </span>
+                </ModalTrigger>
+                <ModalBody>
+                  <ModalContent>
+                    <h4 className="text-lg md:text-2xl text-neutral-600 dark:text-neutral-100 font-bold text-center mb-8">
+                      Jelajahi UMKM di{" "}
+                      <span className="px-1 py-0.5 rounded-md bg-primary-100 dark:bg-primary-900/30 dark:border-primary-700 border border-primary-200">
+                        Sekitar Anda
+                      </span>{" "}
+                      🏪
+                    </h4>
+                    
+                    {/* UMKM Images Grid */}
+                    <div className="flex justify-center items-center mb-6">
+                      {umkmImages.map((image, idx) => (
+                        <motion.div
+                          key={"umkm-image-" + idx}
+                          style={{
+                            rotate: Math.random() * 20 - 10,
+                          }}
+                          whileHover={{
+                            scale: 1.1,
+                            rotate: 0,
+                            zIndex: 100,
+                          }}
+                          whileTap={{
+                            scale: 1.1,
+                            rotate: 0,
+                            zIndex: 100,
+                          }}
+                          className="rounded-xl -mr-4 mt-4 p-1 bg-white dark:bg-neutral-800 dark:border-neutral-700 border border-neutral-100 shrink-0 overflow-hidden"
+                        >
+                          <img
+                            src={image}
+                            alt="UMKM preview"
+                            width="500"
+                            height="500"
+                            className="rounded-lg h-20 w-20 md:h-40 md:w-40 object-cover shrink-0"
+                          />
+                        </motion.div>
+                      ))}
+                    </div>
+                    
+                    {/* Features */}
+                    <div className="py-6 flex flex-wrap gap-x-4 gap-y-6 items-start justify-start max-w-sm mx-auto">
+                      {nearbyFeatures.map((feature, idx) => {
+                        const IconComponent = feature.icon;
+                        return (
+                          <div key={idx} className="flex items-center justify-center">
+                            <IconComponent className="mr-2 text-primary-600 dark:text-primary-400 h-5 w-5" />
+                            <span className="text-neutral-700 dark:text-neutral-300 text-sm font-medium">
+                              {feature.text}
+                            </span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                    
+                    <p className="text-center text-sm text-gray-600 dark:text-gray-400 mt-4">
+                      Temukan warung, toko, dan jasa lokal terbaik di sekitar Anda dengan mudah
+                    </p>
+                  </ModalContent>
+                  <ModalFooter className="gap-4">
+                    <button className="px-4 py-2 bg-gray-200 text-black dark:bg-black dark:border-black dark:text-white border border-gray-300 rounded-md text-sm w-28 hover:bg-gray-300 dark:hover:bg-gray-900 transition-colors">
+                      Tutup
+                    </button>
+                    <Link to="/peta">
+                      <button className="bg-primary-600 text-white dark:bg-primary-500 dark:text-white text-sm px-4 py-2 rounded-md border border-primary-600 dark:border-primary-500 w-28 hover:bg-primary-700 dark:hover:bg-primary-600 transition-colors font-semibold">
+                        Lihat Peta
+                      </button>
+                    </Link>
+                  </ModalFooter>
+                </ModalBody>
+              </Modal>
             </div>
 
             {/* Stats */}

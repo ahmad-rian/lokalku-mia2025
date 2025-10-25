@@ -7,6 +7,7 @@ interface LazySectionProps {
   animationType?: 'fadeIn' | 'slideUp' | 'slideLeft' | 'slideRight' | 'scale';
   delay?: number;
   threshold?: number;
+  id?: string;
 }
 
 export default function LazySection({
@@ -14,7 +15,8 @@ export default function LazySection({
   className = '',
   animationType = 'fadeIn',
   delay = 0,
-  threshold = 0.1
+  threshold = 0.1,
+  id
 }: LazySectionProps) {
   const { elementRef, isIntersecting } = useIntersectionObserver({
     threshold,
@@ -48,6 +50,7 @@ export default function LazySection({
   return (
     <div
       ref={elementRef as any}
+      id={id}
       className={`${getAnimationClasses()} ${className}`}
       style={{
         transitionDelay: isIntersecting ? `${delay}ms` : '0ms'

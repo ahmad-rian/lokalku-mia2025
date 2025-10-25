@@ -12,7 +12,7 @@ interface AnimatedThemeTogglerProps
 
 export const AnimatedThemeToggler = ({
   className,
-  duration = 800,
+  duration = 400,
   ...props
 }: AnimatedThemeTogglerProps) => {
   const [isDark, setIsDark] = useState(false)
@@ -49,6 +49,16 @@ export const AnimatedThemeToggler = ({
       return
     }
 
+    // Get button position before starting transition
+    const { top, left, width, height } = buttonRef.current.getBoundingClientRect()
+    const x = left + width / 2
+    const y = top + height / 2
+    const maxRadius = Math.hypot(
+      Math.max(left, window.innerWidth - left),
+      Math.max(top, window.innerHeight - top)
+    )
+
+    // Start view transition with improved performance
     const transition = document.startViewTransition(() => {
       flushSync(() => {
         const newTheme = !isDark
@@ -58,30 +68,26 @@ export const AnimatedThemeToggler = ({
       })
     })
 
-    await transition.ready
-
-    const { top, left, width, height } =
-      buttonRef.current.getBoundingClientRect()
-    const x = left + width / 2
-    const y = top + height / 2
-    const maxRadius = Math.hypot(
-      Math.max(left, window.innerWidth - left),
-      Math.max(top, window.innerHeight - top)
-    )
-
-    document.documentElement.animate(
-      {
-        clipPath: [
-          `circle(0px at ${x}px ${y}px)`,
-          `circle(${maxRadius}px at ${x}px ${y}px)`,
-        ],
-      },
-      {
-        duration,
-        easing: "cubic-bezier(0.4, 0, 0.2, 1)",
-        pseudoElement: "::view-transition-new(root)",
-      }
-    )
+    // Wait for transition to be ready and apply circular reveal
+    try {
+      await transition.ready
+      
+      document.documentElement.animate(
+        {
+          clipPath: [
+            `circle(0px at ${x}px ${y}px)`,
+            `circle(${maxRadius}px at ${x}px ${y}px)`,
+          ],
+        },
+        {
+          duration,
+          easing: "ease-in-out",
+          pseudoElement: "::view-transition-new(root)",
+        }
+      )
+    } catch (error) {
+      console.warn('View transition animation failed:', error)
+    }
   }, [isDark, duration])
 
   return (

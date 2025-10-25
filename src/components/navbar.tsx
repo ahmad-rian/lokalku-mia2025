@@ -228,19 +228,21 @@ export default function Navbar({ onSearchOpen }: NavbarProps) {
               </kbd>
             </button>
             
-            <div className="relative group">
-              <LanguageSwitcher />
-              <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 px-3 py-1.5 bg-gray-900 dark:bg-gray-700 text-white text-xs font-medium rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap pointer-events-none z-[999]">
-                Ubah Bahasa
-                <div className="absolute bottom-full left-1/2 -translate-x-1/2 -mb-1 border-4 border-transparent border-b-gray-900 dark:border-b-gray-700"></div>
+            <div className="relative group z-[110]">
+              <div className="flex flex-col items-center gap-1">
+                <LanguageSwitcher />
+                <span className="text-[9px] font-medium text-gray-500 dark:text-gray-400 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+                  Bahasa
+                </span>
               </div>
             </div>
             
-            <div className="relative group">
-              <AnimatedThemeToggler />
-              <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 px-3 py-1.5 bg-gray-900 dark:bg-gray-700 text-white text-xs font-medium rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap pointer-events-none z-[999]">
-                Change Mode
-                <div className="absolute bottom-full left-1/2 -translate-x-1/2 -mb-1 border-4 border-transparent border-b-gray-900 dark:border-b-gray-700"></div>
+            <div className="relative group z-[110]">
+              <div className="flex flex-col items-center gap-1">
+                <AnimatedThemeToggler />
+                <span className="text-[9px] font-medium text-gray-500 dark:text-gray-400 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+                  Theme
+                </span>
               </div>
             </div>
           </div>
@@ -255,20 +257,12 @@ export default function Navbar({ onSearchOpen }: NavbarProps) {
               <MagnifyingGlassIcon className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600 dark:text-gray-300" />
             </button>
             
-            <div className="relative group">
+            <div className="relative group z-[110]">
               <LanguageSwitcher />
-              <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 px-2 sm:px-3 py-1 sm:py-1.5 bg-gray-900 dark:bg-gray-700 text-white text-[10px] sm:text-xs font-medium rounded-md sm:rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap pointer-events-none z-[999]">
-                Ubah Bahasa
-                <div className="absolute bottom-full left-1/2 -translate-x-1/2 -mb-1 border-[3px] sm:border-4 border-transparent border-b-gray-900 dark:border-b-gray-700"></div>
-              </div>
             </div>
             
-            <div className="relative group">
+            <div className="relative group z-[110]">
               <AnimatedThemeToggler />
-              <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 px-2 sm:px-3 py-1 sm:py-1.5 bg-gray-900 dark:bg-gray-700 text-white text-[10px] sm:text-xs font-medium rounded-md sm:rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap pointer-events-none z-[999]">
-                Change Mode
-                <div className="absolute bottom-full left-1/2 -translate-x-1/2 -mb-1 border-[3px] sm:border-4 border-transparent border-b-gray-900 dark:border-b-gray-700"></div>
-              </div>
             </div>
           </div>
         </div>
@@ -307,17 +301,40 @@ export default function Navbar({ onSearchOpen }: NavbarProps) {
 
                   {/* Card Links */}
                   <div className="flex flex-col gap-1 sm:gap-1.5 mt-auto">
-                    {item.links.map((link) => (
-                      <RouterLink
-                        key={link.href}
-                        to={link.href}
-                        onClick={() => toggleMenu()}
-                        className="group flex items-center gap-2 text-white/90 hover:text-white text-xs sm:text-sm font-medium transition-all hover:translate-x-1"
-                      >
-                        <ArrowUpRightIcon className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0 group-hover:scale-110 transition-transform" />
-                        <span className="truncate">{link.label}</span>
-                      </RouterLink>
-                    ))}
+                    {item.links.map((link) => {
+                      // Handle special navigation for featured section
+                      const handleClick = () => {
+                        toggleMenu();
+                        
+                        if (link.href === "/#featured") {
+                          // If we're not on home page, navigate to home first
+                          if (location.pathname !== "/") {
+                            window.location.href = "/#featured";
+                          } else {
+                            // If we're on home page, smooth scroll to featured section
+                            const featuredSection = document.getElementById("featured");
+                            if (featuredSection) {
+                              featuredSection.scrollIntoView({ 
+                                behavior: "smooth",
+                                block: "start"
+                              });
+                            }
+                          }
+                        }
+                      };
+
+                      return (
+                        <RouterLink
+                          key={link.href}
+                          to={link.href}
+                          onClick={link.href === "/#featured" ? handleClick : () => toggleMenu()}
+                          className="group flex items-center gap-2 text-white/90 hover:text-white text-xs sm:text-sm font-medium transition-all hover:translate-x-1"
+                        >
+                          <ArrowUpRightIcon className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0 group-hover:scale-110 transition-transform" />
+                          <span className="truncate">{link.label}</span>
+                        </RouterLink>
+                      );
+                    })}
                   </div>
                 </div>
               );

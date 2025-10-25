@@ -1,27 +1,120 @@
 @import "tailwindcss";
-
 @config "../../tailwind.config.js";
 
-/* Marquee Animations */
+/* View Transition API */
+@view-transition {
+  navigation: auto;
+}
+
+/* View Transition CSS for smooth theme toggle */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+  z-index: 9999;
+}
+
+/* Prevent other animations from interfering with view transitions */
+::view-transition-group(root) {
+  animation-duration: 0s;
+}
+
+/* Ensure view transitions take priority over other animations */
+/* EXCEPT tooltips - allow tooltips to work during view transitions */
+html:has(::view-transition-old(root)) *:not([data-tooltip]):not([data-tooltip] *) {
+  animation-play-state: paused !important;
+  transition: none !important;
+}
+
+html:has(::view-transition-new(root)) *:not([data-tooltip]):not([data-tooltip] *) {
+  animation-play-state: paused !important;
+  transition: none !important;
+}
+
+/* Always allow tooltip transitions */
+[data-tooltip],
+[data-tooltip] * {
+  animation-play-state: running !important;
+  transition: all 200ms ease !important;
+}
+
+/* Specific exclusion for marquee animations during view transitions */
+html:has(::view-transition-old(root)) .animate-marquee-smooth,
+html:has(::view-transition-new(root)) .animate-marquee-smooth {
+  animation-play-state: paused !important;
+  will-change: auto !important;
+}
+
+/* Optimize view transition performance */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+  z-index: 9999;
+  will-change: auto;
+}
+
+@layer utilities {
+  /* Marquee animations */
+  .animate-marquee {
+    animation: marquee 25s linear infinite;
+  }
+
+  .animate-marquee-vertical {
+    animation: marquee-vertical 25s linear infinite;
+  }
+
+  /* Smooth seamless marquee animation */
+  .animate-marquee-smooth {
+    animation: marquee-smooth 40s linear infinite;
+  }
+
+  /* Pause animation on parent hover */
+  *:hover > .animate-marquee-smooth {
+    animation-play-state: paused;
+  }
+
+  /* 404 Page animations */
+  .animate-fade-in-up {
+    animation: fade-in-up 0.8s ease-out forwards;
+  }
+
+  .animate-slide-in-left {
+    animation: slide-in-left 0.6s ease-out forwards;
+  }
+
+  .animate-slide-in-right {
+    animation: slide-in-right 0.6s ease-out forwards;
+  }
+}
+
 @keyframes marquee {
   0% {
-    transform: translateX(0);
+    transform: translateX(0%);
   }
   100% {
-    transform: translateX(calc(-100% - var(--gap)));
+    transform: translateX(-100%);
   }
 }
 
 @keyframes marquee-vertical {
   0% {
-    transform: translateY(0);
+    transform: translateY(0%);
   }
   100% {
-    transform: translateY(calc(-100% - var(--gap)));
+    transform: translateY(-100%);
   }
 }
 
-/* 404 Page Animations */
+@keyframes marquee-smooth {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
 @keyframes fade-in-up {
   from {
     opacity: 0;
@@ -36,7 +129,7 @@
 @keyframes slide-in-left {
   from {
     opacity: 0;
-    transform: translateX(-50px);
+    transform: translateX(-30px);
   }
   to {
     opacity: 1;
@@ -47,34 +140,10 @@
 @keyframes slide-in-right {
   from {
     opacity: 0;
-    transform: translateX(50px);
+    transform: translateX(30px);
   }
   to {
     opacity: 1;
     transform: translateX(0);
-  }
-}
-
-@layer utilities {
-  .animate-marquee {
-    animation: marquee var(--duration, 40s) cubic-bezier(0.4, 0.0, 0.2, 1) infinite;
-  }
-
-  .animate-marquee-vertical {
-    animation: marquee-vertical var(--duration, 40s) cubic-bezier(0.4, 0.0, 0.2, 1) infinite;
-  }
-
-  .animate-fade-in-up {
-    animation: fade-in-up 0.8s ease-out forwards;
-  }
-
-  .animate-slide-in-left {
-    animation: slide-in-left 0.6s ease-out forwards;
-  }
-
-  .animate-slide-in-right {
-    animation: slide-in-right 0.6s ease-out forwards;
-    animation-delay: 0.2s;
-    opacity: 0;
   }
 }

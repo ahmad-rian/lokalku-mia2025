@@ -87,8 +87,87 @@ export default function Footer() {
 
   const currentYear = new Date().getFullYear();
 
+  // Payment logos data with LinkAja positioned at 6th position
+  const paymentLogos = [
+    { src: "/assets/pembayaran/qris-logo.svg", alt: "QRIS", title: "QRIS", isProminent: false },
+    { src: "/assets/pembayaran/dana-logo.svg", alt: "DANA", title: "DANA", isProminent: false },
+    { src: "/assets/pembayaran/ovo-logo.svg", alt: "OVO", title: "OVO", isProminent: false },
+    { src: "/assets/pembayaran/bca-logo.svg", alt: "BCA", title: "Bank BCA", isProminent: false },
+    { src: "/assets/pembayaran/mandiri-logo.svg", alt: "Mandiri", title: "Bank Mandiri", isProminent: false },
+    { src: "/assets/pembayaran/linkaja-logo.svg", alt: "LinkAja", title: "LinkAja", isProminent: true },
+    { src: "/assets/pembayaran/bni-logo.svg", alt: "BNI", title: "Bank BNI", isProminent: false },
+    { src: "/assets/pembayaran/bri-logo.svg", alt: "BRI", title: "Bank BRI", isProminent: false },
+    { src: "/assets/pembayaran/bsi-logo.svg", alt: "BSI", title: "Bank Syariah Indonesia", isProminent: false },
+    { src: "/assets/pembayaran/bjb.svg", alt: "BJB", title: "Bank BJB", isProminent: false },
+    { src: "/assets/pembayaran/btn-logo-2.svg", alt: "BTN", title: "Bank BTN", isProminent: false },
+    { src: "/assets/pembayaran/card-logo.svg", alt: "Credit Card", title: "Credit Card", isProminent: false },
+    { src: "/assets/pembayaran/pospay-logo.svg", alt: "PosPay", title: "PosPay", isProminent: false },
+  ];
+
   return (
     <footer className="relative bg-gradient-to-b from-gray-900 via-gray-950 to-black dark:from-black dark:via-gray-950 dark:to-black overflow-hidden">
+      {/* Payment Partners Section */}
+      <div className="bg-white dark:bg-gray-800 py-12 border-b border-gray-200 dark:border-gray-700">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-8">
+            <h3 className="font-playfair text-2xl font-semibold text-gray-900 dark:text-white mb-2">
+              Partner Pembayaran
+            </h3>
+            <p className="text-gray-600 dark:text-gray-400 text-sm">
+              Metode pembayaran yang didukung untuk kemudahan transaksi UMKM
+            </p>
+          </div>
+          
+          <div className="relative overflow-hidden">
+            <div className="inline-flex w-max animate-marquee-smooth">
+              {/* First set of logos */}
+              {paymentLogos.map((logo, index) => (
+                <div
+                  key={`first-${index}`}
+                  className={`flex-shrink-0 w-auto transition-all duration-300 hover:scale-110 mx-4 ${
+                    logo.isProminent 
+                      ? 'h-12 md:h-14 drop-shadow-lg hover:drop-shadow-xl' 
+                      : 'h-8 md:h-10 opacity-80 hover:opacity-100'
+                  }`}
+                  title={logo.title}
+                >
+                  <img
+                    src={logo.src}
+                    alt={logo.alt}
+                    className="h-full w-auto object-contain"
+                    loading="lazy"
+                  />
+                </div>
+              ))}
+              
+              {/* Second set for seamless loop */}
+              {paymentLogos.map((logo, index) => (
+                <div
+                  key={`second-${index}`}
+                  className={`flex-shrink-0 w-auto transition-all duration-300 hover:scale-110 mx-4 ${
+                    logo.isProminent 
+                      ? 'h-12 md:h-14 drop-shadow-lg hover:drop-shadow-xl' 
+                      : 'h-8 md:h-10 opacity-80 hover:opacity-100'
+                  }`}
+                  title={logo.title}
+                  aria-hidden="true"
+                >
+                  <img
+                    src={logo.src}
+                    alt={logo.alt}
+                    className="h-full w-auto object-contain"
+                    loading="lazy"
+                  />
+                </div>
+              ))}
+            </div>
+            
+            {/* Fade out edges */}
+            <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-white dark:from-gray-800 to-transparent pointer-events-none z-10"></div>
+            <div className="absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-white dark:from-gray-800 to-transparent pointer-events-none z-10"></div>
+          </div>
+        </div>
+      </div>
       {/* Decorative gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary-500/5 via-transparent to-orange-500/5 pointer-events-none" />
       

@@ -88,11 +88,11 @@ const Masonry: React.FC<MasonryProps> = ({
   colorShiftOnHover = false,
   animateOnView = true,
 }) => {
-  // Better responsive breakpoints
+  // Better responsive breakpoints - FIXED: Shows 2 columns on mobile instead of 1
   const columns = useMedia(
     ['(min-width:1280px)', '(min-width:1024px)', '(min-width:768px)', '(min-width:640px)'],
-    [4, 3, 2, 2],
-    1
+    [4, 4, 3, 2],
+    2  // Changed from 1 to 2 for mobile default
   );
 
   const [containerRef, { width }] = useMeasure<HTMLDivElement>();
