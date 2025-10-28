@@ -6,20 +6,25 @@ import PricingPage from "@/pages/pricing";
 import BlogPage from "@/pages/blog";
 import AboutPage from "@/pages/about";
 import DirectoryPage from "@/pages/directory";
+import DetailPage from "@/pages/detail";
+import FavoritesPage from "@/pages/favorites";
+import MapPage from "@/pages/map";
 import NotFound from "@/pages/NotFound";
 
 function App() {
   return (
     <Routes>
-      <Route element={<IndexPage />} path="/" />
-      <Route element={<DocsPage />} path="/docs" />
-      <Route element={<PricingPage />} path="/pricing" />
-      <Route element={<BlogPage />} path="/blog" />
-      <Route element={<AboutPage />} path="/about" />
-      <Route element={<DirectoryPage />} path="/directory" />
-      <Route element={<DirectoryPage />} path="/direktori" />
-      <Route element={<NotFound />} path="*" />
-    </Routes>
+          <Route element={<IndexPage />} path="/" />
+          <Route element={<DocsPage />} path="/docs" />
+          <Route element={<PricingPage />} path="/pricing" />
+          <Route element={<BlogPage />} path="/blog" />
+          <Route element={<AboutPage />} path="/about" />
+          <Route element={<DirectoryPage />} path="/direktori" />
+          <Route element={<FavoritesPage />} path="/favorit" />
+          <Route element={<DetailPage />} path="/detail/:category/:slug" />
+          <Route element={<MapPage />} path="/peta" />
+          <Route element={<NotFound />} path="*" />
+        </Routes>
   );
 }
 

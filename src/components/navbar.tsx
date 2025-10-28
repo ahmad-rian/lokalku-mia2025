@@ -251,10 +251,11 @@ export default function Navbar({ onSearchOpen }: NavbarProps) {
           <div className="flex lg:hidden items-center gap-1 sm:gap-2 order-3">
             <button
               onClick={handleSearchClick}
-              className="p-1.5 sm:p-2 rounded-lg sm:rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              className="flex items-center gap-1 px-2 py-1.5 sm:px-3 sm:py-2 rounded-lg sm:rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
               aria-label="Search"
             >
               <MagnifyingGlassIcon className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600 dark:text-gray-300" />
+              <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 font-medium">Search</span>
             </button>
             
             <div className="relative group z-[110]">

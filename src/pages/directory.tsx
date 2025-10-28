@@ -164,6 +164,29 @@ interface UMKMCardProps {
 }
 
 function UMKMCard({ umkm, viewMode, onToggleFavorite, onClick }: UMKMCardProps) {
+  const navigate = useNavigate();
+  
+  // Format price range to Rupiah
+  const formatPriceRange = (priceRange?: "$" | "$$" | "$$$") => {
+    switch (priceRange) {
+      case "$":
+        return "Rp 10.000 - 25.000";
+      case "$$":
+        return "Rp 25.000 - 50.000";
+      case "$$$":
+        return "Rp 50.000 - 100.000";
+      default:
+        return "Harga bervariasi";
+    }
+  };
+
+  const handleViewDetail = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const categorySlug = umkm.category.toLowerCase().replace(/\s+/g, '-').replace(/&/g, '');
+    const nameSlug = umkm.name.toLowerCase().replace(/\s+/g, '-');
+    navigate(`/detail/${categorySlug}/${nameSlug}-${umkm.id}`);
+  };
+
   return (
     <LazySection
       animationType="slideUp"
@@ -263,14 +286,23 @@ function UMKMCard({ umkm, viewMode, onToggleFavorite, onClick }: UMKMCardProps) 
             {umkm.description}
           </p>
 
-          {/* Price Range */}
-          {umkm.priceRange && (
-            <div className="flex items-center justify-between">
-              <Chip size="sm" variant="flat">
-                {umkm.priceRange}
+          {/* Price Range & View Detail Button */}
+          <div className="flex items-center justify-between">
+            <div className="flex flex-col gap-1">
+              <Chip size="sm" variant="flat" color="secondary">
+                {formatPriceRange(umkm.priceRange)}
               </Chip>
             </div>
-          )}
+            <Button
+              size="sm"
+              color="primary"
+              variant="flat"
+              onClick={handleViewDetail}
+              endContent={<ChevronRight size={14} />}
+            >
+              Lihat Detail
+            </Button>
+          </div>
         </div>
       </div>
     </LazySection>
@@ -537,11 +569,13 @@ export default function DirectoryPage() {
             {/* Quick Filter Chips */}
             <div className="flex flex-wrap gap-2 mt-4">
               {quickFilters.map((filter) => (
-                <Chip
+                <button
                   key={filter.value}
-                  variant={filter.active ? "solid" : "bordered"}
-                  color={filter.active ? "primary" : "default"}
-                  className="cursor-pointer"
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                    filter.active 
+                      ? "bg-primary-600 text-white shadow-md shadow-primary-500/30 dark:bg-primary-500 dark:text-white" 
+                      : "bg-white text-gray-700 border-2 border-gray-300 hover:border-primary-500 hover:text-primary-600 dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 dark:hover:border-primary-400 dark:hover:text-primary-400"
+                  }`}
                   onClick={() => {
                     if (filter.value === "all") {
                       setSelectedCategory("all");
@@ -558,7 +592,7 @@ export default function DirectoryPage() {
                   }}
                 >
                   {filter.label}
-                </Chip>
+                </button>
               ))}
             </div>
           </div>
@@ -719,7 +753,13 @@ export default function DirectoryPage() {
                       umkm={umkm}
                       viewMode={viewMode}
                       onToggleFavorite={handleToggleFavorite}
-                      onClick={() => navigate(`/umkm/${umkm.id}`)}
+                      onClick={() => {
+                        // Create slug format: /detail/{category}-{name}-{id}
+                        const categorySlug = umkm.category.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-');
+                        const nameSlug = umkm.name.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-');
+                        const slug = `${categorySlug}/${nameSlug}-${umkm.id}`;
+                        navigate(`/detail/${slug}`);
+                      }}
                     />
                   ))}
                 </div>

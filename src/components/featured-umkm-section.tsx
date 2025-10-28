@@ -34,7 +34,7 @@ export default function FeaturedUMKMSection() {
     {
       id: "1",
       img: "https://images.unsplash.com/photo-1529042410759-befb1204b468?w=800&h=600&fit=crop",
-      url: "/umkm/1",
+      url: "/detail/makanan-minuman/warung-sate-pak-kumis-1",
       height: 400,
       name: "Warung Sate Pak Kumis",
       category: "Kuliner"
@@ -42,7 +42,7 @@ export default function FeaturedUMKMSection() {
     {
       id: "2",
       img: "https://images.unsplash.com/photo-1610003524635-5fe4c7e11b32?w=800&h=600&fit=crop",
-      url: "/umkm/2",
+      url: "/detail/fashion/batik-gumelem-asli-2",
       height: 500,
       name: "Batik Gumelem Asli",
       category: "Fashion & Kerajinan"
@@ -50,7 +50,7 @@ export default function FeaturedUMKMSection() {
     {
       id: "3",
       img: "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=800&h=600&fit=crop",
-      url: "/umkm/3",
+      url: "/detail/makanan-minuman/getuk-goreng-bu-tini-3",
       height: 350,
       name: "Getuk Goreng Bu Tini",
       category: "Makanan & Oleh-oleh"
@@ -58,7 +58,7 @@ export default function FeaturedUMKMSection() {
     {
       id: "4",
       img: "https://images.unsplash.com/photo-1511920170033-f8396924c348?w=800&h=600&fit=crop",
-      url: "/umkm/4",
+      url: "/detail/kafe-resto/kopi-gunung-slamet-4",
       height: 450,
       name: "Kopi Gunung Slamet",
       category: "Kafe & Minuman"
