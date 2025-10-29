@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import { 
   ChevronDownIcon, 
   DocumentTextIcon, 
@@ -6,14 +6,15 @@ import {
   EnvelopeIcon,
   ChatBubbleLeftRightIcon,
   CheckCircleIcon,
-  InformationCircleIcon
+  InformationCircleIcon,
+  LockClosedIcon
 } from "@heroicons/react/24/outline";
 import { motion, AnimatePresence } from "framer-motion";
 import DefaultLayout from "@/layouts/default";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { cn } from "@/lib/utils";
 
-interface TermsSection {
+interface PrivacySection {
   title: string;
   content: string;
   icon?: string;
@@ -46,7 +47,7 @@ const TableOfContents = ({
   activeSection, 
   onNavigate 
 }: { 
-  sections: TermsSection[]; 
+  sections: PrivacySection[]; 
   activeSection: number | null;
   onNavigate: (index: number) => void;
 }) => {
@@ -91,7 +92,7 @@ const AccordionItem = ({
   isOpen, 
   onToggle 
 }: { 
-  item: TermsSection; 
+  item: PrivacySection; 
   index: number; 
   isOpen: boolean; 
   onToggle: () => void;
@@ -209,89 +210,52 @@ const InfoBox = ({
   );
 };
 
-export default function TermsAndConditions() {
+export default function PrivacyPolicy() {
   const { t } = useLanguage();
   const [openIndex, setOpenIndex] = useState<number | null>(0);
-  const [activeSection, setActiveSection] = useState<number | null>(0);
-  const isScrollingRef = useRef(false);
 
-  const termsData: TermsSection[] = [
+  const privacyData: PrivacySection[] = [
     {
-      title: t("terms.sections.acceptance.title"),
-      content: t("terms.sections.acceptance.content")
+      title: t("privacy.sections.introduction.title"),
+      content: t("privacy.sections.introduction.content")
     },
     {
-      title: t("terms.sections.services.title"),
-      content: t("terms.sections.services.content")
+      title: t("privacy.sections.informationCollection.title"),
+      content: t("privacy.sections.informationCollection.content")
     },
     {
-      title: t("terms.sections.registration.title"),
-      content: t("terms.sections.registration.content")
+      title: t("privacy.sections.informationUse.title"),
+      content: t("privacy.sections.informationUse.content")
     },
     {
-      title: t("terms.sections.userConduct.title"),
-      content: t("terms.sections.userConduct.content")
+      title: t("privacy.sections.informationSharing.title"),
+      content: t("privacy.sections.informationSharing.content")
     },
     {
-      title: t("terms.sections.content.title"),
-      content: t("terms.sections.content.content")
+      title: t("privacy.sections.dataSecurity.title"),
+      content: t("privacy.sections.dataSecurity.content")
     },
     {
-      title: t("terms.sections.privacy.title"),
-      content: t("terms.sections.privacy.content")
+      title: t("privacy.sections.cookies.title"),
+      content: t("privacy.sections.cookies.content")
     },
     {
-      title: t("terms.sections.liability.title"),
-      content: t("terms.sections.liability.content")
+      title: t("privacy.sections.thirdParty.title"),
+      content: t("privacy.sections.thirdParty.content")
     },
     {
-      title: t("terms.sections.modifications.title"),
-      content: t("terms.sections.modifications.content")
+      title: t("privacy.sections.userRights.title"),
+      content: t("privacy.sections.userRights.content")
     },
     {
-      title: t("terms.sections.termination.title"),
-      content: t("terms.sections.termination.content")
+      title: t("privacy.sections.dataRetention.title"),
+      content: t("privacy.sections.dataRetention.content")
     },
     {
-      title: t("terms.sections.governing.title"),
-      content: t("terms.sections.governing.content")
+      title: t("privacy.sections.changes.title"),
+      content: t("privacy.sections.changes.content")
     }
   ];
-
-  // Intersection Observer untuk mendeteksi section yang aktif
-  useEffect(() => {
-    const observerOptions = {
-      root: null,
-      rootMargin: '-120px 0px -50% 0px', // Offset untuk header dan threshold
-      threshold: 0.1
-    };
-
-    const observerCallback = (entries: IntersectionObserverEntry[]) => {
-      if (isScrollingRef.current) return; // Skip jika sedang scroll programmatic
-
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const sectionId = entry.target.id;
-          const sectionIndex = parseInt(sectionId.replace('section-', ''));
-          setActiveSection(sectionIndex);
-        }
-      });
-    };
-
-    const observer = new IntersectionObserver(observerCallback, observerOptions);
-
-    // Observe semua section
-    termsData.forEach((_, index) => {
-      const element = document.getElementById(`section-${index}`);
-      if (element) {
-        observer.observe(element);
-      }
-    });
-
-    return () => {
-      observer.disconnect();
-    };
-  }, [termsData.length]);
 
   // Handler untuk toggle accordion tanpa scroll
   const handleToggle = (index: number) => {
@@ -301,31 +265,20 @@ export default function TermsAndConditions() {
   // Handler untuk navigasi dari table of contents dengan scroll
   const handleNavigate = (index: number) => {
     setOpenIndex(index);
-    setActiveSection(index);
-    isScrollingRef.current = true; // Set flag untuk mencegah intersection observer
     
-    // Gunakan requestAnimationFrame untuk timing yang lebih baik
-    requestAnimationFrame(() => {
-      setTimeout(() => {
-        const element = document.getElementById(`section-${index}`);
-        if (element) {
-          const headerOffset = 120; // Offset yang lebih besar untuk header sticky
-          const elementPosition = element.getBoundingClientRect().top;
-          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+    setTimeout(() => {
+      const element = document.getElementById(`section-${index}`);
+      if (element) {
+        const headerOffset = 100;
+        const elementPosition = element.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
-          // Gunakan scrollTo dengan options yang lebih halus
-          window.scrollTo({
-            top: Math.max(0, offsetPosition), // Pastikan tidak scroll ke posisi negatif
-            behavior: 'smooth'
-          });
-
-          // Reset flag setelah scroll selesai
-          setTimeout(() => {
-            isScrollingRef.current = false;
-          }, 1000); // Delay untuk memastikan scroll selesai
-        }
-      }, 300); // Delay yang lebih lama untuk memastikan accordion terbuka sepenuhnya
-    });
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      }
+    }, 100);
   };
 
   return (
@@ -346,25 +299,25 @@ export default function TermsAndConditions() {
                 </a>
                 <ChevronDownIcon className="w-4 h-4 -rotate-90" />
                 <span className="text-gray-900 dark:text-white font-medium">
-                  Syarat & Ketentuan
+                  Kebijakan Privasi
                 </span>
               </nav>
 
               {/* Title */}
               <div className="mb-6">
                 <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-primary-50 dark:bg-primary-900/20 rounded-full mb-4">
-                  <ShieldCheckIcon className="w-4 h-4 text-primary-600 dark:text-primary-400" />
+                  <LockClosedIcon className="w-4 h-4 text-primary-600 dark:text-primary-400" />
                   <span className="text-sm font-semibold text-primary-600 dark:text-primary-400">
-                    {t("terms.badge")}
+                    {t("privacy.badge")}
                   </span>
                 </div>
                 
                 <h1 className="font-playfair text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-                  {t("terms.title")}
+                  {t("privacy.title")}
                 </h1>
                 
                 <p className="text-lg text-gray-600 dark:text-gray-400 leading-relaxed">
-                  {t("terms.description")}
+                  {t("privacy.description")}
                 </p>
               </div>
 
@@ -386,10 +339,10 @@ export default function TermsAndConditions() {
 
               {/* Important Notice */}
               <div className="mt-8">
-                <InfoBox variant="warning">
-                  <strong className="font-semibold">Penting untuk dibaca:</strong> Dengan mengakses atau menggunakan layanan LokalKu, 
-                  Anda setuju untuk terikat dengan syarat dan ketentuan ini. Jika Anda tidak setuju, 
-                  harap jangan gunakan layanan kami.
+                <InfoBox variant="info">
+                  <strong className="font-semibold">Komitmen Kami:</strong> LokalKu berkomitmen untuk melindungi privasi Anda. 
+                  Kebijakan ini menjelaskan bagaimana kami mengumpulkan, menggunakan, dan melindungi informasi pribadi Anda 
+                  saat menggunakan layanan kami.
                 </InfoBox>
               </div>
             </div>
@@ -401,16 +354,16 @@ export default function TermsAndConditions() {
               {/* Table of Contents - Desktop Only */}
               <div className="hidden lg:block lg:col-span-3">
                 <TableOfContents 
-                  sections={termsData}
-                  activeSection={activeSection}
+                  sections={privacyData}
+                  activeSection={openIndex}
                   onNavigate={handleNavigate}
                 />
               </div>
 
-              {/* Terms Accordion */}
+              {/* Privacy Accordion */}
               <div className="lg:col-span-9">
                 <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm p-6 md:p-8">
-                  {termsData.map((item, index) => (
+                  {privacyData.map((item, index) => (
                     <AccordionItem
                       key={index}
                       item={item}
@@ -424,8 +377,8 @@ export default function TermsAndConditions() {
                 {/* Bottom CTA */}
                 <div className="mt-8">
                   <InfoBox variant="success">
-                    <strong className="font-semibold">Sudah membaca semua ketentuan?</strong> Jika Anda memiliki pertanyaan atau 
-                    membutuhkan klarifikasi, jangan ragu untuk menghubungi tim kami.
+                    <strong className="font-semibold">Punya pertanyaan tentang privasi Anda?</strong> Kami siap membantu! 
+                    Hubungi tim kami untuk informasi lebih lanjut tentang bagaimana kami melindungi data Anda.
                   </InfoBox>
                 </div>
               </div>
@@ -445,14 +398,14 @@ export default function TermsAndConditions() {
 
               <div className="relative z-10">
                 <div className="max-w-3xl mx-auto text-center">
-                  <DocumentTextIcon className="w-12 h-12 text-white mx-auto mb-4" />
+                  <LockClosedIcon className="w-12 h-12 text-white mx-auto mb-4" />
                   
                   <h2 className="font-playfair text-3xl md:text-4xl font-bold text-white mb-4">
-                    {t("terms.contact.title")}
+                    {t("privacy.contact.title")}
                   </h2>
                   
                   <p className="text-lg text-white/90 mb-8">
-                    {t("terms.contact.description")}
+                    {t("privacy.contact.description")}
                   </p>
                   
                   <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -463,7 +416,7 @@ export default function TermsAndConditions() {
                       className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white text-primary-600 rounded-xl font-semibold hover:bg-gray-100 transition-all hover:scale-105 shadow-lg"
                     >
                       <EnvelopeIcon className="w-5 h-5" />
-                      {t("terms.contact.email")}
+                      {t("privacy.contact.email")}
                     </a>
                     
                     <a
@@ -473,7 +426,7 @@ export default function TermsAndConditions() {
                       className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white/20 backdrop-blur-sm text-white rounded-xl font-semibold hover:bg-white/30 transition-all hover:scale-105 border-2 border-white/30"
                     >
                       <ChatBubbleLeftRightIcon className="w-5 h-5" />
-                      {t("terms.contact.whatsapp")}
+                      {t("privacy.contact.whatsapp")}
                     </a>
                   </div>
                 </div>

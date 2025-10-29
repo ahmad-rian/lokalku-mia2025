@@ -14,6 +14,7 @@ import MapPage from "@/pages/map";
 import MapNearbyPage from "@/pages/map-nearby";
 import FAQPage from "@/pages/faq";
 import TermsPage from "@/pages/syarat";
+import PrivacyPage from "@/pages/privasi";
 import NotFound from "@/pages/NotFound";
 import ChatWidget from "@/components/chat/ChatWidget";
 
@@ -38,6 +39,7 @@ function App() {
         <Route element={<MapNearbyPage />} path="/peta/terdekat" />
         <Route element={<FAQPage />} path="/faq" />
         <Route element={<TermsPage />} path="/syarat" />
+        <Route element={<PrivacyPage />} path="/privasi" />
         <Route element={<NotFound />} path="*" />
       </Routes>
       

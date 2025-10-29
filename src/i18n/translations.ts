@@ -336,9 +336,62 @@ export const translations = {
       },
       contact: {
         title: "Butuh Bantuan Hukum?",
-        description: "Jika Anda memiliki pertanyaan tentang syarat dan ketentuan ini, silakan hubungi tim legal kami.",
-        email: "Konsultasi Legal",
-        whatsapp: "Chat Legal"
+        description: "Jika Anda memiliki pertanyaan tentang syarat dan ketentuan ini, silakan hubungi tim hukum kami.",
+        email: "Konsultasi Hukum",
+        whatsapp: "Chat Hukum"
+      }
+    },
+    privacy: {
+      badge: "Kebijakan Privasi",
+      title: "Kebijakan Privasi",
+      description: "Kebijakan privasi LokalKU yang menjelaskan bagaimana kami mengumpulkan, menggunakan, dan melindungi informasi pribadi Anda.",
+      sections: {
+        introduction: {
+          title: "1. Pengantar",
+          content: "LokalKU berkomitmen untuk melindungi privasi dan keamanan informasi pribadi Anda. Kebijakan Privasi ini menjelaskan bagaimana kami mengumpulkan, menggunakan, menyimpan, dan melindungi informasi yang Anda berikan saat menggunakan platform kami.\n\nDengan menggunakan layanan LokalKU, Anda menyetujui praktik yang dijelaskan dalam kebijakan ini."
+        },
+        informationCollection: {
+          title: "2. Informasi yang Kami Kumpulkan",
+          content: "Kami mengumpulkan informasi dalam beberapa cara:\n\n• Informasi yang Anda berikan secara langsung (nama, email, nomor telepon)\n• Informasi penggunaan platform (halaman yang dikunjungi, waktu akses)\n• Informasi lokasi (dengan izin Anda)\n• Data perangkat (jenis perangkat, sistem operasi, browser)\n• Cookies dan teknologi pelacakan serupa\n\nSemua informasi dikumpulkan sesuai dengan peraturan perlindungan data yang berlaku."
+        },
+        informationUse: {
+          title: "3. Penggunaan Informasi",
+          content: "Kami menggunakan informasi Anda untuk:\n\n• Menyediakan dan meningkatkan layanan platform\n• Memproses dan merespons permintaan Anda\n• Mengirimkan notifikasi dan update penting\n• Melakukan analisis untuk meningkatkan pengalaman pengguna\n• Mencegah penipuan dan aktivitas yang mencurigakan\n• Mematuhi kewajiban hukum\n\nKami tidak akan menggunakan informasi Anda untuk tujuan yang tidak dijelaskan dalam kebijakan ini tanpa persetujuan Anda."
+        },
+        informationSharing: {
+          title: "4. Berbagi Informasi",
+          content: "Kami tidak menjual, menyewakan, atau memperdagangkan informasi pribadi Anda. Kami hanya membagikan informasi dalam situasi berikut:\n\n• Dengan UMKM terdaftar (hanya informasi yang diperlukan untuk layanan)\n• Dengan penyedia layanan pihak ketiga yang membantu operasi platform\n• Ketika diwajibkan oleh hukum atau proses hukum\n• Untuk melindungi hak, properti, atau keamanan LokalKU dan pengguna\n• Dengan persetujuan eksplisit Anda\n\nSemua pihak ketiga diwajibkan menjaga kerahasiaan informasi Anda."
+        },
+        dataSecurity: {
+          title: "5. Keamanan Data",
+          content: "Kami menerapkan langkah-langkah keamanan yang ketat untuk melindungi informasi Anda:\n\n• Enkripsi data saat transmisi dan penyimpanan\n• Akses terbatas hanya untuk personel yang berwenang\n• Pemantauan sistem keamanan secara berkala\n• Backup data reguler dengan enkripsi\n• Protokol keamanan berlapis\n\nMeskipun kami menggunakan langkah-langkah keamanan terbaik, tidak ada sistem yang 100% aman. Kami akan segera memberitahu Anda jika terjadi pelanggaran data yang signifikan."
+        },
+        cookies: {
+          title: "6. Cookies dan Teknologi Pelacakan",
+          content: "Kami menggunakan cookies dan teknologi serupa untuk:\n\n• Mengingat preferensi dan pengaturan Anda\n• Menganalisis penggunaan platform\n• Menyediakan konten yang dipersonalisasi\n• Meningkatkan keamanan platform\n• Mengukur efektivitas fitur dan layanan\n\nAnda dapat mengatur browser untuk menolak cookies, namun beberapa fitur platform mungkin tidak berfungsi optimal."
+        },
+        thirdParty: {
+          title: "7. Layanan Pihak Ketiga",
+          content: "Platform kami dapat mengintegrasikan layanan pihak ketiga seperti:\n\n• Google Maps untuk layanan peta dan navigasi\n• Sistem pembayaran untuk transaksi\n• Layanan analitik untuk memahami penggunaan platform\n• Media sosial untuk berbagi konten\n\nSetiap layanan pihak ketiga memiliki kebijakan privasi sendiri. Kami mendorong Anda untuk membaca kebijakan privasi mereka."
+        },
+        userRights: {
+          title: "8. Hak Pengguna",
+          content: "Anda memiliki hak untuk:\n\n• Mengakses informasi pribadi yang kami simpan\n• Memperbarui atau mengoreksi informasi yang tidak akurat\n• Menghapus akun dan data pribadi Anda\n• Membatasi pemrosesan data tertentu\n• Memindahkan data ke platform lain\n• Menarik persetujuan yang telah diberikan\n\nUntuk menggunakan hak-hak ini, silakan hubungi tim dukungan kami."
+        },
+        dataRetention: {
+          title: "9. Penyimpanan Data",
+          content: "Kami menyimpan informasi Anda selama:\n\n• Akun aktif: Selama akun Anda aktif dan diperlukan untuk layanan\n• Setelah penghapusan akun: Hingga 30 hari untuk keperluan backup\n• Data transaksi: Sesuai dengan persyaratan hukum (biasanya 5-7 tahun)\n• Data analitik: Dalam bentuk anonim untuk analisis jangka panjang\n\nSetelah periode retensi, data akan dihapus secara permanen dari sistem kami."
+        },
+        changes: {
+          title: "10. Perubahan Kebijakan",
+          content: "Kami dapat memperbarui Kebijakan Privasi ini dari waktu ke waktu. Perubahan akan diberitahukan melalui:\n\n• Notifikasi di platform\n• Email kepada pengguna terdaftar\n• Pengumuman di halaman utama\n\nPerubahan signifikan akan diberitahukan setidaknya 30 hari sebelum berlaku. Penggunaan platform setelah perubahan dianggap sebagai persetujuan terhadap kebijakan baru."
+        }
+      },
+      contact: {
+        title: "Punya Pertanyaan tentang Privasi?",
+        description: "Jika Anda memiliki pertanyaan tentang kebijakan privasi ini atau ingin menggunakan hak privasi Anda, silakan hubungi tim kami.",
+        email: "Konsultasi Privasi",
+        whatsapp: "Chat Privasi"
       }
     }
   },
@@ -682,6 +735,59 @@ export const translations = {
         description: "If you have questions about these terms and conditions, please contact our legal team.",
         email: "Legal Consultation",
         whatsapp: "Legal Chat"
+      }
+    },
+    privacy: {
+      badge: "Privacy Policy",
+      title: "Privacy Policy",
+      description: "LokalKU's privacy policy explaining how we collect, use, and protect your personal information.",
+      sections: {
+        introduction: {
+          title: "1. Introduction",
+          content: "LokalKU is committed to protecting the privacy and security of your personal information. This Privacy Policy explains how we collect, use, store, and protect the information you provide when using our platform.\n\nBy using LokalKU services, you agree to the practices described in this policy."
+        },
+        informationCollection: {
+          title: "2. Information We Collect",
+          content: "We collect information in several ways:\n\n• Information you provide directly (name, email, phone number)\n• Platform usage information (pages visited, access time)\n• Location information (with your permission)\n• Device data (device type, operating system, browser)\n• Cookies and similar tracking technologies\n\nAll information is collected in accordance with applicable data protection regulations."
+        },
+        informationUse: {
+          title: "3. Use of Information",
+          content: "We use your information to:\n\n• Provide and improve platform services\n• Process and respond to your requests\n• Send notifications and important updates\n• Conduct analysis to improve user experience\n• Prevent fraud and suspicious activities\n• Comply with legal obligations\n\nWe will not use your information for purposes not described in this policy without your consent."
+        },
+        informationSharing: {
+          title: "4. Information Sharing",
+          content: "We do not sell, rent, or trade your personal information. We only share information in the following situations:\n\n• With registered SMEs (only information necessary for services)\n• With third-party service providers who assist platform operations\n• When required by law or legal process\n• To protect the rights, property, or safety of LokalKU and users\n• With your explicit consent\n\nAll third parties are required to maintain the confidentiality of your information."
+        },
+        dataSecurity: {
+          title: "5. Data Security",
+          content: "We implement strict security measures to protect your information:\n\n• Data encryption during transmission and storage\n• Limited access only to authorized personnel\n• Regular security system monitoring\n• Regular encrypted data backups\n• Multi-layered security protocols\n\nWhile we use the best security measures, no system is 100% secure. We will promptly notify you if a significant data breach occurs."
+        },
+        cookies: {
+          title: "6. Cookies and Tracking Technologies",
+          content: "We use cookies and similar technologies to:\n\n• Remember your preferences and settings\n• Analyze platform usage\n• Provide personalized content\n• Enhance platform security\n• Measure feature and service effectiveness\n\nYou can set your browser to reject cookies, but some platform features may not function optimally."
+        },
+        thirdParty: {
+          title: "7. Third-Party Services",
+          content: "Our platform may integrate third-party services such as:\n\n• Google Maps for map and navigation services\n• Payment systems for transactions\n• Analytics services to understand platform usage\n• Social media for content sharing\n\nEach third-party service has its own privacy policy. We encourage you to read their privacy policies."
+        },
+        userRights: {
+          title: "8. User Rights",
+          content: "You have the right to:\n\n• Access personal information we store\n• Update or correct inaccurate information\n• Delete your account and personal data\n• Restrict certain data processing\n• Transfer data to other platforms\n• Withdraw previously given consent\n\nTo exercise these rights, please contact our support team."
+        },
+        dataRetention: {
+          title: "9. Data Retention",
+          content: "We store your information for:\n\n• Active accounts: As long as your account is active and necessary for services\n• After account deletion: Up to 30 days for backup purposes\n• Transaction data: According to legal requirements (usually 5-7 years)\n• Analytics data: In anonymous form for long-term analysis\n\nAfter the retention period, data will be permanently deleted from our systems."
+        },
+        changes: {
+          title: "10. Policy Changes",
+          content: "We may update this Privacy Policy from time to time. Changes will be notified through:\n\n• Platform notifications\n• Email to registered users\n• Announcements on the main page\n\nSignificant changes will be notified at least 30 days before taking effect. Continued use of the platform after changes is considered acceptance of the new policy."
+        }
+      },
+      contact: {
+        title: "Have Privacy Questions?",
+        description: "If you have questions about this privacy policy or want to exercise your privacy rights, please contact our team.",
+        email: "Privacy Consultation",
+        whatsapp: "Privacy Chat"
       }
     }
   }
