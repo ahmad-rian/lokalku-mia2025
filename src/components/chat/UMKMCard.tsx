@@ -1,5 +1,5 @@
 // UMKM Card Component for Chat
-import { MapPin, Star, Phone, Navigation } from "lucide-react";
+import { MapPin, Star, Navigation } from "lucide-react";
 import { Link } from "react-router-dom";
 import type { UMKMCard as UMKMCardType } from "@/types/chat.types";
 

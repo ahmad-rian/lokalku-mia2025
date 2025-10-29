@@ -85,7 +85,7 @@ export const umkmData: UMKM[] = [
     rating: 4.9,
     reviewCount: 89,
     description: "Batik khas Banyumas dengan motif tradisional dan modern berkualitas tinggi",
-    image: "https://images.unsplash.com/photo-1610003524635-5fe4c7e11b32?w=800&h=600&fit=crop",
+    image: "https://batikgumelem.com/images/dashboard_banner_image.png",
     status: "open",
     priceRange: "$$$",
     isFavorite: true,
@@ -194,6 +194,57 @@ export const umkmData: UMKM[] = [
     coordinates: { lat: -7.4567, lng: 109.1876 },
     phone: "+62819-8901-2345",
     address: "Jl. Raya Cilongok No. 78, Cilongok"
+  },
+  {
+    id: "9",
+    name: "Toko Kelontong Sari Rejeki",
+    category: "Retail",
+    location: "Purwokerto Utara",
+    distance: "1.2 km",
+    rating: 4.3,
+    reviewCount: 45,
+    description: "Toko kelontong lengkap dengan berbagai kebutuhan sehari-hari dan harga terjangkau",
+    image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=600&fit=crop",
+    status: "open",
+    priceRange: "$",
+    isFavorite: false,
+    coordinates: { lat: -7.4189, lng: 109.2356 },
+    phone: "+62821-9876-5432",
+    address: "Jl. Ahmad Yani No. 123, Purwokerto Utara"
+  },
+  {
+    id: "10",
+    name: "Minimarket Berkah Jaya",
+    category: "Retail",
+    location: "Purwokerto Selatan",
+    distance: "2.1 km",
+    rating: 4.4,
+    reviewCount: 67,
+    description: "Minimarket modern dengan produk lengkap dan pelayanan 24 jam",
+    image: "https://i.pinimg.com/736x/77/16/09/771609319be2d6911a2a0193b490405a.jpg",
+    status: "open",
+    priceRange: "$$",
+    isFavorite: false,
+    coordinates: { lat: -7.4312, lng: 109.2423 },
+    phone: "+62822-1234-5678",
+    address: "Jl. Soedirman No. 89, Purwokerto Selatan"
+  },
+  {
+    id: "11",
+    name: "Warung Sembako Ibu Siti",
+    category: "Retail",
+    location: "Banyumas",
+    distance: "4.8 km",
+    rating: 4.2,
+    reviewCount: 32,
+    description: "Warung sembako tradisional dengan harga bersahabat dan pelayanan ramah",
+    image: "https://i.pinimg.com/1200x/61/be/cf/61becf0909c62bec3681488197cfca47.jpg",
+    status: "open",
+    priceRange: "$",
+    isFavorite: false,
+    coordinates: { lat: -7.4678, lng: 109.2987 },
+    phone: "+62823-4567-8901",
+    address: "Jl. Raya Banyumas No. 45, Banyumas"
   }
 ];
 
@@ -264,10 +315,10 @@ export const umkmDatabase: Record<string, UMKMDetail> = {
     facebook: "Batik Gumelem Official",
     email: "info@batikgumelem.com",
     images: [
-      "https://images.unsplash.com/photo-1610003524635-5fe4c7e11b32?w=800&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1617127365659-c47fa864d8bc?w=800&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=800&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=800&h=600&fit=crop"
+      "https://batikgumelem.com/storage/products/kembang_asem.jpeg",
+      "https://batikgumelem.com/storage/products/rujak_senthe.jpeg",
+      "https://batikgumelem.com/storage/products/gajah_uling.jpeg",
+      "https://batikgumelem.com/storage/products/parang_angkrik.jpeg"
     ],
     hours: {
       monday: "08:00-21:00",
@@ -285,7 +336,7 @@ export const umkmDatabase: Record<string, UMKMDetail> = {
         id: 1,
         name: "Batik Tulis Gumelem Premium",
         price: "Rp 850.000",
-        image: "https://images.unsplash.com/photo-1610003524635-5fe4c7e11b32?w=400&h=400&fit=crop",
+        image: "https://batikgumelem.com/storage/products/kembang_asem.jpeg",
         description: "Batik tulis halus dengan motif khas Gumelem",
         ingredients: ["Kain katun premium", "Pewarna alami", "Malam berkualitas", "Dikerjakan oleh pengrajin berpengalaman"],
         category: "Batik Tulis"
@@ -294,7 +345,7 @@ export const umkmDatabase: Record<string, UMKMDetail> = {
         id: 2,
         name: "Batik Cap Modern",
         price: "Rp 250.000",
-        image: "https://images.unsplash.com/photo-1617127365659-c47fa864d8bc?w=400&h=400&fit=crop",
+        image: "https://batikgumelem.com/storage/products/rujak_senthe.jpeg",
         description: "Batik cap dengan motif kontemporer untuk anak muda",
         ingredients: ["Kain katun", "Pewarna reaktif", "Motif modern", "Finishing rapih"],
         category: "Batik Cap"
@@ -303,7 +354,7 @@ export const umkmDatabase: Record<string, UMKMDetail> = {
         id: 3,
         name: "Kemeja Batik Pria",
         price: "Rp 350.000",
-        image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=400&h=400&fit=crop",
+        image: "https://batikgumelem.com/storage/products/gajah_uling.jpeg",
         description: "Kemeja batik pria ready to wear dengan cutting modern",
         ingredients: ["Batik cap premium", "Kancing branded", "Jahitan presisi", "Furing halus"],
         category: "Ready to Wear"
@@ -312,7 +363,7 @@ export const umkmDatabase: Record<string, UMKMDetail> = {
         id: 4,
         name: "Dress Batik Wanita",
         price: "Rp 450.000",
-        image: "https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=400&h=400&fit=crop",
+        image: "https://batikgumelem.com/storage/products/parang_angkrik.jpeg",
         description: "Dress batik elegan untuk wanita dengan desain eksklusif",
         ingredients: ["Batik tulis kombinasi", "Resleting jepang", "Furing satin", "Model eksklusif"],
         category: "Ready to Wear"
@@ -671,6 +722,153 @@ export const umkmDatabase: Record<string, UMKMDetail> = {
     ],
     services: ["Take Away", "Delivery Area Cilongok"],
     reviews: []
+  },
+  "9": {
+    ...umkmData[8],
+    slug: "toko-kelontong-sari-rejeki",
+    nextStatusChange: "21:00",
+    whatsapp: "+62821-9876-5432",
+    instagram: "@tokosarirejeki",
+    images: [
+      "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1604719312566-878b6d57b6c3?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&h=600&fit=crop"
+    ],
+    hours: {
+      monday: "06:00-21:00",
+      tuesday: "06:00-21:00",
+      wednesday: "06:00-21:00",
+      thursday: "06:00-21:00",
+      friday: "06:00-21:00",
+      saturday: "06:00-22:00",
+      sunday: "07:00-21:00"
+    },
+    facilities: ["Parkir Motor", "AC", "WiFi"],
+    payments: ["Cash", "QRIS", "Transfer Bank"],
+    products: [
+      {
+        id: 1,
+        name: "Paket Sembako Lengkap",
+        price: "Rp 150.000",
+        image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400&h=400&fit=crop",
+        description: "Paket sembako lengkap untuk kebutuhan sehari-hari",
+        ingredients: ["Beras 5kg", "Minyak goreng 2L", "Gula pasir 1kg", "Telur 1kg", "Mie instan 10 bungkus"],
+        category: "Paket Sembako"
+      },
+      {
+        id: 2,
+        name: "Snack & Minuman",
+        price: "Rp 5.000 - 25.000",
+        image: "https://images.unsplash.com/photo-1604719312566-878b6d57b6c3?w=400&h=400&fit=crop",
+        description: "Berbagai macam snack dan minuman",
+        ingredients: ["Keripik", "Biskuit", "Permen", "Minuman ringan", "Air mineral"],
+        category: "Snack & Minuman"
+      }
+    ],
+    services: ["Retail", "Grosir", "Delivery Sekitar"],
+    reviews: []
+  },
+  "10": {
+    ...umkmData[9],
+    slug: "minimarket-berkah-jaya",
+    nextStatusChange: "24 Jam",
+    whatsapp: "+62822-1234-5678",
+    instagram: "@minimarketberkah",
+    facebook: "Minimarket Berkah Jaya",
+    images: [
+      "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1604719312566-878b6d57b6c3?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&h=600&fit=crop"
+    ],
+    hours: {
+      monday: "24 Jam",
+      tuesday: "24 Jam",
+      wednesday: "24 Jam",
+      thursday: "24 Jam",
+      friday: "24 Jam",
+      saturday: "24 Jam",
+      sunday: "24 Jam"
+    },
+    facilities: ["AC", "CCTV", "Parkir Luas", "ATM", "WiFi"],
+    payments: ["Cash", "Debit Card", "Credit Card", "QRIS", "GoPay", "OVO", "DANA"],
+    products: [
+      {
+        id: 1,
+        name: "Produk Segar",
+        price: "Rp 3.000 - 50.000",
+        image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=400&fit=crop",
+        description: "Sayuran, buah-buahan, dan produk segar lainnya",
+        ingredients: ["Sayuran segar", "Buah-buahan", "Daging", "Ikan", "Telur"],
+        category: "Produk Segar"
+      },
+      {
+        id: 2,
+        name: "Kebutuhan Rumah Tangga",
+        price: "Rp 2.000 - 100.000",
+        image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400&h=400&fit=crop",
+        description: "Berbagai kebutuhan rumah tangga dan peralatan",
+        ingredients: ["Sabun", "Deterjen", "Shampo", "Pasta gigi", "Peralatan dapur"],
+        category: "Rumah Tangga"
+      },
+      {
+        id: 3,
+        name: "Makanan & Minuman",
+        price: "Rp 1.000 - 30.000",
+        image: "https://images.unsplash.com/photo-1604719312566-878b6d57b6c3?w=400&h=400&fit=crop",
+        description: "Makanan ringan, minuman, dan kebutuhan konsumsi",
+        ingredients: ["Snack", "Minuman", "Roti", "Susu", "Kopi instan"],
+        category: "F&B"
+      }
+    ],
+    services: ["24 Hour Service", "ATM", "Top Up Pulsa", "Bayar Tagihan"],
+    reviews: []
+  },
+  "11": {
+    ...umkmData[10],
+    slug: "warung-sembako-ibu-siti",
+    nextStatusChange: "20:00",
+    whatsapp: "+62823-4567-8901",
+    images: [
+      "https://images.unsplash.com/photo-1604719312566-878b6d57b6c3?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&h=600&fit=crop"
+    ],
+    hours: {
+      monday: "06:00-20:00",
+      tuesday: "06:00-20:00",
+      wednesday: "06:00-20:00",
+      thursday: "06:00-20:00",
+      friday: "06:00-20:00",
+      saturday: "06:00-21:00",
+      sunday: "07:00-19:00"
+    },
+    facilities: ["Parkir Motor", "Tempat Duduk"],
+    payments: ["Cash", "QRIS"],
+    products: [
+      {
+        id: 1,
+        name: "Beras Berkualitas",
+        price: "Rp 12.000/kg",
+        image: "https://images.unsplash.com/photo-1604719312566-878b6d57b6c3?w=400&h=400&fit=crop",
+        description: "Beras lokal berkualitas dengan harga terjangkau",
+        ingredients: ["Beras lokal", "Kualitas premium", "Bersih dan wangi"],
+        category: "Sembako"
+      },
+      {
+        id: 2,
+        name: "Bumbu Dapur Lengkap",
+        price: "Rp 2.000 - 15.000",
+        image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400&h=400&fit=crop",
+        description: "Berbagai bumbu dapur dan rempah-rempah",
+        ingredients: ["Bawang merah", "Bawang putih", "Cabai", "Jahe", "Kunyit"],
+        category: "Bumbu"
+      }
+    ],
+    services: ["Retail", "Grosir Kecil", "Antar Pesanan"],
+    reviews: []
   }
 };
 
@@ -721,7 +919,8 @@ export const categories = [
   "Fashion",
   "Kafe & Resto",
   "Kecantikan",
-  "Otomotif & Jasa"
+  "Otomotif & Jasa",
+  "Retail"
 ];
 
 export const locations = [

@@ -82,6 +82,10 @@ export const translations = {
           name: "Pendidikan",
           description: "Kursus dan pelatihan"
         },
+        retail: {
+          name: "Retail",
+          description: "Toko dan minimarket"
+        },
         others: {
           name: "Lainnya",
           description: "Kategori lainnya"
@@ -420,6 +424,10 @@ export const translations = {
         education: {
           name: "Education",
           description: "Courses and training"
+        },
+        retail: {
+          name: "Retail",
+          description: "Stores and minimarkets"
         },
         others: {
           name: "Others",

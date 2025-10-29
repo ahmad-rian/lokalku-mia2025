@@ -1,9 +1,7 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import { ChevronDown, Mail, MessageCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import DefaultLayout from "@/layouts/default";
-import { useLanguage } from "@/contexts/LanguageContext";
 import { cn } from "@/lib/utils";
 
 interface FAQItem {
@@ -86,7 +84,6 @@ const AccordionItem = ({ item, index, isOpen, onToggle }: {
 };
 
 export default function FAQ() {
-  const { t } = useLanguage();
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   const faqData: FAQItem[] = [

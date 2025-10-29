@@ -652,8 +652,7 @@ function ListItem({ umkm, onClick, onViewDetails }: ListItemProps) {
                 variant="flat"
                 color="success"
                 startContent={<Phone size={12} />}
-                onPress={(e) => {
-                  e.stopPropagation();
+                onPress={() => {
                   window.open(`tel:${umkm.phone}`, '_self');
                 }}
               >
@@ -664,8 +663,7 @@ function ListItem({ umkm, onClick, onViewDetails }: ListItemProps) {
               size="sm"
               color="primary"
               startContent={<Eye size={12} />}
-              onPress={(e) => {
-                e.stopPropagation();
+              onPress={() => {
                 onViewDetails();
               }}
             >

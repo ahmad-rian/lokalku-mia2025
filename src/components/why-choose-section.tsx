@@ -7,17 +7,15 @@ import { Link } from "react-router-dom";
 import LazySection from "./LazySection";
 import BenefitsMarquee3D from "./BenefitsMarquee3D";
 import { useLanguage } from "../contexts/LanguageContext";
-import ErrorBoundary from "./ErrorBoundary";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 
 export default function WhyChooseSection() {
   const { t } = useLanguage();
-  const [isDarkMode, setIsDarkMode] = useState(false);
 
   useEffect(() => {
     // Check initial theme
     const checkTheme = () => {
-      setIsDarkMode(document.documentElement.classList.contains('dark'));
+      // Theme checking logic if needed
     };
     
     checkTheme();

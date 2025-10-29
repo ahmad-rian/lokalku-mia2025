@@ -8,16 +8,15 @@ import {
   HeartIcon
 } from "@heroicons/react/24/outline";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 
 export default function Footer() {
   const { t } = useLanguage();
-  const [isDarkMode, setIsDarkMode] = useState(false);
 
   useEffect(() => {
     // Check initial theme
     const checkTheme = () => {
-      setIsDarkMode(document.documentElement.classList.contains('dark'));
+      // Theme checking logic if needed
     };
     
     checkTheme();

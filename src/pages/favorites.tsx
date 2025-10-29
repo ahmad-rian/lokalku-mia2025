@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useRef } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { Button, Card, CardBody, Chip } from "@heroui/react";
 import { Heart, Star, MapPin, Trash2, Share2, ExternalLink } from "lucide-react";
@@ -23,7 +23,6 @@ interface UMKM {
 // Lightweight Background Ripple Effect Component
 const BackgroundRipple = ({ rows = 8, cols = 25, cellSize = 56 }: { rows?: number; cols?: number; cellSize?: number }) => {
   const [clickedCell, setClickedCell] = useState<{ row: number; col: number } | null>(null);
-  const [rippleKey, setRippleKey] = useState(0);
 
   const cells = useMemo(() => Array.from({ length: rows * cols }, (_, idx) => idx), [rows, cols]);
 
@@ -71,7 +70,6 @@ const BackgroundRipple = ({ rows = 8, cols = 25, cellSize = 56 }: { rows?: numbe
                 } as React.CSSProperties}
                 onClick={() => {
                   setClickedCell({ row: rowIdx, col: colIdx });
-                  setRippleKey((k) => k + 1);
                 }}
               />
             );

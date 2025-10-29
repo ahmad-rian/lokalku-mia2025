@@ -4,18 +4,16 @@ import { Link } from "react-router-dom";
 import LazySection from "./LazySection";
 import { useLanguage } from "../contexts/LanguageContext";
 import Masonry from "./Masonry";
-import ErrorBoundary from "./ErrorBoundary";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { umkmData } from "@/data/umkm-data";
 
 export default function FeaturedUMKMSection() {
   const { t } = useLanguage();
-  const [isDarkMode, setIsDarkMode] = useState(false);
 
   useEffect(() => {
     // Check initial theme
     const checkTheme = () => {
-      setIsDarkMode(document.documentElement.classList.contains('dark'));
+      // Theme checking logic if needed
     };
     
     checkTheme();

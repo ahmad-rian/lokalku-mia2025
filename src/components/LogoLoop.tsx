@@ -192,7 +192,6 @@ export const LogoLoop = React.memo<LogoLoopProps>(
     const [isHovered, setIsHovered] = useState(false);
     const [seqWidth, setSeqWidth] = useState(0);
     const [containerWidth, setContainerWidth] = useState(0);
-    const [isLoaded, setIsLoaded] = useState(false);
 
     const targetVelocity = useMemo(() => {
       return direction === 'left' ? speed : -speed;
@@ -212,7 +211,7 @@ export const LogoLoop = React.memo<LogoLoopProps>(
     }, []);
 
     useResizeObserver(updateDimensions, [containerRef, seqRef], [logos]);
-    useImageLoader(seqRef, () => setIsLoaded(true), [logos]);
+    useImageLoader(seqRef, () => {}, [logos]);
     useAnimationLoop(trackRef, targetVelocity, seqWidth, isHovered, pauseOnHover);
 
     const numCopies = useMemo(() => {

@@ -7,7 +7,6 @@ import {
   Card,
   CardBody,
   Chip,
-  Spinner,
   Select,
   SelectItem
 } from "@heroui/react";
@@ -17,7 +16,6 @@ import {
   Star,
   MapPin,
   Search,
-  X,
   Eye,
   Locate,
   Clock,
@@ -428,7 +426,7 @@ export default function MapNearbyPage() {
                   }}
                 >
                   {categories.map((category) => (
-                    <SelectItem key={category} value={category}>
+                    <SelectItem key={category}>
                       {category}
                     </SelectItem>
                   ))}
@@ -449,7 +447,7 @@ export default function MapNearbyPage() {
                   }}
                 >
                   {sortOptions.map((option) => (
-                    <SelectItem key={option.key} value={option.key}>
+                    <SelectItem key={option.key}>
                       {option.label}
                     </SelectItem>
                   ))}

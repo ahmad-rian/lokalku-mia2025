@@ -1,9 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
-import { Button, Chip, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure, Pagination } from "@heroui/react";
+import { Button, Chip, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Pagination } from "@heroui/react";
 import { Link, useNavigate } from "react-router-dom";
 import { 
-  Search, 
-  Filter, 
   ArrowUpDown, 
   MapPin, 
   Star, 
@@ -14,8 +12,6 @@ import {
   ShoppingBag,
   Wrench,
   Sparkles,
-  GraduationCap,
-  MoreHorizontal,
   ChevronDown,
   ChevronRight,
   SearchX
@@ -25,7 +21,7 @@ import LazySection from "@/components/LazySection";
 import LazyImage from "@/components/LazyImage";
 import DefaultLayout from "@/layouts/default";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { UMKM, umkmData, categories, locations, getUMKMByCategory } from "@/data/umkm-data";
+import { UMKM, umkmData, locations, getUMKMByCategory } from "@/data/umkm-data";
 
 // UMKM Card Component
 interface UMKMCardProps {
@@ -263,8 +259,7 @@ export default function DirectoryPage() {
   const [locationLoading, setLocationLoading] = useState(false);
   const [locationError, setLocationError] = useState<string | null>(null);
   
-  // Modal Controls
-  const { isOpen: isFilterOpen, onOpen: onFilterOpen, onClose: onFilterClose } = useDisclosure();
+  // Modal Controls - removed unused modal functionality
 
   // Force grid view on mobile
   useEffect(() => {
@@ -598,15 +593,7 @@ export default function DirectoryPage() {
                 {/* Right Controls */}
                 <div className="flex items-center gap-2 flex-shrink-0">
                   {/* Mobile Filter Button */}
-                  <Button
-                    variant="bordered"
-                    startContent={<Filter size={18} />}
-                    onPress={onFilterOpen}
-                    className="lg:hidden flex-1 sm:flex-none"
-                    size="sm"
-                  >
-                    Filter
-                  </Button>
+                  {/* Filter button removed - modal not implemented */}
 
                   {/* Sort Dropdown */}
                   <Dropdown>
@@ -910,7 +897,7 @@ export default function DirectoryPage() {
           </div>
         </div>
 
-        {/* Mobile Filter Modal - Truncated for brevity, but includes all modal content */}
+        {/* Mobile Filter Modal - Truncated for brevity */}
 
         {/* Custom Styles */}
         <style>{`

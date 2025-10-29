@@ -28,7 +28,7 @@ import { PlaceholdersAndVanishInput } from "@/components/ui/placeholders-and-van
 import DefaultLayout from "@/layouts/default";
 import LazySection from "@/components/LazySection";
 import LazyImage from "@/components/LazyImage";
-import { UMKM, umkmData, categories, getUMKMByCategory } from "@/data/umkm-data";
+import { UMKM, umkmData, categories } from "@/data/umkm-data";
 
 type SortOption = "newest" | "rating" | "reviews" | "trending";
 
@@ -42,7 +42,6 @@ export default function DirectoryLatestPage() {
   const [currentPage, setCurrentPage] = useState(1);
   
   // Get centralized data
-  const categoryList = categories;
   const [umkmList, setUmkmList] = useState<UMKM[]>(umkmData);
 
   const sortOptions = [
@@ -56,7 +55,7 @@ export default function DirectoryLatestPage() {
     let filtered = umkmList.filter((umkm: UMKM) => {
       const matchesSearch = umkm.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                            umkm.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                           umkm.tags.some((tag: string) => tag.toLowerCase().includes(searchQuery.toLowerCase()));
+                           (umkm.tags && umkm.tags.some((tag: string) => tag.toLowerCase().includes(searchQuery.toLowerCase())));
       
       const matchesCategory = selectedCategory === "all" || umkm.category === selectedCategory;
       
@@ -66,7 +65,8 @@ export default function DirectoryLatestPage() {
     filtered.sort((a: UMKM, b: UMKM) => {
       switch (sortBy) {
         case "newest":
-          return new Date(b.registeredDate).getTime() - new Date(a.registeredDate).getTime();
+          // Since registeredDate doesn't exist, use id as fallback for sorting
+          return parseInt(b.id) - parseInt(a.id);
         case "rating":
           return b.rating - a.rating;
         case "reviews":
@@ -192,7 +192,7 @@ export default function DirectoryLatestPage() {
                         endContent={<ChevronDown size={16} />}
                         className="w-full sm:w-auto"
                       >
-                        {categories.find(cat => cat.id === selectedCategory)?.name || "Kategori"}
+                        {selectedCategory === "all" ? "Kategori" : selectedCategory}
                       </Button>
                     </DropdownTrigger>
                     <DropdownMenu
@@ -354,7 +354,7 @@ export default function DirectoryLatestPage() {
                       {/* Category Chip */}
                       <div className="mb-2">
                         <Chip size="sm" variant="flat" color="primary">
-                          {categories.find(cat => cat.id === umkm.category)?.name || umkm.category}
+                          {umkm.category}
                         </Chip>
                       </div>
 

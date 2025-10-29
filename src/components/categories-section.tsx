@@ -107,7 +107,7 @@ export default function CategoriesSection() {
       description: t("categories.items.retail.description"),
       gradient: "from-teal-500 to-cyan-500",
       bgGradient: "from-teal-50 to-cyan-50 dark:from-teal-900/20 dark:to-cyan-900/20",
-      image: "https://i.pinimg.com/736x/8b/c4/3e/8bc43e7b8b8b8b8b8b8b8b8b8b8b8b8b.jpg",
+      image: "https://i.pinimg.com/1200x/b9/c2/b2/b9c2b2b2faf76e3d86c0bbe7a5622d2a.jpg",
       imageCredit: "Image from Pinterest"
     }
   ];

@@ -2,7 +2,7 @@
 import { motion } from "framer-motion";
 import type { Message } from "@/types/chat.types";
 import { UMKMCard } from "./UMKMCard";
-import { User, Sparkles } from "lucide-react";
+import { User } from "lucide-react";
 
 interface MessageBubbleProps {
   message: Message;
@@ -13,7 +13,7 @@ export const MessageBubble = ({ message, onQuickReply }: MessageBubbleProps) => 
   const isUser = message.role === "user";
   const isAssistant = message.role === "assistant";
 
-  const formatTime = (timestamp: Date) => {
+  const formatTime = (timestamp: number) => {
     return new Date(timestamp).toLocaleTimeString("id-ID", {
       hour: "2-digit",
       minute: "2-digit",

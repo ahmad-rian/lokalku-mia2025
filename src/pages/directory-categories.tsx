@@ -10,15 +10,13 @@ import {
   Store, 
   Utensils, 
   Shirt, 
-  Hammer, 
   Heart, 
-  Palette, 
   Car, 
-  Laptop, 
   ChevronRight,
   ArrowRight,
   LucideIcon,
-  Layers
+  Layers,
+  ShoppingBag
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -26,7 +24,7 @@ import { PlaceholdersAndVanishInput } from "@/components/ui/placeholders-and-van
 import LazySection from "@/components/LazySection";
 import LazyImage from "@/components/LazyImage";
 import DefaultLayout from "@/layouts/default";
-import { categories, getUMKMByCategory } from "@/data/umkm-data";
+import { getUMKMByCategory } from "@/data/umkm-data";
 
 interface Category {
   id: string;
@@ -102,6 +100,17 @@ export default function DirectoryCategoriesPage() {
       count: getUMKMByCategory("Otomotif & Jasa").length,
       color: "default",
       image: "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=800&h=600&fit=crop"
+    },
+    {
+      id: "retail",
+      name: "Retail",
+      nameEn: "Retail",
+      description: "Toko kelontong, minimarket, dan warung sembako",
+      descriptionEn: "Grocery stores, minimarkets, and convenience stores",
+      icon: ShoppingBag,
+      count: getUMKMByCategory("Retail").length,
+      color: "success",
+      image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=600&fit=crop"
     }
   ];
 
