@@ -186,7 +186,7 @@ export default function CategoriesSection() {
         {/* Decorative Elements */}
         <div className="relative mt-16">
           <div className="absolute inset-0 flex items-center justify-center opacity-5 dark:opacity-[0.02]">
-            <div className="w-96 h-96 bg-gradient-conic from-primary-200 via-secondary-200 to-primary-200 rounded-full blur-3xl" />
+            <div className="w-48 sm:w-96 h-48 sm:h-96 bg-gradient-conic from-primary-200 via-secondary-200 to-primary-200 rounded-full blur-3xl" />
           </div>
         </div>
       </div>

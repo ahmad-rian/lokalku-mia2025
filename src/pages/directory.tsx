@@ -545,12 +545,12 @@ export default function DirectoryPage() {
 
               {/* Filter and Sort Controls Row */}
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
-                {/* Quick Filter Chips - Scroll on mobile */}
-                <div className="flex gap-2 overflow-x-auto pb-2 sm:pb-0 scrollbar-hide flex-nowrap sm:flex-wrap">
+                {/* Quick Filter Chips - Responsive layout */}
+                <div className="flex gap-2 overflow-x-hidden pb-2 sm:pb-0 flex-wrap">
                   {quickFilters.map((filter) => (
                     <button
                       key={filter.value}
-                      className={`px-3 sm:px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 whitespace-nowrap flex-shrink-0 ${
+                      className={`px-3 sm:px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 flex-shrink-0 ${
                         filter.active 
                           ? "bg-primary-600 text-white shadow-md shadow-primary-500/30 dark:bg-primary-500 dark:text-white" 
                           : "bg-white text-gray-700 border-2 border-gray-300 hover:border-primary-500 hover:text-primary-600 dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 dark:hover:border-primary-400 dark:hover:text-primary-400"

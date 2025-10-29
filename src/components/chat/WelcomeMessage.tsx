@@ -2,7 +2,6 @@ import { Card, CardBody, Button, Chip, Avatar } from "@heroui/react";
 import { 
   MapPin, 
   Store, 
-  Search, 
   Heart,
   Coffee,
   Lightbulb

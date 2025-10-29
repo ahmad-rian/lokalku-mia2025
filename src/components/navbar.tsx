@@ -1,5 +1,5 @@
-import { useLayoutEffect, useRef, useState } from "react";
-import { Link as RouterLink, useLocation } from "react-router-dom";
+import { useLayoutEffect, useRef, useState, useEffect } from "react";
+import { Link as RouterLink, useLocation, useNavigate } from "react-router-dom";
 import { gsap } from "gsap";
 import { 
   HomeIcon, 
@@ -12,6 +12,7 @@ import {
 import { AnimatedThemeToggler } from "./animated-theme-toggler";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { useLanguage } from "@/contexts/LanguageContext";
+import SearchModal from "./SearchModal";
 
 interface NavbarProps {
   onSearchOpen?: () => void;
@@ -19,11 +20,56 @@ interface NavbarProps {
 
 export default function Navbar({ onSearchOpen }: NavbarProps) {
   const location = useLocation();
+  const navigate = useNavigate();
   const { t } = useLanguage();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const navRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
   const tlRef = useRef<gsap.core.Timeline | null>(null);
+
+  // Keyboard shortcuts for search modal
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      // Check for Cmd+K (Mac) or Ctrl+K (Windows/Linux)
+      if ((event.metaKey || event.ctrlKey) && event.key === 'k') {
+        event.preventDefault();
+        setIsSearchOpen(true);
+      }
+      
+      // Close search modal with Escape
+      if (event.key === 'Escape' && isSearchOpen) {
+        setIsSearchOpen(false);
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [isSearchOpen]);
+
+  // Handle featured section navigation
+  const handleClick = (href: string) => {
+    if (href === "/#featured") {
+      if (location.pathname !== "/") {
+        // Navigate to home page first, then scroll to featured section
+        navigate("/");
+        setTimeout(() => {
+          const featuredElement = document.getElementById("featured");
+          if (featuredElement) {
+            featuredElement.scrollIntoView({ behavior: "smooth" });
+          }
+        }, 100);
+      } else {
+        // Already on home page, just scroll to featured section
+        const featuredElement = document.getElementById("featured");
+        if (featuredElement) {
+          featuredElement.scrollIntoView({ behavior: "smooth" });
+        }
+      }
+      toggleMenu();
+      return;
+    }
+  };
 
   const navItems = [
     {
@@ -147,13 +193,27 @@ export default function Navbar({ onSearchOpen }: NavbarProps) {
   };
 
   const handleSearchClick = () => {
+    setIsSearchOpen(true);
     if (onSearchOpen) {
       onSearchOpen();
     }
   };
 
-  const setCardRef = (i: number) => (el: HTMLDivElement | null) => {
-    if (el) cardsRef.current[i] = el;
+  // Handle hash navigation on page load
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash === "#featured" && location.pathname === "/") {
+      setTimeout(() => {
+        const featuredElement = document.getElementById("featured");
+        if (featuredElement) {
+          featuredElement.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 500); // Wait for page to fully load
+    }
+  }, [location.pathname]);
+
+  const setCardRef = (index: number) => (el: HTMLDivElement | null) => {
+    if (el) cardsRef.current[index] = el;
   };
 
   return (
@@ -220,12 +280,12 @@ export default function Navbar({ onSearchOpen }: NavbarProps) {
           <div className="hidden lg:flex items-center gap-3 order-3">
             <button
               onClick={handleSearchClick}
-              className="flex items-center gap-2 px-4 py-2 text-sm text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors min-w-[280px]"
+              className="flex items-center gap-2 px-4 py-2 text-sm text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors w-full max-w-[360px]"
             >
               <MagnifyingGlassIcon className="w-4 h-4 text-gray-400" />
               <span className="flex-1 text-left">{t("navbar.search")}</span>
               <kbd className="hidden xl:inline-block px-2 py-0.5 text-xs font-semibold text-gray-600 dark:text-gray-400 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded">
-                ⌘K
+                {navigator.platform.toLowerCase().includes('mac') ? '⌘K' : 'Ctrl+K'}
               </kbd>
             </button>
             
@@ -304,27 +364,6 @@ export default function Navbar({ onSearchOpen }: NavbarProps) {
                   {/* Card Links */}
                   <div className="flex flex-col gap-1 sm:gap-1.5 mt-auto">
                     {item.links.map((link) => {
-                      // Handle special navigation for featured section
-                      const handleClick = () => {
-                        toggleMenu();
-                        
-                        if (link.href === "/#featured") {
-                          // If we're not on home page, navigate to home first
-                          if (location.pathname !== "/") {
-                            window.location.href = "/#featured";
-                          } else {
-                            // If we're on home page, smooth scroll to featured section
-                            const featuredSection = document.getElementById("featured");
-                            if (featuredSection) {
-                              featuredSection.scrollIntoView({ 
-                                behavior: "smooth",
-                                block: "start"
-                              });
-                            }
-                          }
-                        }
-                      };
-
                       return (
                         link.external ? (
                           <a
@@ -341,8 +380,13 @@ export default function Navbar({ onSearchOpen }: NavbarProps) {
                         ) : (
                           <RouterLink
                             key={link.href}
-                            to={link.href}
-                            onClick={link.href === "/#featured" ? handleClick : () => toggleMenu()}
+                            to={link.href === "/#featured" ? "/" : link.href}
+                            onClick={() => {
+                              handleClick(link.href);
+                              if (link.href !== "/#featured") {
+                                toggleMenu();
+                              }
+                            }}
                             className="group flex items-center gap-2 text-white/90 hover:text-white text-xs sm:text-sm font-medium transition-all hover:translate-x-1"
                           >
                             <ArrowUpRightIcon className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0 group-hover:scale-110 transition-transform" />
@@ -358,6 +402,12 @@ export default function Navbar({ onSearchOpen }: NavbarProps) {
           </div>
         </div>
       </nav>
+
+      {/* Search Modal */}
+      <SearchModal 
+        isOpen={isSearchOpen} 
+        onClose={() => setIsSearchOpen(false)} 
+      />
     </div>
   );
 }

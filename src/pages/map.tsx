@@ -854,7 +854,7 @@ export default function MapPage() {
 
             <div className="relative -mx-3 sm:-mx-4">
               <div 
-                className="flex gap-2 overflow-x-auto px-3 sm:px-4 pb-3 scroll-smooth"
+                className="flex gap-2 overflow-x-hidden px-3 sm:px-4 pb-3 flex-wrap"
                 style={{ 
                   scrollbarWidth: 'thin',
                   scrollbarColor: '#9ca3af #f3f4f6',
@@ -867,7 +867,7 @@ export default function MapPage() {
                     key={category}
                     variant={selectedCategory === category ? "solid" : "flat"}
                     color={selectedCategory === category ? "primary" : "default"}
-                    className={`cursor-pointer whitespace-nowrap transition-all flex-shrink-0 ${
+                    className={`cursor-pointer transition-all flex-shrink-0 ${
                       selectedCategory === category
                         ? "bg-primary-600 dark:bg-primary-500 text-white shadow-md scale-105"
                         : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600 border-2 border-gray-300 dark:border-gray-600"

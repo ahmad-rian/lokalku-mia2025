@@ -46,8 +46,8 @@ export default function FeaturedUMKMSection() {
     >
       {/* Background Decoration */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-24 -right-24 w-96 h-96 bg-primary-200/20 dark:bg-primary-900/10 rounded-full blur-3xl" />
-        <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-orange-200/20 dark:bg-orange-900/10 rounded-full blur-3xl" />
+        <div className="absolute -top-24 -right-12 sm:-right-24 w-48 sm:w-96 h-48 sm:h-96 bg-primary-200/20 dark:bg-primary-900/10 rounded-full blur-3xl" />
+        <div className="absolute -bottom-24 -left-12 sm:-left-24 w-48 sm:w-96 h-48 sm:h-96 bg-orange-200/20 dark:bg-orange-900/10 rounded-full blur-3xl" />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">

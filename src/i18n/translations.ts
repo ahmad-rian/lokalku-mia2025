@@ -10,6 +10,15 @@ export const translations = {
       search: "Cari UMKM...",
       map: "Peta",
       favorites: "Favorit",
+      searchModal: {
+        placeholder: "Cari UMKM berdasarkan nama...",
+        noResults: "Tidak ada hasil ditemukan",
+        resultsFound: "hasil ditemukan",
+        shortcut: "untuk membuka pencarian",
+        recentSearches: "Pencarian Terkini",
+        suggestions: "Saran",
+        close: "Tutup"
+      },
       // Dropdown menus
       homeMenu: {
         home: "Beranda",
@@ -28,6 +37,28 @@ export const translations = {
       favoritesMenu: {
         list: "Daftar Favorit"
       }
+    },
+    
+    // Search Modal
+    search: {
+      title: "Cari UMKM",
+      subtitle: "Temukan UMKM terbaik di Banyumas",
+      placeholder: "Cari UMKM berdasarkan nama...",
+      noResults: "Tidak ada hasil ditemukan",
+      tryDifferent: "Coba kata kunci yang berbeda",
+      resultsFound: "hasil ditemukan",
+      navigate: "untuk navigasi",
+      select: "untuk pilih",
+      close: "untuk menutup",
+      featuredTitle: "Top 3 UMKM Terbaik",
+      topUMKM: "Top 3 UMKM Terbaik",
+      followUpdates: "Ikuti untuk Update"
+    },
+    
+    // Common translations
+    common: {
+      open: "Buka",
+      closed: "Tutup"
     },
     // Hero Section
     hero: {
@@ -170,6 +201,7 @@ export const translations = {
       }
     },
     featuredUmkm: {
+      badge: "Pilihan Terbaik",
       title: {
         prefix: "UMKM",
         highlight: "Unggulan"
@@ -406,6 +438,15 @@ export const translations = {
       search: "Search SMEs...",
       map: "Map",
       favorites: "Favorites",
+      searchModal: {
+        placeholder: "Search SMEs by name...",
+        noResults: "No results found",
+        resultsFound: "results found",
+        shortcut: "to open search",
+        recentSearches: "Recent Searches",
+        suggestions: "Suggestions",
+        close: "Close"
+      },
       // Dropdown menus
       homeMenu: {
         home: "Home",
@@ -425,7 +466,28 @@ export const translations = {
         list: "Favorites List"
       }
     },
-    // Hero Section
+    
+    // Search Modal
+    search: {
+      title: "Search SMEs",
+      subtitle: "Find the best SMEs in Banyumas",
+      placeholder: "Search SMEs by name...",
+      noResults: "No results found",
+      tryDifferent: "Try different keywords",
+      resultsFound: "results found",
+      navigate: "to navigate",
+      select: "to select",
+      close: "to close",
+      featuredTitle: "Top 3 Best SMEs",
+      topUMKM: "Top 3 Best SMEs",
+      followUpdates: "Follow for Updates"
+    },
+    
+    // Common translations
+    common: {
+      open: "Open",
+      closed: "Closed"
+    },
     hero: {
       badge: "150+ SMEs Registered in Banyumas",
       title: "Leading Platform for",
@@ -588,6 +650,7 @@ export const translations = {
       }
     },
     featuredUmkm: {
+      badge: "Best Choice",
       title: {
         prefix: "UMKM",
         highlight: "Featured"

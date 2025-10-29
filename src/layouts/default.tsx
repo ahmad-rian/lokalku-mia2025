@@ -35,7 +35,7 @@ export default function DefaultLayout({
       
       {/* Scroll to Top Button */}
       {showScrollTop && (
-        <div className="fixed bottom-32 right-6 z-[60] group">
+        <div className="fixed bottom-36 right-6 z-40 group">
           <Button
             isIconOnly
             size="lg"
@@ -47,7 +47,7 @@ export default function DefaultLayout({
           </Button>
           
           {/* Tooltip - "Scroll to Top" on hover - positioned to the left */}
-          <div className="absolute right-full top-1/2 -translate-y-1/2 mr-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform group-hover:-translate-x-1 pointer-events-none z-[70]">
+          <div className="absolute right-full top-1/2 -translate-y-1/2 mr-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform group-hover:-translate-x-1 pointer-events-none z-45">
             <div className="bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-3 py-2 rounded-lg text-sm font-medium whitespace-nowrap shadow-lg">
               Scroll to Top
               {/* Tooltip Arrow pointing right */}

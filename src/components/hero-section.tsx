@@ -4,7 +4,7 @@ import {
   StarIcon,
   MapIcon,
 } from "@heroicons/react/24/outline";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useRef, useEffect, useState } from 'react';
 import { Renderer, Program, Triangle, Mesh } from 'ogl';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -233,6 +233,7 @@ void main() {
 export default function HeroSection() {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const { t } = useLanguage();
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Check initial theme
@@ -305,16 +306,16 @@ export default function HeroSection() {
         {/* Light mode background pattern */}
         {!isDarkMode && (
           <div className="absolute inset-0">
-            <div className="absolute top-20 right-10 w-96 h-96 bg-primary-200/30 rounded-full blur-3xl" />
-            <div className="absolute bottom-20 left-10 w-96 h-96 bg-orange-200/30 rounded-full blur-3xl" />
+            <div className="absolute top-20 right-4 sm:right-10 w-48 sm:w-96 h-48 sm:h-96 bg-primary-200/30 rounded-full blur-3xl" />
+            <div className="absolute bottom-20 left-4 sm:left-10 w-48 sm:w-96 h-48 sm:h-96 bg-orange-200/30 rounded-full blur-3xl" />
           </div>
         )}
 
         {/* Animated gradient orbs - Dark mode only */}
         {isDarkMode && (
           <>
-            <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary-500/30 rounded-full blur-3xl animate-pulse" />
-            <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-orange-500/20 rounded-full blur-3xl animate-pulse delay-1000" />
+            <div className="absolute top-1/4 left-1/4 w-48 sm:w-96 h-48 sm:h-96 bg-primary-500/30 rounded-full blur-3xl animate-pulse" />
+            <div className="absolute bottom-1/4 right-1/4 w-48 sm:w-96 h-48 sm:h-96 bg-orange-500/20 rounded-full blur-3xl animate-pulse delay-1000" />
           </>
         )}
 
@@ -367,7 +368,7 @@ export default function HeroSection() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center blur-fade-in" style={{ animationDelay: '0.9s' }}>
               <InteractiveHoverButton 
                 className="bg-gray-900 dark:bg-white/10 backdrop-blur-md border border-gray-900 dark:border-white/20 text-white font-semibold hover:bg-gray-800 dark:hover:bg-white/20 transition-all shadow-lg"
-                onClick={() => window.location.href = '/direktori'}
+                onClick={() => navigate('/direktori')}
               >
                 {t('hero.exploreButton')}
               </InteractiveHoverButton>
