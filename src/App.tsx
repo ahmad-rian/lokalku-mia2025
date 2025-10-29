@@ -1,4 +1,5 @@
 import { Route, Routes, useLocation } from "react-router-dom";
+import { Analytics } from "@vercel/analytics/react";
 
 import IndexPage from "@/pages/index";
 import DocsPage from "@/pages/docs";
@@ -45,6 +46,9 @@ function App() {
       
       {/* SABI AI Chatbot - Hidden on map page */}
       {!isMapPage && <ChatWidget />}
+      
+      {/* Vercel Analytics */}
+      <Analytics />
     </>
   );
 }
