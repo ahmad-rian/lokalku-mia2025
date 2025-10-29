@@ -20,14 +20,6 @@ import {
 } from './ui/animated-modal';
 import { motion } from 'framer-motion';
 
-// Import Playfair Display font
-const fontLink = document.createElement('link');
-fontLink.rel = 'stylesheet';
-fontLink.href = 'https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&display=swap';
-if (!document.head.querySelector('[href*="Playfair+Display"]')) {
-  document.head.appendChild(fontLink);
-}
-
 // Light Rays Component using OGL
 const LightRays = ({ isDarkMode }: { isDarkMode: boolean }) => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -329,8 +321,8 @@ export default function HeroSection() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center max-w-5xl mx-auto hero-content">
 
-            {/* Main Heading */}
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6 blur-fade-in" style={{ fontFamily: "'Playfair Display', serif", animationDelay: '0.1s' }}>
+            {/* Main Heading - Using font-display Tailwind class */}
+            <h1 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6 blur-fade-in" style={{ animationDelay: '0.1s' }}>
               <span className="block text-gray-900 dark:text-white mb-2">
                 {t('hero.title')}
               </span>
