@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import LazySection from "./LazySection";
 import { useLanguage } from "../contexts/LanguageContext";
 import Masonry from "./Masonry";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { umkmData } from "@/data/umkm-data";
 
 export default function FeaturedUMKMSection() {
@@ -28,15 +28,38 @@ export default function FeaturedUMKMSection() {
     return () => observer.disconnect();
   }, []);
   
-  // Transform centralized UMKM data for Masonry display
-  const umkmItems = umkmData.slice(0, 10).map((umkm, index) => ({
-    id: umkm.id,
-    img: umkm.image,
-    url: `/umkm/${umkm.id}`,
-    height: 350 + (index % 4) * 25, // Varied heights for masonry effect
-    name: umkm.name,
-    category: umkm.category
-  }));
+  // Transform centralized UMKM data for Masonry display using useMemo for stability
+  const umkmItems = useMemo(() => {
+    console.log('FeaturedUMKMSection: Processing UMKM data, total items:', umkmData.length);
+    
+    const items = umkmData.slice(0, 10).map((umkm, index) => {
+      // Ensure data integrity
+      if (!umkm || !umkm.id || !umkm.name || !umkm.category || !umkm.image) {
+        console.warn('Invalid UMKM data:', umkm);
+        return null;
+      }
+
+      try {
+        const categorySlug = umkm.category.toLowerCase().replace(/\s+/g, '-').replace(/&/g, '');
+        const nameSlug = umkm.name.toLowerCase().replace(/\s+/g, '-');
+        
+        return {
+          id: umkm.id,
+          img: umkm.image,
+          url: `/detail/${categorySlug}/${nameSlug}-${umkm.id}`,
+          height: 350 + (index % 4) * 25, // Varied heights for masonry effect
+          name: umkm.name,
+          category: umkm.category
+        };
+      } catch (error) {
+        console.error('Error processing UMKM item:', umkm, error);
+        return null;
+      }
+    }).filter((item): item is NonNullable<typeof item> => item !== null);
+    
+    console.log('FeaturedUMKMSection: Processed items count:', items.length);
+    return items;
+  }, []);
 
   return (
     <LazySection 
@@ -84,17 +107,34 @@ export default function FeaturedUMKMSection() {
 
         {/* Masonry Gallery */}
         <div className="mb-12">
-          <Masonry
-            items={umkmItems}
-            ease="power3.out"
-            duration={0.6}
-            stagger={0.05}
-            animateFrom="bottom"
-            scaleOnHover={true}
-            hoverScale={0.98}
-            blurToFocus={true}
-            colorShiftOnHover={false}
-          />
+          {(() => {
+            console.log('FeaturedUMKMSection: Rendering, umkmItems.length:', umkmItems.length);
+            
+            if (umkmItems.length > 0) {
+              return (
+                <Masonry
+                  items={umkmItems}
+                  ease="power3.out"
+                  duration={0.6}
+                  stagger={0.05}
+                  animateFrom="bottom"
+                  scaleOnHover={true}
+                  hoverScale={0.98}
+                  blurToFocus={true}
+                  colorShiftOnHover={false}
+                />
+              );
+            } else {
+              console.warn('FeaturedUMKMSection: No UMKM items to display');
+              return (
+                <div className="text-center py-12">
+                  <p className="text-gray-500 dark:text-gray-400">
+                    {t("featuredUmkm.noData") || "Tidak ada data UMKM yang tersedia"}
+                  </p>
+                </div>
+              );
+            }
+          })()}
         </div>
 
         {/* View All Button - Improved Mobile Responsiveness */}

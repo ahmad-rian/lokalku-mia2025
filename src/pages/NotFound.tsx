@@ -9,7 +9,7 @@ export default function NotFound() {
 
   return (
     <DefaultLayout>
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-violet-900 flex items-center justify-center px-4 relative overflow-hidden">
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-violet-900 flex items-center justify-center px-4 pt-20 md:pt-24 relative overflow-hidden">
         {/* Floating Stars Animation */}
         <div className="absolute inset-0 pointer-events-none">
           {[...Array(20)].map((_, i) => (
@@ -53,7 +53,7 @@ export default function NotFound() {
         </div>
 
         <div className="text-center space-y-8 max-w-2xl mx-auto relative z-10">
-          {/* Fuzzy Text 404 with Glow Effect */}
+          {/* Fuzzy Text 404 with Glow Effect - Enlarged for better mobile visibility */}
           <div className="flex justify-center animate-pulse">
             <div className="relative">
               <div className="absolute inset-0 blur-xl bg-white/20 rounded-full animate-ping"></div>
@@ -62,7 +62,7 @@ export default function NotFound() {
                 hoverIntensity={0.5}
                 enableHover={true}
                 color="#ffffff"
-                fontSize="clamp(4rem, 15vw, 12rem)"
+                fontSize="clamp(6rem, 25vw, 16rem)"
                 fontWeight={900}
               >
                 404

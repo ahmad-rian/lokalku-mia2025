@@ -118,7 +118,20 @@ export default function Footer() {
           </div>
           
           <div className="relative overflow-hidden">
-            <div className="inline-flex w-max animate-marquee-smooth">
+            {/* Mobile-optimized marquee container */}
+            <div 
+              className="inline-flex w-max animate-marquee-smooth"
+              style={{
+                // Ensure proper width calculation for mobile
+                minWidth: '200%',
+                // Force hardware acceleration
+                transform: 'translateZ(0)',
+                WebkitTransform: 'translateZ(0)',
+                // Improve rendering performance
+                backfaceVisibility: 'hidden',
+                WebkitBackfaceVisibility: 'hidden'
+              }}
+            >
               {/* First set of logos */}
               {paymentLogos.map((logo, index) => (
                 <div
@@ -129,12 +142,21 @@ export default function Footer() {
                       : 'h-8 md:h-10 opacity-80 hover:opacity-100'
                   }`}
                   title={logo.title}
+                  style={{
+                    // Prevent layout shifts on mobile
+                    minWidth: 'auto',
+                    flexShrink: 0
+                  }}
                 >
                   <img
                     src={logo.src}
                     alt={logo.alt}
                     className="h-full w-auto object-contain"
                     loading="lazy"
+                    style={{
+                      // Improve image rendering on mobile
+                      imageRendering: 'crisp-edges' as const
+                    }}
                   />
                 </div>
               ))}
@@ -150,20 +172,43 @@ export default function Footer() {
                   }`}
                   title={logo.title}
                   aria-hidden="true"
+                  style={{
+                    // Prevent layout shifts on mobile
+                    minWidth: 'auto',
+                    flexShrink: 0
+                  }}
                 >
                   <img
                     src={logo.src}
                     alt={logo.alt}
                     className="h-full w-auto object-contain"
                     loading="lazy"
+                    style={{
+                      // Improve image rendering on mobile
+                      imageRendering: 'crisp-edges' as const
+                    }}
                   />
                 </div>
               ))}
             </div>
             
-            {/* Fade out edges */}
-            <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-white dark:from-gray-800 to-transparent pointer-events-none z-10"></div>
-            <div className="absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-white dark:from-gray-800 to-transparent pointer-events-none z-10"></div>
+            {/* Fade out edges - optimized for mobile */}
+            <div 
+              className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-white dark:from-gray-800 to-transparent pointer-events-none z-10"
+              style={{
+                // Ensure proper layering on mobile
+                transform: 'translateZ(1px)',
+                WebkitTransform: 'translateZ(1px)'
+              }}
+            ></div>
+            <div 
+              className="absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-white dark:from-gray-800 to-transparent pointer-events-none z-10"
+              style={{
+                // Ensure proper layering on mobile
+                transform: 'translateZ(1px)',
+                WebkitTransform: 'translateZ(1px)'
+              }}
+            ></div>
           </div>
         </div>
       </div>

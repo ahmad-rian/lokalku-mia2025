@@ -1,5 +1,6 @@
 import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { gsap } from 'gsap';
+import { useNavigate } from 'react-router-dom';
 import '../styles/Masonry.css';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 
@@ -88,6 +89,8 @@ const Masonry: React.FC<MasonryProps> = ({
   colorShiftOnHover = false,
   animateOnView = true,
 }) => {
+  const navigate = useNavigate();
+  
   // Better responsive breakpoints - FIXED: Shows 2 columns on mobile instead of 1
   const columns = useMedia(
     ['(min-width:1280px)', '(min-width:1024px)', '(min-width:768px)', '(min-width:640px)'],
@@ -347,9 +350,10 @@ const Masonry: React.FC<MasonryProps> = ({
       yoyo: true,
       repeat: 1,
       onComplete: () => {
-        // Navigate after animation
+        // Navigate after animation using React Router
         setTimeout(() => {
-          window.location.href = item.url;
+          console.log('Masonry: Navigating to:', item.url);
+          navigate(item.url);
         }, 50);
       }
     });
