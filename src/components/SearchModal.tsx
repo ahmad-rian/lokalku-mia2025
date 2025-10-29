@@ -8,13 +8,12 @@ import {
   Input,
   Card,
   CardBody,
-  Chip,
   Avatar,
+  Chip,
   Kbd,
   Link,
-  Divider,
 } from "@heroui/react";
-import { Search, MapPin, Star, Clock, ArrowRight, ExternalLink, TrendingUp } from "lucide-react";
+import { Search, MapPin, Star, ArrowRight, ExternalLink, TrendingUp } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { searchUMKM, umkmData, type UMKM } from "@/data/umkm-data";
 

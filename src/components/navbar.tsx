@@ -280,16 +280,16 @@ export default function Navbar({ onSearchOpen }: NavbarProps) {
           <div className="hidden lg:flex items-center gap-3 order-3">
             <button
               onClick={handleSearchClick}
-              className="flex items-center gap-2 px-4 py-2 text-sm text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors w-full max-w-[360px]"
+              className="flex items-center gap-2 px-4 py-2 text-sm text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors w-full min-w-[280px] max-w-[420px]"
             >
-              <MagnifyingGlassIcon className="w-4 h-4 text-gray-400" />
+              <MagnifyingGlassIcon className="w-4 h-4 text-gray-400 flex-shrink-0" />
               <span className="flex-1 text-left">{t("navbar.search")}</span>
-              <kbd className="hidden xl:inline-block px-2 py-0.5 text-xs font-semibold text-gray-600 dark:text-gray-400 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded">
+              <kbd className="hidden xl:inline-block px-2 py-0.5 text-xs font-semibold text-gray-600 dark:text-gray-400 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded flex-shrink-0">
                 {navigator.platform.toLowerCase().includes('mac') ? '⌘K' : 'Ctrl+K'}
               </kbd>
             </button>
             
-            <div className="relative group z-[110]">
+            <div className="relative group z-[110] flex-shrink-0">
               <div className="flex flex-col items-center gap-1">
                 <LanguageSwitcher />
                 <span className="text-[9px] font-medium text-gray-500 dark:text-gray-400 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
@@ -298,7 +298,7 @@ export default function Navbar({ onSearchOpen }: NavbarProps) {
               </div>
             </div>
             
-            <div className="relative group z-[110]">
+            <div className="relative group z-[110] flex-shrink-0">
               <div className="flex flex-col items-center gap-1">
                 <AnimatedThemeToggler />
                 <span className="text-[9px] font-medium text-gray-500 dark:text-gray-400 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
