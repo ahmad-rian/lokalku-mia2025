@@ -17,7 +17,6 @@ import {
   ModalContent,
   ModalHeader,
   ModalBody,
-  ModalFooter,
   useDisclosure,
   Spinner
 } from "@heroui/react";
@@ -40,14 +39,14 @@ import {
   ChevronDown
 } from "lucide-react";
 import Navbar from "@/components/navbar";
+import { getUMKMForMap, categories } from "@/data/umkm-data";
 
-// UMKM Interface (matching existing structure)
-interface UMKM {
+// Type untuk UMKM dengan koordinat dalam format [lng, lat]
+interface UMKMForMap {
   id: string;
   name: string;
   category: string;
   location: string;
-  coordinates: [number, number]; // [longitude, latitude]
   distance?: string;
   rating: number;
   reviewCount: number;
@@ -56,197 +55,39 @@ interface UMKM {
   status: "open" | "closed";
   priceRange?: "$" | "$$" | "$$$";
   isFavorite: boolean;
+  coordinates: [number, number]; // [lng, lat]
   phone?: string;
   address: string;
 }
 
-// Banyumas/Purwokerto UMKM Mock Data with real coordinates
-const banyumasUMKMData: UMKM[] = [
-  {
-    id: "1",
-    name: "Warung Sate Pak Kumis",
-    category: "Makanan & Minuman",
-    location: "Purwokerto Utara",
-    coordinates: [109.2349, -7.4186],
-    distance: "2.5 km",
-    rating: 4.8,
-    reviewCount: 124,
-    description: "Sate kambing dan ayam dengan bumbu kacang khas Banyumas yang gurih dan lezat",
-    image: "https://images.unsplash.com/photo-1529042410759-befb1204b468?w=800&h=600&fit=crop",
-    status: "open",
-    priceRange: "$$",
-    isFavorite: false,
-    phone: "+62812-3456-7890",
-    address: "Jl. Prof. Dr. Suharso No. 45, Purwokerto Utara"
-  },
-  {
-    id: "2",
-    name: "Batik Gumelem Asli",
-    category: "Fashion",
-    location: "Purwokerto Selatan",
-    coordinates: [109.2401, -7.4298],
-    distance: "1.8 km",
-    rating: 4.9,
-    reviewCount: 89,
-    description: "Batik khas Banyumas dengan motif tradisional dan modern berkualitas tinggi",
-    image: "https://images.unsplash.com/photo-1610003524635-5fe4c7e11b32?w=800&h=600&fit=crop",
-    status: "open",
-    priceRange: "$$$",
-    isFavorite: true,
-    phone: "+62813-2345-6789",
-    address: "Jl. Jenderal Sudirman No. 123, Purwokerto Selatan"
-  },
-  {
-    id: "3",
-    name: "Getuk Goreng Bu Tini",
-    category: "Makanan & Minuman",
-    location: "Sokaraja",
-    coordinates: [109.2876, -7.4567],
-    distance: "3.2 km",
-    rating: 4.7,
-    reviewCount: 156,
-    description: "Getuk goreng tradisional dengan berbagai topping dan rasa yang menggugah selera",
-    image: "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=800&h=600&fit=crop",
-    status: "closed",
-    priceRange: "$",
-    isFavorite: false,
-    phone: "+62814-3456-7890",
-    address: "Jl. Raya Sokaraja No. 67, Sokaraja"
-  },
-  {
-    id: "4",
-    name: "Kopi Gunung Slamet",
-    category: "Kafe & Resto",
-    location: "Purwokerto Barat",
-    coordinates: [109.2187, -7.4234],
-    distance: "4.1 km",
-    rating: 4.6,
-    reviewCount: 203,
-    description: "Kopi premium dari lereng Gunung Slamet dengan cita rasa yang khas dan autentik",
-    image: "https://images.unsplash.com/photo-1511920170033-f8396924c348?w=800&h=600&fit=crop",
-    status: "open",
-    priceRange: "$$",
-    isFavorite: false,
-    phone: "+62815-4567-8901",
-    address: "Jl. Overste Isdiman No. 89, Purwokerto Barat"
-  },
-  {
-    id: "5",
-    name: "Salon Cantik Ayu",
-    category: "Kecantikan",
-    location: "Purwokerto Timur",
-    coordinates: [109.2567, -7.4123],
-    distance: "2.8 km",
-    rating: 4.5,
-    reviewCount: 78,
-    description: "Salon kecantikan dengan layanan lengkap dan perawatan modern",
-    image: "https://images.unsplash.com/photo-1562322140-8baeececf3df?w=800&h=600&fit=crop",
-    status: "open",
-    priceRange: "$$",
-    isFavorite: false,
-    phone: "+62816-5678-9012",
-    address: "Jl. Ahmad Yani No. 234, Purwokerto Timur"
-  },
-  {
-    id: "6",
-    name: "Mendoan Cokro Kembang",
-    category: "Makanan & Minuman",
-    location: "Banyumas",
-    coordinates: [109.2934, -7.5234],
-    distance: "5.5 km",
-    rating: 4.8,
-    reviewCount: 167,
-    description: "Mendoan khas Banyumas dengan tempe segar dan bumbu rahasia turun temurun",
-    image: "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=800&h=600&fit=crop",
-    status: "open",
-    priceRange: "$",
-    isFavorite: true,
-    phone: "+62817-6789-0123",
-    address: "Jl. Raya Banyumas No. 45, Banyumas"
-  },
-  {
-    id: "7",
-    name: "Bengkel Motor Jaya Abadi",
-    category: "Otomotif & Jasa",
-    location: "Purwokerto Selatan",
-    coordinates: [109.2445, -7.4356],
-    distance: "3.7 km",
-    rating: 4.4,
-    reviewCount: 92,
-    description: "Bengkel motor terpercaya dengan teknisi berpengalaman dan spare part original",
-    image: "https://images.unsplash.com/photo-1625047509248-ec889cbff17f?w=800&h=600&fit=crop",
-    status: "open",
-    priceRange: "$$",
-    isFavorite: false,
-    phone: "+62818-7890-1234",
-    address: "Jl. Gatot Subroto No. 156, Purwokerto Selatan"
-  },
-  {
-    id: "8",
-    name: "Lanting Bu Narti",
-    category: "Makanan & Minuman",
-    location: "Cilongok",
-    coordinates: [109.1876, -7.4567],
-    distance: "6.2 km",
-    rating: 4.7,
-    reviewCount: 134,
-    description: "Lanting khas Banyumas dengan rasa gurih dan tekstur yang renyah",
-    image: "https://images.unsplash.com/photo-1599490659213-e2b9527bd087?w=800&h=600&fit=crop",
-    status: "open",
-    priceRange: "$",
-    isFavorite: false,
-    phone: "+62819-8901-2345",
-    address: "Jl. Raya Cilongok No. 78, Cilongok"
-  }
-];
-
-// Filter categories
-const categories = [
-  "Semua",
-  "Makanan & Minuman",
-  "Fashion",
-  "Kafe & Resto",
-  "Kecantikan",
-  "Otomotif & Jasa"
-];
-
-// Simple map component using OpenStreetMap
 // Google Maps API Key & Map ID
 const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY || "your_google_maps_api_key_here";
-const GOOGLE_MAPS_MAP_ID = "7ae59d30616b9f915b176e75"; // LokalKu 3D Map with dark mode support
+const GOOGLE_MAPS_MAP_ID = "7ae59d30616b9f915b176e75";
 
 // Purwokerto city center coordinates
-// Latitude: 7°25'17" S = -7.421389°
-// Longitude: 109°14'3.98" E = 109.234439°
 const PURWOKERTO_CENTER = { 
-  lat: -7.421389,  // Purwokerto city center
+  lat: -7.421389,
   lng: 109.234439
 };
 
-// Banyumas region coordinates based on astronomical data
-// Longitude: 108°39'17'' - 109°27'15'' BT
-// Latitude: 7°15'05'' - 7°37'10'' LS
-const BANYUMAS_CENTER = { 
-  lat: -7.4354,  // Center of latitude range: (7°15'05'' + 7°37'10'') / 2 = 7°26'07.5'' LS
-  lng: 109.0545  // Center of longitude range: (108°39'17'' + 109°27'15'') / 2 = 109°03'16'' BT
-};
+// Banyumas region bounds
 const BANYUMAS_BOUNDS = {
-  north: -7.2514,  // 7°15'05'' LS (converted to decimal)
-  south: -7.6194,  // 7°37'10'' LS (converted to decimal)
-  east: 109.4542,  // 109°27'15'' BT (converted to decimal)
-  west: 108.6547   // 108°39'17'' BT (converted to decimal)
+  north: -7.2514,
+  south: -7.6194,
+  east: 109.4542,
+  west: 108.6547
 };
 
 // Google Maps Component
 interface GoogleMapProps {
   center: google.maps.LatLngLiteral;
   zoom: number;
-  markers: UMKM[];
-  onMarkerClick: (umkm: UMKM) => void;
+  markers: UMKMForMap[];
+  onMarkerClick: (umkm: UMKMForMap) => void;
   userLocation?: [number, number];
   mapType: string;
   is3DEnabled: boolean;
-  isDarkMode: boolean; // Add dark mode prop
+  isDarkMode: boolean;
 }
 
 // Map type options
@@ -258,7 +99,7 @@ const mapTypes = [
 ];
 
 // Google Maps dark mode styles
-const darkModeStyles = [
+const darkModeStyles: google.maps.MapTypeStyle[] = [
   { elementType: "geometry", stylers: [{ color: "#242f3e" }] },
   { elementType: "labels.text.stroke", stylers: [{ color: "#242f3e" }] },
   { elementType: "labels.text.fill", stylers: [{ color: "#746855" }] },
@@ -343,7 +184,7 @@ function GoogleMapComponent({ center, zoom, markers, onMarkerClick, userLocation
   const ref = useRef<HTMLDivElement>(null);
   const [map, setMap] = useState<google.maps.Map>();
   const [markersArray, setMarkersArray] = useState<google.maps.Marker[]>([]);
-  const [hoveredUMKM, setHoveredUMKM] = useState<UMKM | null>(null);
+  const [hoveredUMKM, setHoveredUMKM] = useState<UMKMForMap | null>(null);
   const [hoverPosition, setHoverPosition] = useState<{ x: number; y: number } | null>(null);
   const boundaryPolygonRef = useRef<google.maps.Polygon | null>(null);
 
@@ -352,7 +193,6 @@ function GoogleMapComponent({ center, zoom, markers, onMarkerClick, userLocation
       const newMap = new google.maps.Map(ref.current, {
         center,
         zoom,
-        // Use LokalKu 3D Map with dark mode support
         mapId: GOOGLE_MAPS_MAP_ID,
         mapTypeId: "roadmap",
         restriction: {
@@ -376,7 +216,6 @@ function GoogleMapComponent({ center, zoom, markers, onMarkerClick, userLocation
         rotateControlOptions: {
           position: google.maps.ControlPosition.RIGHT_CENTER
         },
-        // Apply dark mode styles initially if needed
         styles: isDarkMode ? darkModeStyles : []
       });
 
@@ -399,12 +238,11 @@ function GoogleMapComponent({ center, zoom, markers, onMarkerClick, userLocation
 
       setMap(newMap);
     }
-  }, []);
+  }, [center, zoom, isDarkMode]);
 
   // Apply dark mode styles when theme changes
   useEffect(() => {
     if (map) {
-      console.log('🌓 Dark Mode Changed:', isDarkMode);
       map.setOptions({
         styles: isDarkMode ? darkModeStyles : []
       });
@@ -424,8 +262,6 @@ function GoogleMapComponent({ center, zoom, markers, onMarkerClick, userLocation
   useEffect(() => {
     if (map) {
       map.setMapTypeId(mapType as google.maps.MapTypeId);
-      // Reapply dark mode styles after map type change
-      // Important: setMapTypeId can reset styles, so we reapply them
       map.setOptions({
         styles: isDarkMode ? darkModeStyles : []
       });
@@ -435,20 +271,17 @@ function GoogleMapComponent({ center, zoom, markers, onMarkerClick, userLocation
   // Update 3D tilt and rotation controls
   useEffect(() => {
     if (map) {
-      // Use moveCamera for smooth animation instead of immediate setTilt/setHeading
       const currentCenter = map.getCenter();
       const currentZoom = map.getZoom() || 15;
       
       if (is3DEnabled) {
-        // Smooth transition to 3D view
         map.moveCamera({
           center: currentCenter,
-          zoom: currentZoom < 17 ? 17 : currentZoom, // Ensure minimum zoom for 3D
-          tilt: 67.5, // Increased for better 3D effect (0-90)
-          heading: 45  // Rotation angle
+          zoom: currentZoom < 17 ? 17 : currentZoom,
+          tilt: 67.5,
+          heading: 45
         });
       } else {
-        // Smooth transition back to 2D view
         map.moveCamera({
           center: currentCenter,
           zoom: currentZoom,
@@ -457,7 +290,6 @@ function GoogleMapComponent({ center, zoom, markers, onMarkerClick, userLocation
         });
       }
       
-      // Enable/disable rotate control
       map.setOptions({
         rotateControl: is3DEnabled,
         rotateControlOptions: {
@@ -474,7 +306,7 @@ function GoogleMapComponent({ center, zoom, markers, onMarkerClick, userLocation
     markersArray.forEach(marker => marker.setMap(null));
     const newMarkers: google.maps.Marker[] = [];
 
-    // Add UMKM markers
+    // Add UMKM markers - coordinates adalah [lng, lat]
     markers.forEach((umkm) => {
       const marker = new google.maps.Marker({
         position: { lat: umkm.coordinates[1], lng: umkm.coordinates[0] },
@@ -641,8 +473,9 @@ const render = (status: Status): React.ReactElement => {
       return <div className="w-full h-full" />;
   }
 };
+
 interface InfoWindowProps {
-  umkm: UMKM;
+  umkm: UMKMForMap;
   onClose: () => void;
   onViewDetails: () => void;
 }
@@ -666,7 +499,6 @@ function InfoWindow({ umkm, onClose, onViewDetails }: InfoWindowProps) {
     >
       <Card className="border-0 shadow-lg max-w-sm">
         <CardBody className="p-0">
-          {/* Image */}
           <div className="relative h-32 overflow-hidden">
             <img
               src={umkm.image}
@@ -693,7 +525,6 @@ function InfoWindow({ umkm, onClose, onViewDetails }: InfoWindowProps) {
             </Chip>
           </div>
 
-          {/* Content */}
           <div className="p-4">
             <div className="flex items-start justify-between mb-2">
               <div className="flex-1">
@@ -706,7 +537,6 @@ function InfoWindow({ umkm, onClose, onViewDetails }: InfoWindowProps) {
               </div>
             </div>
 
-            {/* Rating & Reviews */}
             <div className="flex items-center gap-2 mb-2">
               <div className="flex items-center gap-1">
                 <Star size={14} className="fill-yellow-400 text-yellow-400" />
@@ -715,7 +545,6 @@ function InfoWindow({ umkm, onClose, onViewDetails }: InfoWindowProps) {
               <span className="text-sm text-gray-500">({umkm.reviewCount} ulasan)</span>
             </div>
 
-            {/* Location & Distance */}
             <div className="flex items-center gap-1 mb-2">
               <MapPin size={14} className="text-gray-500" />
               <span className="text-sm text-gray-600 dark:text-gray-400">
@@ -723,12 +552,10 @@ function InfoWindow({ umkm, onClose, onViewDetails }: InfoWindowProps) {
               </span>
             </div>
 
-            {/* Price Range */}
             <p className="text-sm text-gray-500 mb-4">
               {formatPriceRange(umkm.priceRange)}
             </p>
 
-            {/* Action Buttons */}
             <div className="flex gap-2">
               {umkm.phone && (
                 <Button
@@ -769,9 +596,9 @@ function InfoWindow({ umkm, onClose, onViewDetails }: InfoWindowProps) {
   );
 }
 
-// List Item Component for Side Panel
+// List Item Component
 interface ListItemProps {
-  umkm: UMKM;
+  umkm: UMKMForMap;
   onClick: () => void;
   onViewDetails: () => void;
 }
@@ -825,7 +652,8 @@ function ListItem({ umkm, onClick, onViewDetails }: ListItemProps) {
                 variant="flat"
                 color="success"
                 startContent={<Phone size={12} />}
-                onPress={() => {
+                onPress={(e) => {
+                  e.stopPropagation();
                   window.open(`tel:${umkm.phone}`, '_self');
                 }}
               >
@@ -836,7 +664,8 @@ function ListItem({ umkm, onClick, onViewDetails }: ListItemProps) {
               size="sm"
               color="primary"
               startContent={<Eye size={12} />}
-              onPress={() => {
+              onPress={(e) => {
+                e.stopPropagation();
                 onViewDetails();
               }}
             >
@@ -853,30 +682,30 @@ function ListItem({ umkm, onClick, onViewDetails }: ListItemProps) {
 export default function MapPage() {
   const navigate = useNavigate();
   
-  // State management
   const [viewState, setViewState] = useState({
-    longitude: PURWOKERTO_CENTER.lng, // Start at Purwokerto
+    longitude: PURWOKERTO_CENTER.lng,
     latitude: PURWOKERTO_CENTER.lat,
-    zoom: 14 // Closer zoom for city view
+    zoom: 14
   });
   
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("Semua");
-  const [selectedUMKM, setSelectedUMKM] = useState<UMKM | null>(null);
+  const [selectedUMKM, setSelectedUMKM] = useState<UMKMForMap | null>(null);
   const [showListView, setShowListView] = useState(false);
   const [userLocation, setUserLocation] = useState<[number, number] | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedMapType, setSelectedMapType] = useState<string>("roadmap");
   const [is3DMode, setIs3DMode] = useState(false);
   
-  // Detect dark mode
+  const mapData = getUMKMForMap();
+  const categoryList = categories;
+  
   const [isDarkMode, setIsDarkMode] = useState(() => {
     return document.documentElement.classList.contains('dark');
   });
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   
-  // Listen for dark mode changes
   useEffect(() => {
     const observer = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
@@ -894,8 +723,7 @@ export default function MapPage() {
     return () => observer.disconnect();
   }, []);
 
-  // Filter UMKM data
-  const filteredUMKM = banyumasUMKMData.filter(umkm => {
+  const filteredUMKM = mapData.filter(umkm => {
     const matchesSearch = umkm.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                          umkm.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
                          umkm.location.toLowerCase().includes(searchQuery.toLowerCase());
@@ -903,8 +731,7 @@ export default function MapPage() {
     return matchesSearch && matchesCategory;
   });
 
-  // Handle marker click
-  const handleMarkerClick = useCallback((umkm: UMKM) => {
+  const handleMarkerClick = useCallback((umkm: UMKMForMap) => {
     setSelectedUMKM(umkm);
     setViewState(prev => ({
       ...prev,
@@ -914,7 +741,6 @@ export default function MapPage() {
     }));
   }, []);
 
-  // Get user location
   const getUserLocation = useCallback(() => {
     setIsLoading(true);
     if (navigator.geolocation) {
@@ -926,7 +752,7 @@ export default function MapPage() {
             ...prev,
             longitude,
             latitude,
-            zoom: 16 // Zoom in to user location
+            zoom: 16
           }));
           setIsLoading(false);
         },
@@ -940,20 +766,17 @@ export default function MapPage() {
     }
   }, []);
 
-  // Handle list item click
-  const handleListItemClick = useCallback((umkm: UMKM) => {
+  const handleListItemClick = useCallback((umkm: UMKMForMap) => {
     handleMarkerClick(umkm);
     setShowListView(false);
   }, [handleMarkerClick]);
 
-  // Handle view details
-  const handleViewDetails = useCallback((umkm: UMKM) => {
+  const handleViewDetails = useCallback((umkm: UMKMForMap) => {
     navigate(`/detail/${umkm.id}`);
   }, [navigate]);
 
-  // Calculate distance (simple approximation)
   const calculateDistance = useCallback((lat1: number, lon1: number, lat2: number, lon2: number) => {
-    const R = 6371; // Earth's radius in km
+    const R = 6371;
     const dLat = (lat2 - lat1) * Math.PI / 180;
     const dLon = (lon2 - lon1) * Math.PI / 180;
     const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
@@ -963,10 +786,9 @@ export default function MapPage() {
     return R * c;
   }, []);
 
-  // Update distances when user location changes
   useEffect(() => {
     if (userLocation) {
-      banyumasUMKMData.forEach(umkm => {
+      mapData.forEach(umkm => {
         const distance = calculateDistance(
           userLocation[1], userLocation[0],
           umkm.coordinates[1], umkm.coordinates[0]
@@ -974,15 +796,13 @@ export default function MapPage() {
         umkm.distance = `${distance.toFixed(1)} km`;
       });
     }
-  }, [userLocation, calculateDistance]);
+  }, [userLocation, calculateDistance, mapData]);
 
   return (
     <>
-      {/* Navbar */}
       <Navbar />
       
       <div className="relative h-screen overflow-hidden">
-        {/* Google Maps Container */}
         <Wrapper apiKey={GOOGLE_MAPS_API_KEY} render={render}>
           <GoogleMapComponent
             center={PURWOKERTO_CENTER}
@@ -996,7 +816,6 @@ export default function MapPage() {
           />
         </Wrapper>
 
-      {/* Info Window */}
       <AnimatePresence>
         {selectedUMKM && (
           <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-[1000] pointer-events-auto w-full max-w-sm px-4">
@@ -1009,13 +828,9 @@ export default function MapPage() {
         )}
       </AnimatePresence>
 
-      {/* No additional map controls here - they're in GoogleMapComponent */}
-
-      {/* Search & Filter Overlay - Positioned below navbar */}
       <div className="fixed top-[94px] left-0 right-0 z-[90] px-4 sm:px-6">
         <div className="max-w-2xl mx-auto">
           <div className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-md rounded-xl p-3 sm:p-4 shadow-xl border-2 border-gray-300 dark:border-gray-600">
-            {/* Search Bar */}
             <div className="flex gap-2 mb-3">
               <Input
                 placeholder="Cari UMKM, kategori, atau lokasi..."
@@ -1039,7 +854,6 @@ export default function MapPage() {
               </Button>
             </div>
 
-            {/* Category Chips with Horizontal Scroll */}
             <div className="relative -mx-3 sm:-mx-4">
               <div 
                 className="flex gap-2 overflow-x-auto px-3 sm:px-4 pb-3 scroll-smooth"
@@ -1050,7 +864,7 @@ export default function MapPage() {
                   msOverflowStyle: 'auto'
                 }}
               >
-                {categories.map((category) => (
+                {categoryList.map((category) => (
                   <Chip
                     key={category}
                     variant={selectedCategory === category ? "solid" : "flat"}
@@ -1065,19 +879,15 @@ export default function MapPage() {
                     {category}
                   </Chip>
                 ))}
-                {/* Spacer to ensure scrollbar appears */}
                 <div className="flex-shrink-0 w-px" />
               </div>
-              {/* Fade indicator on right edge */}
               <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-white/95 dark:from-gray-800/95 to-transparent pointer-events-none" />
             </div>
           </div>
         </div>
       </div>
 
-      {/* Action Buttons - All controls at bottom left */}
       <div className="absolute bottom-6 left-4 z-10 flex flex-col gap-2">
-        {/* Map Type Selector */}
         <Dropdown>
           <DropdownTrigger>
             <Button
@@ -1117,7 +927,6 @@ export default function MapPage() {
           </DropdownMenu>
         </Dropdown>
 
-        {/* 3D Toggle */}
         <Button
           size="sm"
           variant={is3DMode ? "solid" : "bordered"}
@@ -1133,7 +942,6 @@ export default function MapPage() {
           3D {is3DMode ? 'On' : 'Off'}
         </Button>
         
-        {/* List View Toggle */}
         <Button
           size="sm"
           color="primary"
@@ -1149,7 +957,6 @@ export default function MapPage() {
           {showListView ? "Sembunyikan" : "Daftar UMKM"}
         </Button>
 
-        {/* Current Location */}
         <Button
           size="sm"
           isIconOnly
@@ -1163,11 +970,9 @@ export default function MapPage() {
         </Button>
       </div>
 
-      {/* Side Panel (Desktop) / Bottom Sheet (Mobile) */}
       <AnimatePresence>
         {showListView && (
           <>
-            {/* Desktop Side Panel */}
             <motion.div
               initial={{ x: -400 }}
               animate={{ x: 0 }}
@@ -1209,7 +1014,6 @@ export default function MapPage() {
               </Card>
             </motion.div>
 
-            {/* Mobile Bottom Sheet */}
             <motion.div
               initial={{ y: "100%" }}
               animate={{ y: 0 }}
@@ -1254,7 +1058,6 @@ export default function MapPage() {
         )}
       </AnimatePresence>
 
-      {/* Filter Modal */}
       <Modal 
         isOpen={isOpen} 
         onClose={onClose} 
@@ -1278,14 +1081,13 @@ export default function MapPage() {
           </ModalHeader>
           <ModalBody>
             <div className="space-y-4">
-              {/* Categories Filter */}
               <div>
                 <h4 className="font-semibold mb-2 text-gray-900 dark:text-white text-sm">Filter Kategori</h4>
                 <p className="text-xs text-gray-600 dark:text-gray-400 mb-3">
                   Pilih kategori untuk menyaring UMKM
                 </p>
                 <div className="flex flex-wrap gap-2">
-                  {categories.map((category) => (
+                  {categoryList.map((category) => (
                     <Chip
                       key={category}
                       size="sm"
@@ -1304,7 +1106,6 @@ export default function MapPage() {
                 </div>
               </div>
 
-              {/* Info Statistics */}
               <div className="p-3 rounded-lg bg-primary-50 dark:bg-primary-900/20 border border-primary-200 dark:border-primary-800">
                 <div className="flex items-center justify-between">
                   <div>
@@ -1321,7 +1122,6 @@ export default function MapPage() {
                 </div>
               </div>
 
-              {/* Map Tips */}
               <div className="p-3 rounded-lg bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800">
                 <div className="flex gap-2">
                   <div className="text-xl flex-shrink-0">💡</div>

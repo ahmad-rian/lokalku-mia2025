@@ -7,7 +7,27 @@ export const translations = {
       directory: "Direktori",
       blog: "Blog",
       contact: "Kontak",
-      search: "Cari UMKM..."
+      search: "Cari UMKM...",
+      map: "Peta",
+      favorites: "Favorit",
+      // Dropdown menus
+      homeMenu: {
+        home: "Beranda",
+        about: "Tentang",
+        featured: "UMKM Unggulan"
+      },
+      directoryMenu: {
+        explore: "Jelajahi UMKM",
+        categories: "Kategori",
+        latest: "Terbaru"
+      },
+      mapMenu: {
+        viewMap: "Lihat Peta",
+        nearby: "UMKM Terdekat"
+      },
+      favoritesMenu: {
+        list: "Daftar Favorit"
+      }
     },
     // Hero Section
     hero: {
@@ -195,6 +215,127 @@ export const translations = {
       pricing: {
         title: "Harga"
       }
+    },
+    // Favorites Page
+    favorites: {
+      title: "Favorit Saya",
+      subtitle: "Kumpulan UMKM favorit yang telah Anda simpan",
+      empty: {
+        title: "Belum Ada Favorit",
+        description: "Mulai tambahkan UMKM favorit Anda dengan menekan ikon hati"
+      },
+      actions: {
+        manage: "Kelola",
+        selectAll: "Pilih Semua",
+        deselectAll: "Batal Pilih Semua",
+        delete: "Hapus",
+        cancel: "Batal",
+        explore: "Jelajahi UMKM",
+        viewDetails: "Lihat Detail"
+      },
+      status: {
+        open: "Buka",
+        closed: "Tutup"
+      },
+      reviews: "ulasan"
+    },
+    about: {
+      title: "Tentang LokalKU",
+      subtitle: "Platform Digital untuk UMKM Banyumas",
+      vision: {
+        title: "Visi Kami",
+        description: "Menjadi jembatan digital yang menghubungkan UMKM lokal Banyumas dengan pasar global, menciptakan ekosistem ekonomi yang berkelanjutan dan memberdayakan pengusaha lokal untuk berkembang hingga tingkat internasional. Melalui teknologi digital, kami memungkinkan UMKM Banyumas untuk terhubung dengan peluang bisnis di seluruh dunia."
+      },
+      map: {
+        title: {
+          local: "Jaringan",
+          global: "Global"
+        },
+        description: "Menghubungkan UMKM Banyumas dengan pasar dunia melalui teknologi digital"
+      },
+      mission: {
+        title: "Misi Kami",
+        items: {
+          empowerment: {
+            title: "Pemberdayaan UMKM",
+            description: "Memberikan platform digital yang mudah digunakan untuk UMKM lokal agar dapat menjangkau lebih banyak pelanggan"
+          },
+          technology: {
+            title: "Teknologi Terdepan",
+            description: "Menggunakan teknologi modern untuk menciptakan pengalaman yang seamless bagi pengguna dan UMKM"
+          },
+          community: {
+            title: "Membangun Komunitas",
+            description: "Menciptakan ekosistem yang saling mendukung antara UMKM, pelanggan, dan komunitas lokal"
+          },
+          growth: {
+            title: "Pertumbuhan Berkelanjutan",
+            description: "Mendorong pertumbuhan ekonomi lokal yang berkelanjutan melalui digitalisasi UMKM"
+          }
+        }
+      },
+      cta: {
+        explore: "Jelajahi UMKM",
+        contact: "Hubungi Kami",
+        title: "Bergabunglah dengan Revolusi Digital UMKM",
+        description: "Mari bersama-sama membangun ekosistem UMKM yang kuat dan berkelanjutan di Banyumas",
+        start: "Mulai Sekarang",
+        contact_team: "Hubungi Tim Kami"
+      }
+    },
+    terms: {
+      badge: "Syarat & Ketentuan",
+      title: "Syarat dan Ketentuan",
+      description: "Ketentuan penggunaan platform LokalKU yang mengatur hak dan kewajiban pengguna serta penyedia layanan.",
+      lastUpdated: "Terakhir diperbarui",
+      sections: {
+        acceptance: {
+          title: "1. Penerimaan Ketentuan",
+          content: "Dengan mengakses dan menggunakan platform LokalKU, Anda menyetujui untuk terikat oleh syarat dan ketentuan ini. Jika Anda tidak setuju dengan ketentuan ini, mohon untuk tidak menggunakan layanan kami.\n\nPlatform LokalKU adalah direktori digital yang menghubungkan pengguna dengan UMKM (Usaha Mikro, Kecil, dan Menengah) di wilayah Banyumas dan sekitarnya."
+        },
+        services: {
+          title: "2. Layanan Platform",
+          content: "LokalKU menyediakan layanan berupa:\n• Direktori UMKM dengan informasi lengkap\n• Sistem pencarian dan filter UMKM\n• Fitur peta dan navigasi ke lokasi UMKM\n• Sistem rating dan ulasan\n• Fitur favorit untuk menyimpan UMKM pilihan\n• Informasi kontak dan jam operasional UMKM\n\nKami berhak untuk mengubah, menambah, atau menghentikan layanan tertentu dengan pemberitahuan sebelumnya."
+        },
+        registration: {
+          title: "3. Pendaftaran dan Akun",
+          content: "Untuk menggunakan fitur tertentu, Anda mungkin perlu membuat akun. Anda bertanggung jawab untuk:\n• Memberikan informasi yang akurat dan terkini\n• Menjaga kerahasiaan informasi akun Anda\n• Bertanggung jawab atas semua aktivitas yang terjadi di akun Anda\n• Segera memberitahu kami jika terjadi penggunaan akun yang tidak sah\n\nKami berhak menangguhkan atau menghapus akun yang melanggar ketentuan ini."
+        },
+        userConduct: {
+          title: "4. Perilaku Pengguna",
+          content: "Pengguna dilarang untuk:\n• Menggunakan platform untuk tujuan ilegal atau tidak sah\n• Mengirimkan konten yang menyinggung, cabul, atau melanggar hukum\n• Melakukan spam atau mengirim pesan yang tidak diinginkan\n• Mencoba mengakses sistem secara tidak sah\n• Mengganggu atau merusak fungsi platform\n• Menyamar sebagai orang atau entitas lain\n\nPelanggaran dapat mengakibatkan penangguhan atau penghapusan akun."
+        },
+        content: {
+          title: "5. Konten dan Ulasan",
+          content: "Dengan mengirimkan ulasan, rating, atau konten lainnya, Anda:\n• Memberikan lisensi kepada LokalKU untuk menggunakan konten tersebut\n• Menjamin bahwa konten tidak melanggar hak pihak ketiga\n• Bertanggung jawab atas keakuratan dan kebenaran konten\n• Memahami bahwa konten dapat dimoderasi atau dihapus\n\nKami berhak menghapus konten yang tidak sesuai dengan kebijakan komunitas kami."
+        },
+        privacy: {
+          title: "6. Privasi dan Data",
+          content: "Kami menghormati privasi Anda dan berkomitmen melindungi data pribadi. Pengumpulan dan penggunaan data diatur dalam Kebijakan Privasi terpisah.\n\nData yang kami kumpulkan meliputi:\n• Informasi profil dan kontak\n• Riwayat penggunaan platform\n• Lokasi (dengan izin Anda)\n• Preferensi dan favorit\n\nData digunakan untuk meningkatkan layanan dan pengalaman pengguna."
+        },
+        liability: {
+          title: "7. Batasan Tanggung Jawab",
+          content: "LokalKU tidak bertanggung jawab atas:\n• Keakuratan informasi UMKM yang disediakan pihak ketiga\n• Kualitas produk atau layanan UMKM\n• Kerugian yang timbul dari transaksi dengan UMKM\n• Gangguan teknis atau kerusakan sistem\n• Kehilangan data atau informasi\n\nPlatform ini disediakan 'sebagaimana adanya' tanpa jaminan tertentu."
+        },
+        modifications: {
+          title: "8. Perubahan Ketentuan",
+          content: "Kami berhak mengubah syarat dan ketentuan ini sewaktu-waktu. Perubahan akan diberitahukan melalui:\n• Notifikasi di platform\n• Email ke pengguna terdaftar\n• Pengumuman di halaman utama\n\nPenggunaan berkelanjutan setelah perubahan dianggap sebagai persetujuan terhadap ketentuan baru."
+        },
+        termination: {
+          title: "9. Penghentian Layanan",
+          content: "Kami dapat menghentikan atau menangguhkan akses Anda jika:\n• Melanggar syarat dan ketentuan\n• Menggunakan layanan untuk tujuan yang merugikan\n• Atas permintaan Anda sendiri\n• Karena alasan teknis atau bisnis\n\nPenghentian tidak menghilangkan kewajiban yang telah timbul sebelumnya."
+        },
+        governing: {
+          title: "10. Hukum yang Berlaku",
+          content: "Syarat dan ketentuan ini diatur oleh hukum Republik Indonesia. Setiap sengketa akan diselesaikan melalui:\n• Musyawarah dan mufakat\n• Mediasi jika diperlukan\n• Pengadilan yang berwenang di Indonesia\n\nJika ada ketentuan yang tidak berlaku, ketentuan lainnya tetap berlaku penuh."
+        }
+      },
+      contact: {
+        title: "Butuh Bantuan Hukum?",
+        description: "Jika Anda memiliki pertanyaan tentang syarat dan ketentuan ini, silakan hubungi tim legal kami.",
+        email: "Konsultasi Legal",
+        whatsapp: "Chat Legal"
+      }
     }
   },
   en: {
@@ -205,7 +346,27 @@ export const translations = {
       directory: "Directory",
       blog: "Blog",
       contact: "Contact",
-      search: "Search SMEs..."
+      search: "Search SMEs...",
+      map: "Map",
+      favorites: "Favorites",
+      // Dropdown menus
+      homeMenu: {
+        home: "Home",
+        about: "About",
+        featured: "Featured SMEs"
+      },
+      directoryMenu: {
+        explore: "Explore SMEs",
+        categories: "Categories",
+        latest: "Latest"
+      },
+      mapMenu: {
+        viewMap: "View Map",
+        nearby: "Nearby SMEs"
+      },
+      favoritesMenu: {
+        list: "Favorites List"
+      }
     },
     // Hero Section
     hero: {
@@ -392,6 +553,127 @@ export const translations = {
       },
       pricing: {
         title: "Pricing"
+      }
+    },
+    // Favorites Page
+    favorites: {
+      title: "My Favorites",
+      subtitle: "Collection of your saved favorite SMEs",
+      empty: {
+        title: "No Favorites Yet",
+        description: "Start adding your favorite SMEs by pressing the heart icon"
+      },
+      actions: {
+        manage: "Manage",
+        selectAll: "Select All",
+        deselectAll: "Deselect All",
+        delete: "Delete",
+        cancel: "Cancel",
+        explore: "Explore SMEs",
+        viewDetails: "View Details"
+      },
+      status: {
+        open: "Open",
+        closed: "Closed"
+      },
+      reviews: "reviews"
+    },
+    about: {
+      title: "About LokalKU",
+      subtitle: "Digital Platform for Banyumas SMEs",
+      vision: {
+        title: "Our Vision",
+        description: "To become a digital bridge connecting local SMEs in Banyumas with global markets, creating a sustainable economic ecosystem and empowering local entrepreneurs to grow to international levels. Through digital technology, we enable Banyumas SMEs to connect with business opportunities worldwide."
+      },
+      map: {
+        title: {
+          local: "Local",
+          global: "Network"
+        },
+        description: "Connecting Banyumas SMEs with world markets through digital technology"
+      },
+      mission: {
+        title: "Our Mission",
+        items: {
+          empowerment: {
+            title: "SME Empowerment",
+            description: "Providing an easy-to-use digital platform for local SMEs to reach more customers"
+          },
+          technology: {
+            title: "Leading Technology",
+            description: "Using modern technology to create seamless experiences for users and SMEs"
+          },
+          community: {
+            title: "Building Community",
+            description: "Creating a mutually supportive ecosystem between SMEs, customers, and local communities"
+          },
+          growth: {
+            title: "Sustainable Growth",
+            description: "Promoting sustainable local economic growth through SME digitalization"
+          }
+        }
+      },
+      cta: {
+        explore: "Explore SMEs",
+        contact: "Contact Us",
+        title: "Join the SME Digital Revolution",
+        description: "Let's build a strong and sustainable SME ecosystem together in Banyumas",
+        start: "Get Started",
+        contact_team: "Contact Our Team"
+      }
+    },
+    terms: {
+      badge: "Terms & Conditions",
+      title: "Terms and Conditions",
+      description: "Terms of use for the LokalKU platform that govern the rights and obligations of users and service providers.",
+      lastUpdated: "Last updated",
+      sections: {
+        acceptance: {
+          title: "1. Acceptance of Terms",
+          content: "By accessing and using the LokalKU platform, you agree to be bound by these terms and conditions. If you do not agree to these terms, please do not use our services.\n\nThe LokalKU platform is a digital directory that connects users with SMEs (Micro, Small, and Medium Enterprises) in the Banyumas region and surrounding areas."
+        },
+        services: {
+          title: "2. Platform Services",
+          content: "LokalKU provides services including:\n• SME directory with complete information\n• SME search and filter system\n• Map and navigation features to SME locations\n• Rating and review system\n• Favorites feature to save preferred SMEs\n• Contact information and operating hours of SMEs\n\nWe reserve the right to change, add, or discontinue certain services with prior notice."
+        },
+        registration: {
+          title: "3. Registration and Account",
+          content: "To use certain features, you may need to create an account. You are responsible for:\n• Providing accurate and current information\n• Maintaining the confidentiality of your account information\n• Being responsible for all activities that occur in your account\n• Immediately notifying us if unauthorized account use occurs\n\nWe reserve the right to suspend or delete accounts that violate these terms."
+        },
+        userConduct: {
+          title: "4. User Conduct",
+          content: "Users are prohibited from:\n• Using the platform for illegal or unauthorized purposes\n• Sending offensive, obscene, or illegal content\n• Spamming or sending unwanted messages\n• Attempting to access the system unauthorized\n• Disrupting or damaging platform functions\n• Impersonating other people or entities\n\nViolations may result in account suspension or deletion."
+        },
+        content: {
+          title: "5. Content and Reviews",
+          content: "By submitting reviews, ratings, or other content, you:\n• Grant LokalKU a license to use that content\n• Guarantee that the content does not violate third party rights\n• Are responsible for the accuracy and truthfulness of the content\n• Understand that content may be moderated or removed\n\nWe reserve the right to remove content that does not comply with our community policies."
+        },
+        privacy: {
+          title: "6. Privacy and Data",
+          content: "We respect your privacy and are committed to protecting personal data. Data collection and use are governed by a separate Privacy Policy.\n\nData we collect includes:\n• Profile and contact information\n• Platform usage history\n• Location (with your permission)\n• Preferences and favorites\n\nData is used to improve services and user experience."
+        },
+        liability: {
+          title: "7. Limitation of Liability",
+          content: "LokalKU is not responsible for:\n• Accuracy of SME information provided by third parties\n• Quality of SME products or services\n• Losses arising from transactions with SMEs\n• Technical disruptions or system damage\n• Loss of data or information\n\nThis platform is provided 'as is' without specific warranties."
+        },
+        modifications: {
+          title: "8. Changes to Terms",
+          content: "We reserve the right to change these terms and conditions at any time. Changes will be notified through:\n• Platform notifications\n• Email to registered users\n• Announcements on the main page\n\nContinued use after changes is considered acceptance of the new terms."
+        },
+        termination: {
+          title: "9. Service Termination",
+          content: "We may terminate or suspend your access if:\n• Violating terms and conditions\n• Using services for harmful purposes\n• At your own request\n• For technical or business reasons\n\nTermination does not eliminate obligations that have arisen previously."
+        },
+        governing: {
+          title: "10. Governing Law",
+          content: "These terms and conditions are governed by the laws of the Republic of Indonesia. Any disputes will be resolved through:\n• Consultation and consensus\n• Mediation if necessary\n• Competent courts in Indonesia\n\nIf any provision is invalid, other provisions remain fully applicable."
+        }
+      },
+      contact: {
+        title: "Need Legal Help?",
+        description: "If you have questions about these terms and conditions, please contact our legal team.",
+        email: "Legal Consultation",
+        whatsapp: "Legal Chat"
       }
     }
   }

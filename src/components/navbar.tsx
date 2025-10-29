@@ -33,8 +33,10 @@ export default function Navbar({ onSearchOpen }: NavbarProps) {
       bgColor: "from-orange-500 to-orange-600",
       description: "Halaman utama",
       links: [
-        { label: "Jelajahi UMKM", href: "/direktori", description: "Temukan bisnis lokal" },
-        { label: "UMKM Unggulan", href: "/#featured", description: "Bisnis terpopuler" }
+        { label: t("navbar.homeMenu.home"), href: "/", description: "Halaman utama" },
+        { label: t("navbar.homeMenu.about"), href: "/about", description: "Tentang kami" },
+        { label: t("navbar.homeMenu.featured"), href: "/#featured", description: "UMKM terpopuler" },
+        { label: "Kontak", href: "https://www.ahmadrian.site/", description: "Hubungi kami", external: true }
       ]
     },
     {
@@ -44,31 +46,30 @@ export default function Navbar({ onSearchOpen }: NavbarProps) {
       bgColor: "from-blue-500 to-blue-600",
       description: "Cari UMKM",
       links: [
-        { label: "Semua UMKM", href: "/direktori", description: "Lihat semua bisnis" },
-        { label: "Kategori", href: "/direktori/kategori", description: "Jelajah berdasarkan kategori" },
-        { label: "Terbaru", href: "/direktori/terbaru", description: "UMKM yang baru terdaftar" }
+        { label: t("navbar.directoryMenu.explore"), href: "/direktori", description: "Jelajahi semua UMKM" },
+        { label: t("navbar.directoryMenu.categories"), href: "/direktori/kategori", description: "Jelajah berdasarkan kategori" },
+        { label: t("navbar.directoryMenu.latest"), href: "/direktori/terbaru", description: "UMKM yang baru terdaftar" }
       ]
     },
     {
-      label: "Peta",
+      label: t("navbar.map"),
       href: "/peta",
       icon: MapIcon,
       bgColor: "from-green-500 to-green-600",
       description: "Lokasi UMKM",
       links: [
-        { label: "Lihat Peta", href: "/peta", description: "Peta interaktif UMKM" },
-        { label: "Terdekat", href: "/peta/terdekat", description: "UMKM di sekitar Anda" }
+        { label: t("navbar.mapMenu.viewMap"), href: "/peta", description: "Peta interaktif UMKM" },
+        { label: t("navbar.mapMenu.nearby"), href: "/peta/terdekat", description: "UMKM di sekitar Anda" }
       ]
     },
     {
-      label: "Favorit",
+      label: t("navbar.favorites"),
       href: "/favorit",
       icon: HeartIcon,
       bgColor: "from-pink-500 to-pink-600",
       description: "UMKM Favorit",
       links: [
-        { label: "Daftar Favorit", href: "/favorit", description: "UMKM yang Anda simpan" },
-        { label: "Koleksi", href: "/favorit/koleksi", description: "Kelola koleksi Anda" }
+        { label: t("navbar.favoritesMenu.list"), href: "/favorit", description: "UMKM yang Anda simpan" }
       ]
     }
   ];
@@ -325,15 +326,29 @@ export default function Navbar({ onSearchOpen }: NavbarProps) {
                       };
 
                       return (
-                        <RouterLink
-                          key={link.href}
-                          to={link.href}
-                          onClick={link.href === "/#featured" ? handleClick : () => toggleMenu()}
-                          className="group flex items-center gap-2 text-white/90 hover:text-white text-xs sm:text-sm font-medium transition-all hover:translate-x-1"
-                        >
-                          <ArrowUpRightIcon className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0 group-hover:scale-110 transition-transform" />
-                          <span className="truncate">{link.label}</span>
-                        </RouterLink>
+                        link.external ? (
+                          <a
+                            key={link.href}
+                            href={link.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={() => toggleMenu()}
+                            className="group flex items-center gap-2 text-white/90 hover:text-white text-xs sm:text-sm font-medium transition-all hover:translate-x-1"
+                          >
+                            <ArrowUpRightIcon className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0 group-hover:scale-110 transition-transform" />
+                            <span className="truncate">{link.label}</span>
+                          </a>
+                        ) : (
+                          <RouterLink
+                            key={link.href}
+                            to={link.href}
+                            onClick={link.href === "/#featured" ? handleClick : () => toggleMenu()}
+                            className="group flex items-center gap-2 text-white/90 hover:text-white text-xs sm:text-sm font-medium transition-all hover:translate-x-1"
+                          >
+                            <ArrowUpRightIcon className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0 group-hover:scale-110 transition-transform" />
+                            <span className="truncate">{link.label}</span>
+                          </RouterLink>
+                        )
                       );
                     })}
                   </div>

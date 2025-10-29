@@ -34,6 +34,7 @@
     "@tailwindcss/vite": "4.1.11",
     "@types/mapbox-gl": "^3.4.1",
     "clsx": "^2.1.1",
+    "dotted-map": "^2.2.3",
     "framer-motion": "^11.18.2",
     "gsap": "^3.13.0",
     "lucide-react": "^0.546.0",

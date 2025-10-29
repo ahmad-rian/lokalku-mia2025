@@ -1,645 +1,430 @@
-import { useState, useEffect, useMemo } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import {
-  Button,
-  Card,
-  CardBody,
-  Chip,
-  Dropdown,
-  DropdownTrigger,
-  DropdownMenu,
-  DropdownItem,
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  useDisclosure,
-  Checkbox,
-} from "@heroui/react";
-import {
-  Heart,
-  ChevronRight,
-  ChevronDown,
-  Star,
-  MapPin,
-  Phone,
-  MessageCircle,
-  Eye,
-  X,
-  Trash2,
-  Share2,
-  CheckSquare,
-  Square,
-} from "lucide-react";
+import { useState, useEffect, useMemo, useRef } from "react";
+import { Link } from "react-router-dom";
+import { Button, Card, CardBody, Chip } from "@heroui/react";
+import { Heart, Star, MapPin, Trash2, Share2, ExternalLink } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import DefaultLayout from "@/layouts/default";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { cn } from "@/lib/utils";
 
-// UMKM Interface (matching directory.tsx)
+// UMKM Interface
 interface UMKM {
   id: string;
   name: string;
   category: string;
   location: string;
-  distance?: string;
   rating: number;
   reviewCount: number;
   description: string;
   image: string;
   status: "open" | "closed";
-  priceRange?: "$" | "$$" | "$$$";
-  isFavorite: boolean;
-  dateSaved?: string;
 }
 
-// Mock UMKM data (same as directory.tsx)
-const mockUMKMData: UMKM[] = [
-  {
-    id: "1",
-    name: "Warung Sate Pak Kumis",
-    category: "Makanan & Minuman",
-    location: "Purwokerto Utara",
-    distance: "2.5 km",
-    rating: 4.8,
-    reviewCount: 124,
-    description: "Sate kambing dan ayam dengan bumbu kacang khas Banyumas yang gurih dan lezat",
-    image: "https://images.unsplash.com/photo-1529042410759-befb1204b468?w=800&h=600&fit=crop",
-    status: "open",
-    priceRange: "$$",
-    isFavorite: true,
-    dateSaved: "2024-01-15T10:30:00Z"
-  },
-  {
-    id: "2",
-    name: "Batik Gumelem Asli",
-    category: "Fashion",
-    location: "Purwokerto Selatan",
-    distance: "1.8 km",
-    rating: 4.9,
-    reviewCount: 89,
-    description: "Batik khas Banyumas dengan motif tradisional dan modern berkualitas tinggi",
-    image: "https://images.unsplash.com/photo-1610003524635-5fe4c7e11b32?w=800&h=600&fit=crop",
-    status: "open",
-    priceRange: "$$$",
-    isFavorite: true,
-    dateSaved: "2024-01-14T15:45:00Z"
-  },
-  {
-    id: "4",
-    name: "Kopi Gunung Slamet",
-    category: "Kafe & Resto",
-    location: "Purwokerto Barat",
-    distance: "4.1 km",
-    rating: 4.6,
-    reviewCount: 203,
-    description: "Kopi premium dari lereng Gunung Slamet dengan cita rasa yang khas dan autentik",
-    image: "https://images.unsplash.com/photo-1511920170033-f8396924c348?w=800&h=600&fit=crop",
-    status: "open",
-    priceRange: "$$",
-    isFavorite: true,
-    dateSaved: "2024-01-13T09:20:00Z"
-  }
-];
+// Lightweight Background Ripple Effect Component
+const BackgroundRipple = ({ rows = 8, cols = 25, cellSize = 56 }: { rows?: number; cols?: number; cellSize?: number }) => {
+  const [clickedCell, setClickedCell] = useState<{ row: number; col: number } | null>(null);
+  const [rippleKey, setRippleKey] = useState(0);
 
-// Favorites Card Component
-interface FavoritesCardProps {
-  umkm: UMKM;
-  onRemove: (id: string) => void;
-  onClick: () => void;
-  isSelected?: boolean;
-  onSelect?: (id: string, selected: boolean) => void;
-  selectionMode?: boolean;
-}
+  const cells = useMemo(() => Array.from({ length: rows * cols }, (_, idx) => idx), [rows, cols]);
 
-function FavoritesCard({ umkm, onRemove, onClick, isSelected, onSelect, selectionMode }: FavoritesCardProps) {
-  const navigate = useNavigate();
-
-  const formatPriceRange = (priceRange?: "$" | "$$" | "$$$") => {
-    switch (priceRange) {
-      case "$":
-        return "Rp 10.000 - 25.000";
-      case "$$":
-        return "Rp 25.000 - 50.000";
-      case "$$$":
-        return "Rp 50.000 - 100.000";
-      default:
-        return "Harga bervariasi";
-    }
-  };
-
-  const formatDateSaved = (dateString?: string) => {
-    if (!dateString) return "Baru saja";
-    
-    const date = new Date(dateString);
-    const now = new Date();
-    const diffTime = Math.abs(now.getTime() - date.getTime());
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    
-    if (diffDays === 1) return "Disimpan kemarin";
-    if (diffDays < 7) return `Disimpan ${diffDays} hari lalu`;
-    if (diffDays < 30) return `Disimpan ${Math.ceil(diffDays / 7)} minggu lalu`;
-    return `Disimpan ${Math.ceil(diffDays / 30)} bulan lalu`;
+  const gridStyle: React.CSSProperties = {
+    display: "grid",
+    gridTemplateColumns: `repeat(${cols}, ${cellSize}px)`,
+    gridTemplateRows: `repeat(${rows}, ${cellSize}px)`,
+    width: cols * cellSize,
+    height: rows * cellSize,
+    marginInline: "auto",
   };
 
   return (
-    <motion.div
-      layout
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -20 }}
-      transition={{ duration: 0.3 }}
-    >
-      <Card 
-        isPressable={!selectionMode}
-        className="group hover:shadow-lg transition-all duration-300 border border-gray-200 dark:border-gray-700"
-        onPress={selectionMode ? undefined : onClick}
-      >
-        <CardBody className="p-0">
-          {/* Image Container */}
-          <div className="relative">
-            <img
-              src={umkm.image}
-              alt={umkm.name}
-              className="w-full h-48 object-cover"
-            />
-            
-            {/* Status Badge */}
-            <div className="absolute top-3 left-3">
-              <Chip
-                size="sm"
-                variant="flat"
-                color={umkm.status === "open" ? "success" : "danger"}
-                className="text-xs font-medium"
-              >
-                {umkm.status === "open" ? "Buka" : "Tutup"}
-              </Chip>
-            </div>
-
-            {/* Selection Checkbox */}
-            {selectionMode && (
-              <div className="absolute top-3 right-3">
-                <Checkbox
-                  isSelected={isSelected}
-                  onValueChange={(selected) => onSelect?.(umkm.id, selected)}
-                  className="bg-white/80 backdrop-blur-sm rounded-lg p-1"
-                />
-              </div>
-            )}
-
-            {/* Remove Button */}
-            {!selectionMode && (
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onRemove(umkm.id);
-                }}
-                className="absolute top-3 right-3 p-2 bg-white/80 backdrop-blur-sm rounded-full hover:bg-white transition-colors"
-              >
-                <X size={16} className="text-gray-600" />
-              </button>
-            )}
-          </div>
-
-          {/* Content */}
-          <div className="p-4">
-            {/* Category Chip */}
-            <Chip size="sm" variant="flat" color="primary" className="mb-2">
-              {umkm.category}
-            </Chip>
-
-            {/* Name */}
-            <h3 className="font-playfair text-lg font-semibold text-gray-900 dark:text-white mb-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
-              {umkm.name}
-            </h3>
-
-            {/* Rating & Reviews */}
-            <div className="flex items-center gap-2 mb-2">
-              <div className="flex items-center gap-1">
-                <Star size={14} className="fill-yellow-400 text-yellow-400" />
-                <span className="text-sm font-medium text-gray-900 dark:text-white">
-                  {umkm.rating}
-                </span>
-              </div>
-              <span className="text-sm text-gray-500 dark:text-gray-400">
-                ({umkm.reviewCount} ulasan)
-              </span>
-            </div>
-
-            {/* Location & Distance */}
-            <div className="flex items-center gap-4 mb-2">
-              <div className="flex items-center gap-1">
-                <MapPin size={14} className="text-gray-500 dark:text-gray-400" />
-                <span className="text-sm text-gray-600 dark:text-gray-300">
-                  {umkm.location}
-                </span>
-              </div>
-              {umkm.distance && (
-                <span className="text-sm text-gray-500 dark:text-gray-400">
-                  {umkm.distance}
-                </span>
-              )}
-            </div>
-
-            {/* Description */}
-            <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-2 mb-3">
-              {umkm.description}
-            </p>
-
-            {/* Date Saved */}
-            <p className="text-xs text-gray-500 dark:text-gray-400 mb-3">
-              {formatDateSaved(umkm.dateSaved)}
-            </p>
-
-            {/* Price Range & Actions */}
-            <div className="flex items-center justify-between">
-              <Chip size="sm" variant="flat" color="secondary">
-                {formatPriceRange(umkm.priceRange)}
-              </Chip>
-              
-              {!selectionMode && (
-                <div className="flex items-center gap-2">
-                  <Button
-                    isIconOnly
-                    size="sm"
-                    variant="flat"
-                    color="success"
-                    onPress={() => {
-                      // Handle call action
-                    }}
-                  >
-                    <Phone size={14} />
-                  </Button>
-                  <Button
-                    isIconOnly
-                    size="sm"
-                    variant="flat"
-                    color="primary"
-                    onPress={() => {
-                      // Handle chat action
-                    }}
-                  >
-                    <MessageCircle size={14} />
-                  </Button>
-                  <Button
-                    isIconOnly
-                    size="sm"
-                    variant="flat"
-                    onPress={() => {
-                      onClick();
-                    }}
-                  >
-                    <Eye size={14} />
-                  </Button>
-                </div>
-              )}
-            </div>
-          </div>
-        </CardBody>
-      </Card>
-    </motion.div>
-  );
-}
-
-// Empty State Component
-function EmptyState() {
-  const navigate = useNavigate();
-  
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="text-center py-16"
-    >
-      <div className="mb-6">
-        <Heart size={64} className="mx-auto text-gray-300 dark:text-gray-600 mb-4" />
-        <h3 className="font-playfair text-2xl font-semibold text-gray-900 dark:text-white mb-2">
-          Belum Ada Favorit
-        </h3>
-        <p className="text-gray-600 dark:text-gray-300 max-w-md mx-auto mb-6">
-          Mulai tambahkan UMKM favorit Anda untuk akses cepat dan mudah
-        </p>
-        <Button
-          color="primary"
-          size="lg"
-          onPress={() => navigate("/direktori")}
-          startContent={<Heart size={20} />}
+    <div className="absolute inset-0 h-full w-full overflow-hidden">
+      <div className="relative h-auto w-auto overflow-hidden">
+        {/* Pointer events blocker overlay */}
+        <div className="pointer-events-none absolute inset-0 z-[2] h-full w-full overflow-hidden" />
+        
+        <div 
+          className="relative z-[3] mask-radial-from-20% mask-radial-at-top" 
+          style={gridStyle}
         >
-          Jelajahi UMKM
-        </Button>
+          {cells.map((idx) => {
+            const rowIdx = Math.floor(idx / cols);
+            const colIdx = idx % cols;
+            const distance = clickedCell
+              ? Math.hypot(clickedCell.row - rowIdx, clickedCell.col - colIdx)
+              : 0;
+            const delay = clickedCell ? Math.max(0, distance * 55) : 0;
+            const duration = 200 + distance * 80;
+
+            return (
+              <div
+                key={idx}
+                className={cn(
+                  "cell relative border-[0.5px] opacity-40 transition-opacity duration-150 hover:opacity-80",
+                  "border-neutral-300 dark:border-neutral-700",
+                  "bg-neutral-100 dark:bg-neutral-900",
+                  "dark:shadow-[0px_0px_40px_1px_rgba(0,0,0,0.3)_inset]",
+                  clickedCell && "animate-cell-ripple"
+                )}
+                style={{
+                  "--delay": `${delay}ms`,
+                  "--duration": `${duration}ms`,
+                } as React.CSSProperties}
+                onClick={() => {
+                  setClickedCell({ row: rowIdx, col: colIdx });
+                  setRippleKey((k) => k + 1);
+                }}
+              />
+            );
+          })}
+        </div>
       </div>
-    </motion.div>
+    </div>
   );
-}
+};
 
-// Main Favorites Page Component
-export default function FavoritesPage() {
-  const navigate = useNavigate();
+export default function Favorites() {
   const { t } = useLanguage();
-  
-  // State Management
   const [favorites, setFavorites] = useState<UMKM[]>([]);
-  const [sortBy, setSortBy] = useState("newest");
-  const [selectionMode, setSelectionMode] = useState(false);
   const [selectedItems, setSelectedItems] = useState<Set<string>>(new Set());
-  const [removeId, setRemoveId] = useState<string | null>(null);
-  const [notification, setNotification] = useState<string | null>(null);
-  const [undoAction, setUndoAction] = useState<(() => void) | null>(null);
-  
-  // Modal Controls
-  const { isOpen: isRemoveModalOpen, onOpen: onRemoveModalOpen, onClose: onRemoveModalClose } = useDisclosure();
+  const [isSelectionMode, setIsSelectionMode] = useState(false);
 
-  // Notification timeout
   useEffect(() => {
-    if (notification) {
-      const timer = setTimeout(() => {
-        setNotification(null);
-        setUndoAction(null);
-      }, 5000);
-      return () => clearTimeout(timer);
-    }
-  }, [notification]);
-
-  // Load favorites from localStorage
-  useEffect(() => {
-    const savedFavorites = localStorage.getItem("lokaku_favorites");
+    // Load favorites from localStorage
+    const savedFavorites = localStorage.getItem("favorites");
     if (savedFavorites) {
-      const favoriteIds = JSON.parse(savedFavorites);
-      const favoriteUMKMs = mockUMKMData.filter(umkm => favoriteIds.includes(umkm.id));
-      setFavorites(favoriteUMKMs);
+      setFavorites(JSON.parse(savedFavorites));
     }
   }, []);
 
-  // Sort favorites
-  const sortedFavorites = useMemo(() => {
-    let sorted = [...favorites];
-    
-    switch (sortBy) {
-      case "newest":
-        sorted.sort((a, b) => new Date(b.dateSaved || 0).getTime() - new Date(a.dateSaved || 0).getTime());
-        break;
-      case "alphabetical":
-        sorted.sort((a, b) => a.name.localeCompare(b.name));
-        break;
-      case "rating":
-        sorted.sort((a, b) => b.rating - a.rating);
-        break;
-      default:
-        break;
-    }
-    
-    return sorted;
-  }, [favorites, sortBy]);
-
-  // Handle remove favorite
   const handleRemoveFavorite = (id: string) => {
-    setRemoveId(id);
-    onRemoveModalOpen();
+    const updatedFavorites = favorites.filter((fav) => fav.id !== id);
+    setFavorites(updatedFavorites);
+    localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
   };
 
-  const confirmRemoveFavorite = () => {
-    if (removeId) {
-      const removedUMKM = favorites.find(fav => fav.id === removeId);
-      const updatedFavorites = favorites.filter(fav => fav.id !== removeId);
-      setFavorites(updatedFavorites);
-      
-      // Update localStorage
-      const favoriteIds = updatedFavorites.map(fav => fav.id);
-      localStorage.setItem("lokaku_favorites", JSON.stringify(favoriteIds));
-      
-      // Show notification with undo
-      setNotification("UMKM dihapus dari favorit");
-      setUndoAction(() => () => {
-        if (removedUMKM) {
-          const restoredFavorites = [...updatedFavorites, removedUMKM];
-          setFavorites(restoredFavorites);
-          const restoredIds = restoredFavorites.map(fav => fav.id);
-          localStorage.setItem("lokaku_favorites", JSON.stringify(restoredIds));
-          setNotification(null);
-          setUndoAction(null);
-        }
+  const handleBulkDelete = () => {
+    const updatedFavorites = favorites.filter((fav) => !selectedItems.has(fav.id));
+    setFavorites(updatedFavorites);
+    localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+    setSelectedItems(new Set());
+    setIsSelectionMode(false);
+  };
+
+  const handleShare = (umkm: UMKM) => {
+    if (navigator.share) {
+      navigator.share({
+        title: umkm.name,
+        text: umkm.description,
+        url: window.location.origin + `/umkm/${umkm.id}`,
       });
-      
-      setRemoveId(null);
     }
-    onRemoveModalClose();
   };
 
-  // Handle bulk actions
-  const handleSelectAll = () => {
+  const toggleSelection = (id: string) => {
+    const newSelection = new Set(selectedItems);
+    if (newSelection.has(id)) {
+      newSelection.delete(id);
+    } else {
+      newSelection.add(id);
+    }
+    setSelectedItems(newSelection);
+  };
+
+  const selectAll = () => {
     if (selectedItems.size === favorites.length) {
       setSelectedItems(new Set());
     } else {
-      setSelectedItems(new Set(favorites.map(fav => fav.id)));
+      setSelectedItems(new Set(favorites.map((f) => f.id)));
     }
-  };
-
-  const handleRemoveSelected = () => {
-    const updatedFavorites = favorites.filter(fav => !selectedItems.has(fav.id));
-    setFavorites(updatedFavorites);
-    
-    const favoriteIds = updatedFavorites.map(fav => fav.id);
-    localStorage.setItem("lokaku_favorites", JSON.stringify(favoriteIds));
-    
-    setSelectedItems(new Set());
-    setSelectionMode(false);
-    
-    setNotification(`${selectedItems.size} UMKM dihapus dari favorit`);
-  };
-
-  const handleCardClick = (umkm: UMKM) => {
-    const categorySlug = umkm.category.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-');
-    const nameSlug = umkm.name.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-');
-    const slug = `${categorySlug}/${nameSlug}-${umkm.id}`;
-    navigate(`/detail/${slug}`);
   };
 
   return (
     <DefaultLayout>
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-20 sm:pt-24">
-        {/* Header */}
-        <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-            {/* Breadcrumb */}
-            <nav className="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400 mb-4">
-              <Link to="/" className="hover:text-primary-600 dark:hover:text-primary-400">
-                Beranda
-              </Link>
-              <ChevronRight size={16} />
-              <span className="text-gray-900 dark:text-white">Favorit</span>
-            </nav>
+      <div className="min-h-screen bg-gradient-to-b from-gray-50 via-white to-gray-50 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 relative overflow-hidden">
+        {/* Background Ripple Effect */}
+        <BackgroundRipple />
+        
+        {/* Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-white/50 dark:to-gray-900/50 pointer-events-none" />
 
-            {/* Page Title */}
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-              <div>
-                <h1 className="font-playfair text-4xl font-bold text-gray-900 dark:text-white">
-                  UMKM Favorit Saya
-                </h1>
-                <p className="text-gray-600 dark:text-gray-300 mt-1">
-                  {favorites.length} UMKM tersimpan
-                </p>
-              </div>
-              
-              {favorites.length > 0 && (
-                <div className="flex items-center gap-3">
-                  {/* Sort Dropdown */}
-                  <Dropdown>
-                    <DropdownTrigger>
-                      <Button variant="flat" endContent={<ChevronDown size={16} />}>
-                        {sortBy === "newest" && "Terbaru Disimpan"}
-                        {sortBy === "alphabetical" && "A-Z"}
-                        {sortBy === "rating" && "Rating Tertinggi"}
-                      </Button>
-                    </DropdownTrigger>
-                    <DropdownMenu
-                      selectedKeys={[sortBy]}
-                      onSelectionChange={(keys) => setSortBy(Array.from(keys)[0] as string)}
-                    >
-                      <DropdownItem key="newest">Terbaru Disimpan</DropdownItem>
-                      <DropdownItem key="alphabetical">A-Z</DropdownItem>
-                      <DropdownItem key="rating">Rating Tertinggi</DropdownItem>
-                    </DropdownMenu>
-                  </Dropdown>
-
-                  {/* Selection Mode Toggle */}
-                  <Button
-                    variant={selectionMode ? "solid" : "flat"}
-                    color={selectionMode ? "primary" : "default"}
-                    onPress={() => {
-                      setSelectionMode(!selectionMode);
-                      setSelectedItems(new Set());
-                    }}
-                    startContent={selectionMode ? <CheckSquare size={16} /> : <Square size={16} />}
-                  >
-                    {selectionMode ? "Batal" : "Pilih"}
-                  </Button>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-
-        {/* Selection Actions Bar */}
-        <AnimatePresence>
-          {selectionMode && selectedItems.size > 0 && (
-            <motion.div
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              className="bg-primary-50 dark:bg-primary-900/20 border-b border-primary-200 dark:border-primary-800"
+        {/* Content */}
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-12">{/* Changed pt-24 to pt-32 for more top padding */}
+          {/* Header */}
+          <div className="text-center mb-12 blur-fade-in" style={{ animationDelay: "0.1s" }}>
+            <h1
+              className="text-4xl md:text-5xl font-bold mb-4 text-gray-900 dark:text-white"
+              style={{ fontFamily: "'Playfair Display', serif" }}
             >
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium text-primary-700 dark:text-primary-300">
-                    {selectedItems.size} item dipilih
-                  </span>
-                  <div className="flex items-center gap-2">
-                    <Button
-                      size="sm"
-                      variant="flat"
-                      onPress={handleSelectAll}
-                    >
-                      {selectedItems.size === favorites.length ? "Batal Pilih Semua" : "Pilih Semua"}
-                    </Button>
+              <Heart className="inline-block w-10 h-10 mr-3 text-red-500 fill-red-500" />
+              {t("favorites.title")}
+            </h1>
+            <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+              {t("favorites.subtitle")}
+            </p>
+          </div>
+
+          {/* Action Bar */}
+          {favorites.length > 0 && (
+            <div className="flex flex-wrap gap-4 justify-between items-center mb-8 blur-fade-in" style={{ animationDelay: "0.3s" }}>
+              <div className="flex items-center gap-4">
+                <Chip color="primary" variant="flat" size="lg">
+                  {favorites.length} UMKM
+                </Chip>
+                {isSelectionMode && (
+                  <Button
+                    size="sm"
+                    variant="flat"
+                    onPress={selectAll}
+                  >
+                    {selectedItems.size === favorites.length ? t("favorites.actions.deselectAll") : t("favorites.actions.selectAll")}
+                  </Button>
+                )}
+              </div>
+
+              <div className="flex gap-2">
+                {isSelectionMode ? (
+                  <>
                     <Button
                       size="sm"
                       color="danger"
                       variant="flat"
-                      onPress={handleRemoveSelected}
-                      startContent={<Trash2 size={14} />}
+                      startContent={<Trash2 className="w-4 h-4" />}
+                      onPress={handleBulkDelete}
+                      isDisabled={selectedItems.size === 0}
                     >
-                      Hapus
+                      {t("favorites.actions.delete")} ({selectedItems.size})
                     </Button>
                     <Button
                       size="sm"
-                      variant="flat"
-                      startContent={<Share2 size={14} />}
+                      variant="bordered"
+                      onPress={() => {
+                        setIsSelectionMode(false);
+                        setSelectedItems(new Set());
+                      }}
                     >
-                      Bagikan
+                      {t("favorites.actions.cancel")}
                     </Button>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* Notification Toast */}
-        <AnimatePresence>
-          {notification && (
-            <motion.div
-              initial={{ opacity: 0, y: -50 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -50 }}
-              className="fixed top-20 left-1/2 transform -translate-x-1/2 z-50"
-            >
-              <div className="bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-3">
-                <span>{notification}</span>
-                {undoAction && (
+                  </>
+                ) : (
                   <Button
                     size="sm"
-                    variant="flat"
-                    className="text-white border-white hover:bg-white/20"
-                    onPress={() => {
-                      undoAction();
-                    }}
+                    variant="bordered"
+                    onPress={() => setIsSelectionMode(true)}
                   >
-                    Undo
+                    {t("favorites.actions.manage")}
                   </Button>
                 )}
               </div>
-            </motion.div>
+            </div>
           )}
-        </AnimatePresence>
 
-        {/* Content */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          {favorites.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              <AnimatePresence>
-                {sortedFavorites.map((umkm) => (
-                  <FavoritesCard
+          {/* Favorites Grid */}
+          {favorites.length === 0 ? (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-center py-20"
+            >
+              <Heart className="w-24 h-24 mx-auto text-gray-300 dark:text-gray-700 mb-6" />
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+                {t("favorites.empty.title")}
+              </h3>
+              <p className="text-gray-600 dark:text-gray-400 mb-8 max-w-md mx-auto">
+                {t("favorites.empty.description")}
+              </p>
+              <Button
+                as={Link}
+                to="/direktori"
+                color="primary"
+                size="lg"
+                className="font-semibold"
+              >
+                {t("favorites.actions.explore")}
+              </Button>
+            </motion.div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <AnimatePresence mode="popLayout">
+                {favorites.map((umkm, idx) => (
+                  <motion.div
                     key={umkm.id}
-                    umkm={umkm}
-                    onRemove={handleRemoveFavorite}
-                    onClick={() => handleCardClick(umkm)}
-                    selectionMode={selectionMode}
-                    isSelected={selectedItems.has(umkm.id)}
-                    onSelect={(id, selected) => {
-                      const newSelected = new Set(selectedItems);
-                      if (selected) {
-                        newSelected.add(id);
-                      } else {
-                        newSelected.delete(id);
-                      }
-                      setSelectedItems(newSelected);
-                    }}
-                  />
+                    layout
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    transition={{ duration: 0.3, delay: idx * 0.05 }}
+                    className="blur-fade-in"
+                    style={{ animationDelay: `${0.4 + idx * 0.1}s` }}
+                  >
+                    <Card
+                      className={cn(
+                        "group hover:shadow-2xl transition-all duration-300 border border-gray-200 dark:border-gray-800",
+                        isSelectionMode && "cursor-pointer",
+                        selectedItems.has(umkm.id) && "ring-2 ring-primary-500"
+                      )}
+                      isPressable={isSelectionMode}
+                      onPress={() => isSelectionMode && toggleSelection(umkm.id)}
+                    >
+                      <CardBody className="p-0">
+                        {/* Image */}
+                        <div className="relative h-48 overflow-hidden">
+                          <img
+                            src={umkm.image}
+                            alt={umkm.name}
+                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                          />
+                          
+                          {/* Selection Checkbox */}
+                          {isSelectionMode && (
+                            <div className="absolute top-3 left-3 bg-white dark:bg-gray-900 rounded-full p-2">
+                              <div className={cn(
+                                "w-6 h-6 rounded-full border-2 flex items-center justify-center",
+                                selectedItems.has(umkm.id)
+                                  ? "bg-primary-500 border-primary-500"
+                                  : "border-gray-400"
+                              )}>
+                                {selectedItems.has(umkm.id) && (
+                                  <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                  </svg>
+                                )}
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Status Badge */}
+                          <div className="absolute top-3 right-3">
+                            <Chip
+                          size="sm"
+                          color={umkm.status === "open" ? "success" : "default"}
+                          variant="flat"
+                        >
+                          {umkm.status === "open" ? t("favorites.status.open") : t("favorites.status.closed")}
+                        </Chip>
+                          </div>
+
+                          {/* Quick Actions (Non-selection mode) */}
+                          {!isSelectionMode && (
+                            <div className="absolute bottom-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                              <Button
+                                isIconOnly
+                                size="sm"
+                                color="danger"
+                                variant="flat"
+                                onPress={() => handleRemoveFavorite(umkm.id)}
+                                className="backdrop-blur-md"
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </Button>
+                              <Button
+                                isIconOnly
+                                size="sm"
+                                variant="flat"
+                                onPress={() => handleShare(umkm)}
+                                className="backdrop-blur-md bg-white/90 dark:bg-gray-900/90"
+                              >
+                                <Share2 className="w-4 h-4" />
+                              </Button>
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Content */}
+                        <div className="p-4">
+                          <div className="flex items-start justify-between mb-2">
+                            <h3 className="text-lg font-bold text-gray-900 dark:text-white line-clamp-1">
+                              {umkm.name}
+                            </h3>
+                          </div>
+
+                          <Chip size="sm" variant="flat" color="primary" className="mb-3">
+                            {umkm.category}
+                          </Chip>
+
+                          <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 line-clamp-2">
+                            {umkm.description}
+                          </p>
+
+                          {/* Info */}
+                          <div className="space-y-2 mb-4">
+                            <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                              <MapPin className="w-4 h-4 text-primary-500" />
+                              <span className="line-clamp-1">{umkm.location}</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
+                              <span className="text-sm font-semibold text-gray-900 dark:text-white">
+                                {umkm.rating.toFixed(1)}
+                              </span>
+                              <span className="text-sm text-gray-500">
+                                ({umkm.reviewCount} {t("favorites.reviews")})
+                              </span>
+                            </div>
+                          </div>
+
+                          {/* View Details Button */}
+                          {!isSelectionMode && (
+                            <Button
+                              as={Link}
+                              to={`/umkm/${umkm.id}`}
+                              color="primary"
+                              variant="flat"
+                              fullWidth
+                              endContent={<ExternalLink className="w-4 h-4" />}
+                              className="font-semibold"
+                            >
+                              {t("favorites.actions.viewDetails")}
+                            </Button>
+                          )}
+                        </div>
+                      </CardBody>
+                    </Card>
+                  </motion.div>
                 ))}
               </AnimatePresence>
             </div>
-          ) : (
-            <EmptyState />
           )}
         </div>
 
-        {/* Remove Confirmation Modal */}
-        <Modal isOpen={isRemoveModalOpen} onClose={onRemoveModalClose}>
-          <ModalContent>
-            <ModalHeader>Hapus dari Favorit</ModalHeader>
-            <ModalBody>
-              <p>Apakah Anda yakin ingin menghapus UMKM ini dari daftar favorit?</p>
-            </ModalBody>
-            <ModalFooter>
-              <Button variant="flat" onPress={onRemoveModalClose}>
-                Batal
-              </Button>
-              <Button color="danger" onPress={confirmRemoveFavorite}>
-                Hapus
-              </Button>
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
+        {/* Styles */}
+        <style>{`
+          @keyframes blurFadeIn {
+            0% {
+              opacity: 0;
+              filter: blur(10px);
+              transform: translateY(20px);
+            }
+            100% {
+              opacity: 1;
+              filter: blur(0);
+              transform: translateY(0);
+            }
+          }
+
+          .blur-fade-in {
+            animation: blurFadeIn 0.8s ease-out both;
+          }
+
+          @keyframes cell-ripple {
+            0% {
+              opacity: 0.4;
+            }
+            50% {
+              opacity: 0.8;
+            }
+            100% {
+              opacity: 0.4;
+            }
+          }
+
+          .animate-cell-ripple {
+            animation: cell-ripple var(--duration, 200ms) ease-out none 1 var(--delay, 0ms);
+          }
+
+          .cell {
+            will-change: opacity;
+          }
+        `}</style>
       </div>
     </DefaultLayout>
   );

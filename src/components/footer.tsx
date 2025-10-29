@@ -39,8 +39,8 @@ export default function Footer() {
   ];
 
   const informationLinks = [
-    { label: t("footer.information.about"), href: "/tentang" },
-    { label: t("footer.information.contact"), href: "/kontak" },
+    { label: t("footer.information.about"), href: "/about" },
+    { label: t("footer.information.contact"), href: "https://www.ahmadrian.site/", external: true },
     { label: t("footer.information.privacy"), href: "/privasi" },
     { label: t("footer.information.terms"), href: "/syarat" },
     { label: t("footer.information.faq"), href: "/faq" }
@@ -235,12 +235,23 @@ export default function Footer() {
             <ul className="space-y-3">
               {informationLinks.map((link) => (
                 <li key={link.href}>
-                  <Link
-                    to={link.href}
-                    className="text-gray-400 hover:text-primary-400 transition-colors duration-200 text-sm font-medium hover:translate-x-1 inline-block"
-                  >
-                    {link.label}
-                  </Link>
+                  {link.external ? (
+                    <a
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-gray-400 hover:text-primary-400 transition-colors duration-200 text-sm font-medium hover:translate-x-1 inline-block"
+                    >
+                      {link.label}
+                    </a>
+                  ) : (
+                    <Link
+                      to={link.href}
+                      className="text-gray-400 hover:text-primary-400 transition-colors duration-200 text-sm font-medium hover:translate-x-1 inline-block"
+                    >
+                      {link.label}
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>

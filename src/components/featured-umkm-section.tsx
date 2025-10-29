@@ -6,6 +6,7 @@ import { useLanguage } from "../contexts/LanguageContext";
 import Masonry from "./Masonry";
 import ErrorBoundary from "./ErrorBoundary";
 import { useState, useEffect } from "react";
+import { umkmData } from "@/data/umkm-data";
 
 export default function FeaturedUMKMSection() {
   const { t } = useLanguage();
@@ -29,89 +30,15 @@ export default function FeaturedUMKMSection() {
     return () => observer.disconnect();
   }, []);
   
-  // Data UMKM untuk Masonry
-  const umkmItems = [
-    {
-      id: "1",
-      img: "https://images.unsplash.com/photo-1529042410759-befb1204b468?w=800&h=600&fit=crop",
-      url: "/detail/makanan-minuman/warung-sate-pak-kumis-1",
-      height: 400,
-      name: "Warung Sate Pak Kumis",
-      category: "Kuliner"
-    },
-    {
-      id: "2",
-      img: "https://images.unsplash.com/photo-1610003524635-5fe4c7e11b32?w=800&h=600&fit=crop",
-      url: "/detail/fashion/batik-gumelem-asli-2",
-      height: 500,
-      name: "Batik Gumelem Asli",
-      category: "Fashion & Kerajinan"
-    },
-    {
-      id: "3",
-      img: "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=800&h=600&fit=crop",
-      url: "/detail/makanan-minuman/getuk-goreng-bu-tini-3",
-      height: 350,
-      name: "Getuk Goreng Bu Tini",
-      category: "Makanan & Oleh-oleh"
-    },
-    {
-      id: "4",
-      img: "https://images.unsplash.com/photo-1511920170033-f8396924c348?w=800&h=600&fit=crop",
-      url: "/detail/kafe-resto/kopi-gunung-slamet-4",
-      height: 450,
-      name: "Kopi Gunung Slamet",
-      category: "Kafe & Minuman"
-    },
-    {
-      id: "5",
-      img: "https://images.unsplash.com/photo-1562322140-8baeececf3df?w=800&h=600&fit=crop",
-      url: "/umkm/5",
-      height: 380,
-      name: "Salon Cantik Ayu",
-      category: "Kecantikan"
-    },
-    {
-      id: "6",
-      img: "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=800&h=600&fit=crop",
-      url: "/umkm/6",
-      height: 420,
-      name: "Mendoan Cokro Kembang",
-      category: "Kuliner"
-    },
-    {
-      id: "7",
-      img: "https://images.unsplash.com/photo-1625047509248-ec889cbff17f?w=800&h=600&fit=crop",
-      url: "/umkm/7",
-      height: 360,
-      name: "Bengkel Motor Jaya Abadi",
-      category: "Otomotif & Jasa"
-    },
-    {
-      id: "8",
-      img: "https://images.unsplash.com/photo-1599490659213-e2b9527bd087?w=800&h=600&fit=crop",
-      url: "/umkm/8",
-      height: 390,
-      name: "Lanting Bu Narti",
-      category: "Makanan & Oleh-oleh"
-    },
-    {
-      id: "9",
-      img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=800&h=600&fit=crop",
-      url: "/umkm/9",
-      height: 440,
-      name: "Warung Gudeg Bu Sari",
-      category: "Kuliner"
-    },
-    {
-      id: "10",
-      img: "https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=800&h=600&fit=crop",
-      url: "/umkm/10",
-      height: 370,
-      name: "Toko Batik Banyumas",
-      category: "Fashion"
-    }
-  ];
+  // Transform centralized UMKM data for Masonry display
+  const umkmItems = umkmData.slice(0, 10).map((umkm, index) => ({
+    id: umkm.id,
+    img: umkm.image,
+    url: `/umkm/${umkm.id}`,
+    height: 350 + (index % 4) * 25, // Varied heights for masonry effect
+    name: umkm.name,
+    category: umkm.category
+  }));
 
   return (
     <LazySection 

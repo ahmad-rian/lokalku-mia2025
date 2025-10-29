@@ -327,10 +327,10 @@ export default function HeroSection() {
         )}
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="text-center max-w-5xl mx-auto">
+          <div className="text-center max-w-5xl mx-auto hero-content">
 
             {/* Main Heading */}
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6 blur-fade-in" style={{ fontFamily: "'Playfair Display', serif", animationDelay: '0.1s' }}>
               <span className="block text-gray-900 dark:text-white mb-2">
                 {t('hero.title')}
               </span>
@@ -340,7 +340,7 @@ export default function HeroSection() {
             </h1>
 
             {/* Javanese Script with Typing Effect */}
-            <div className="mb-6">
+            <div className="mb-6 blur-fade-in" style={{ animationDelay: '0.3s' }}>
               <TextType
                 text={[
                   "ꦢꦶꦫꦺꦏ꧀ꦠꦺꦴꦂꦶ ꦈꦩ꧀ꦏꦺꦩ꧀ ꦧꦚꦸꦩꦱ꧀",
@@ -358,12 +358,12 @@ export default function HeroSection() {
             </div>
 
             {/* Subheading */}
-            <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300 leading-relaxed mb-12 max-w-3xl mx-auto">
+            <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300 leading-relaxed mb-12 max-w-3xl mx-auto blur-fade-in" style={{ animationDelay: '0.5s' }}>
               {t('hero.subtitle')}
             </p>
 
             {/* Search Bar with PlaceholdersAndVanishInput */}
-            <div className="mb-10 max-w-2xl mx-auto">
+            <div className="mb-10 max-w-2xl mx-auto blur-fade-in" style={{ animationDelay: '0.7s' }}>
               <PlaceholdersAndVanishInput
                 placeholders={searchPlaceholders}
                 onChange={handleSearchChange}
@@ -372,7 +372,7 @@ export default function HeroSection() {
             </div>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center blur-fade-in" style={{ animationDelay: '0.9s' }}>
               <InteractiveHoverButton 
                 className="bg-gray-900 dark:bg-white/10 backdrop-blur-md border border-gray-900 dark:border-white/20 text-white font-semibold hover:bg-gray-800 dark:hover:bg-white/20 transition-all shadow-lg"
                 onClick={() => window.location.href = '/direktori'}
@@ -464,7 +464,7 @@ export default function HeroSection() {
             </div>
 
             {/* Stats */}
-            <div className="grid grid-cols-3 gap-8 mt-16 max-w-2xl mx-auto">
+            <div className="grid grid-cols-3 gap-8 mt-16 max-w-2xl mx-auto blur-fade-in" style={{ animationDelay: '1.1s' }}>
               <div className="text-center">
                 <div className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-1">150+</div>
                 <div className="text-xs md:text-sm text-gray-600 dark:text-gray-400">{t('hero.stats.registered')}</div>
@@ -480,6 +480,31 @@ export default function HeroSection() {
             </div>
           </div>
         </div>
+
+        {/* Blur Fade Animation Styles */}
+        <style>{`
+          @keyframes blurFadeIn {
+            0% {
+              opacity: 0;
+              filter: blur(10px);
+              transform: translateY(20px);
+            }
+            100% {
+              opacity: 1;
+              filter: blur(0);
+              transform: translateY(0);
+            }
+          }
+
+          .blur-fade-in {
+            animation: blurFadeIn 0.8s ease-out both;
+          }
+
+          /* Optional: Add smoother transitions */
+          .hero-content * {
+            will-change: transform, opacity, filter;
+          }
+        `}</style>
       </section>
 
     

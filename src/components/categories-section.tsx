@@ -14,15 +14,18 @@ import {
 import LazySection from "./LazySection";
 import { useLanguage } from "../contexts/LanguageContext";
 import { BentoGrid, BentoGridItem } from "./ui/bento-grid";
+import { categories, getUMKMByCategory } from "@/data/umkm-data";
 
 export default function CategoriesSection() {
   const { t } = useLanguage();
   
-  const categories = [
+  // Get categories from centralized data and add UI-specific properties
+  const categoriesData = categories;
+  const categoryItems = [
     {
       id: 1,
       name: t("categories.items.food.name"),
-      count: 45,
+      count: getUMKMByCategory(categoriesData[0]).length,
       icon: Cake,
       description: t("categories.items.food.description"),
       gradient: "from-orange-500 to-red-500",
@@ -33,7 +36,7 @@ export default function CategoriesSection() {
     {
       id: 2,
       name: t("categories.items.fashion.name"),
-      count: 28,
+      count: getUMKMByCategory(categoriesData[1]).length,
       icon: ShoppingBag,
       description: t("categories.items.fashion.description"),
       gradient: "from-purple-500 to-pink-500",
@@ -44,7 +47,7 @@ export default function CategoriesSection() {
     {
       id: 3,
       name: t("categories.items.services.name"),
-      count: 32,
+      count: getUMKMByCategory(categoriesData[2]).length,
       icon: Wrench,
       description: t("categories.items.services.description"),
       gradient: "from-blue-500 to-cyan-500",
@@ -55,7 +58,7 @@ export default function CategoriesSection() {
     {
       id: 4,
       name: t("categories.items.health.name"),
-      count: 19,
+      count: getUMKMByCategory(categoriesData[3]).length,
       icon: Heart,
       description: t("categories.items.health.description"),
       gradient: "from-pink-500 to-rose-500",
@@ -66,7 +69,7 @@ export default function CategoriesSection() {
     {
       id: 5,
       name: t("categories.items.technology.name"),
-      count: 15,
+      count: getUMKMByCategory(categoriesData[4]).length,
       icon: Monitor,
       description: t("categories.items.technology.description"),
       gradient: "from-indigo-500 to-blue-500",
@@ -77,7 +80,7 @@ export default function CategoriesSection() {
     {
       id: 6,
       name: t("categories.items.transportation.name"),
-      count: 12,
+      count: getUMKMByCategory(categoriesData[5]).length,
       icon: Truck,
       description: t("categories.items.transportation.description"),
       gradient: "from-green-500 to-emerald-500",
@@ -88,7 +91,7 @@ export default function CategoriesSection() {
     {
       id: 7,
       name: t("categories.items.education.name"),
-      count: 8,
+      count: getUMKMByCategory(categoriesData[6]).length,
       icon: GraduationCap,
       description: t("categories.items.education.description"),
       gradient: "from-amber-500 to-yellow-500",
@@ -98,13 +101,13 @@ export default function CategoriesSection() {
     },
     {
       id: 8,
-      name: t("categories.items.others.name"),
-      count: 23,
+      name: t("categories.items.retail.name"),
+      count: getUMKMByCategory(categoriesData[7]).length,
       icon: Store,
-      description: t("categories.items.others.description"),
-      gradient: "from-gray-500 to-slate-500",
-      bgGradient: "from-gray-50 to-slate-50 dark:from-gray-900/20 dark:to-slate-900/20",
-      image: "https://i.pinimg.com/1200x/eb/4a/1a/eb4a1ad072f2581084099c3f9ddc728d.jpg",
+      description: t("categories.items.retail.description"),
+      gradient: "from-teal-500 to-cyan-500",
+      bgGradient: "from-teal-50 to-cyan-50 dark:from-teal-900/20 dark:to-cyan-900/20",
+      image: "https://i.pinimg.com/736x/8b/c4/3e/8bc43e7b8b8b8b8b8b8b8b8b8b8b8b8b.jpg",
       imageCredit: "Image from Pinterest"
     }
   ];
@@ -138,7 +141,7 @@ export default function CategoriesSection() {
 
         {/* Bento Grid Categories */}
         <BentoGrid className="mb-12">
-          {categories.map((category, i) => (
+          {categoryItems.map((category, i) => (
             <BentoGridItem
               key={category.id}
               title={category.name}
