@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, forwardRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -85,7 +85,7 @@ interface UMKMCardProps {
   onViewDetails: () => void;
 }
 
-function UMKMCard({ umkm, onViewDetails }: UMKMCardProps) {
+const UMKMCard = forwardRef<HTMLDivElement, UMKMCardProps>(({ umkm, onViewDetails }, ref) => {
   const { language } = useLanguage();
 
   const handleToggleFavorite = () => {
@@ -94,6 +94,7 @@ function UMKMCard({ umkm, onViewDetails }: UMKMCardProps) {
 
   return (
     <motion.div
+      ref={ref}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
@@ -229,7 +230,9 @@ function UMKMCard({ umkm, onViewDetails }: UMKMCardProps) {
       </Card>
     </motion.div>
   );
-}
+});
+
+UMKMCard.displayName = 'UMKMCard';
 
 export default function MapNearbyPage() {
   const navigate = useNavigate();

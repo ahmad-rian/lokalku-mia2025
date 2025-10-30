@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import type { Message } from "@/types/chat.types";
 import { UMKMCard } from "./UMKMCard";
 import { User } from "lucide-react";
+import OptimizedMaskot from "../OptimizedMaskot";
 
 interface MessageBubbleProps {
   message: Message;
@@ -31,11 +32,7 @@ export const MessageBubble = ({ message, onQuickReply }: MessageBubbleProps) => 
       {isAssistant && (
         <div className="flex-shrink-0 w-10 h-10 rounded-full bg-gradient-to-br from-primary-500 to-orange-500 p-0.5 shadow-md">
           <div className="w-full h-full bg-white dark:bg-gray-800 rounded-full flex items-center justify-center">
-            <img
-              src="/assets/images/maskot.png"
-              alt="SABI AI"
-              className="w-8 h-8 object-contain"
-            />
+            <OptimizedMaskot className="w-8 h-8" />
           </div>
         </div>
       )}

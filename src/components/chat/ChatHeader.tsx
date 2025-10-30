@@ -1,6 +1,7 @@
 // Chat Header Component
 import { ChevronDown, X } from "lucide-react";
 import { Button } from "@heroui/react";
+import OptimizedMaskot from "../OptimizedMaskot";
 
 interface ChatHeaderProps {
   onMinimize: () => void;
@@ -12,11 +13,7 @@ export const ChatHeader = ({ onMinimize, onClose }: ChatHeaderProps) => {
     <div className="h-16 bg-gradient-to-r from-primary-600 to-orange-500 px-4 flex items-center justify-between rounded-t-2xl">
       {/* Left: Avatar and Name */}
       <div className="flex items-center space-x-3">
-        <img
-          src="/assets/images/maskot.png"
-          alt="SABI AI"
-          className="w-12 h-12 object-contain"
-        />
+        <OptimizedMaskot size="md" className="w-12 h-12" priority />
         <div>
           <h3 className="font-display font-bold text-white text-base">
             SABI AI

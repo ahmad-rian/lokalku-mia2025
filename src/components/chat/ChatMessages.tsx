@@ -4,6 +4,7 @@ import type { Message } from "@/types/chat.types";
 import { MessageBubble } from "./MessageBubble";
 import { WelcomeMessage } from "./WelcomeMessage";
 import { TypingIndicator } from "./TypingIndicator";
+import OptimizedMaskot from "../OptimizedMaskot";
 
 interface ChatMessagesProps {
   messages: Message[];
@@ -49,15 +50,11 @@ export const ChatMessages = ({
         {/* Typing indicator */}
         {isTyping && (
           <div className="flex items-start gap-3 animate-fade-in">
-            <div className="flex-shrink-0 w-10 h-10 rounded-full bg-gradient-to-br from-primary-500 to-orange-500 p-0.5">
-              <div className="w-full h-full bg-white dark:bg-gray-800 rounded-full flex items-center justify-center">
-                <img
-                  src="/assets/images/maskot.png"
-                  alt="SABI AI"
-                  className="w-8 h-8 object-contain"
-                />
+            <div className="flex-shrink-0 w-10 h-10 rounded-full bg-gradient-to-br from-primary-500 to-orange-500 p-0.5 shadow-md">
+                <div className="w-full h-full bg-white dark:bg-gray-800 rounded-full flex items-center justify-center">
+                  <OptimizedMaskot size="sm" />
+                </div>
               </div>
-            </div>
             <TypingIndicator />
           </div>
         )}

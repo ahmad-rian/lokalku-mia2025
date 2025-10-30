@@ -28,6 +28,7 @@ export default function LazyImage({
   useEffect(() => {
     if (isIntersecting && !isLoaded && !isError) {
       const img = new Image();
+      img.decoding = 'async'; // Optimize decoding
       img.onload = () => {
         setIsLoaded(true);
       };
@@ -67,10 +68,11 @@ export default function LazyImage({
           ref={imgRef}
           src={src}
           alt={alt}
-          className={`w-full h-full object-cover transition-opacity duration-500 ${
+          className={`w-full h-full object-cover transition-opacity duration-300 ${
             isLoaded ? 'opacity-100' : 'opacity-0'
           }`}
           loading="lazy"
+          decoding="async"
         />
       )}
 

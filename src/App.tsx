@@ -1,5 +1,6 @@
 import { Route, Routes, useLocation } from "react-router-dom";
 import { Analytics } from "@vercel/analytics/react";
+import { AnimatePresence } from "framer-motion";
 
 import IndexPage from "@/pages/index";
 import DocsPage from "@/pages/docs";
@@ -18,13 +19,21 @@ import TermsPage from "@/pages/syarat";
 import PrivacyPage from "@/pages/privasi";
 import NotFound from "@/pages/NotFound";
 import ChatWidget from "@/components/chat/ChatWidget";
+import { PageLoader } from "@/components/ui/loader";
+import { usePageLoader } from "@/hooks/usePageLoader";
 
 function App() {
   const location = useLocation();
+  const { isLoading } = usePageLoader();
   const isMapPage = location.pathname === "/peta";
 
   return (
     <>
+      {/* Page Loader */}
+      <AnimatePresence>
+        {isLoading && <PageLoader />}
+      </AnimatePresence>
+
       <Routes>
         <Route element={<IndexPage />} path="/" />
         <Route element={<DocsPage />} path="/docs" />

@@ -36,16 +36,28 @@ const useMeasure = <T extends HTMLElement>() => {
 };
 
 const preloadImages = async (urls: string[]): Promise<void> => {
-  await Promise.all(
-    urls.map(
-      src =>
-        new Promise<void>(resolve => {
-          const img = new Image();
-          img.src = src;
-          img.onload = img.onerror = () => resolve();
-        })
-    )
-  );
+  // Batch preloading to avoid overwhelming the browser
+  const batchSize = 6; // Reduced from unlimited
+  const batches = [];
+  
+  for (let i = 0; i < urls.length; i += batchSize) {
+    batches.push(urls.slice(i, i + batchSize));
+  }
+  
+  for (const batch of batches) {
+    await Promise.allSettled(
+      batch.map(url => {
+         return new Promise<void>((resolve) => {
+           const img = new Image();
+           img.onload = () => resolve();
+           img.onerror = () => resolve(); // Don't fail the whole batch
+           img.src = url;
+         });
+       })
+    );
+    // Small delay between batches to prevent blocking
+    await new Promise(resolve => setTimeout(resolve, 50));
+  }
 };
 
 interface Item {
@@ -79,13 +91,13 @@ interface MasonryProps {
 
 const Masonry: React.FC<MasonryProps> = ({
   items,
-  ease = 'power3.out',
-  duration = 0.6,
-  stagger = 0.05,
+  ease = 'power2.out', // Simplified easing
+  duration = 0.4, // Reduced duration
+  stagger = 0.03, // Reduced stagger
   animateFrom = 'bottom',
   scaleOnHover = true,
   hoverScale = 0.98,
-  blurToFocus = true,
+  blurToFocus = false, // Disabled by default for performance
   colorShiftOnHover = false,
   animateOnView = true,
 }) => {
@@ -223,13 +235,22 @@ const Masonry: React.FC<MasonryProps> = ({
 
         if (animateOnView) {
           if (isIntersecting) {
+            // Optimized animation with reduced properties
             gsap.fromTo(selector, initialState, {
               opacity: 1,
               ...animationProps,
               ...(blurToFocus && { filter: 'blur(0px)' }),
-              duration: 0.8,
-              ease: 'power3.out',
-              delay: index * stagger,
+              duration: 0.5, // Reduced duration
+              ease: 'power2.out', // Simplified easing
+              delay: index * 0.02, // Reduced stagger
+              onStart: () => {
+                // Add will-change for GPU acceleration
+                gsap.set(selector, { willChange: 'transform, opacity' });
+              },
+              onComplete: () => {
+                // Remove will-change after animation
+                gsap.set(selector, { willChange: 'auto' });
+              }
             });
           } else {
             gsap.set(selector, initialState);
@@ -239,9 +260,15 @@ const Masonry: React.FC<MasonryProps> = ({
             opacity: 1,
             ...animationProps,
             ...(blurToFocus && { filter: 'blur(0px)' }),
-            duration: 0.8,
-            ease: 'power3.out',
-            delay: index * stagger,
+            duration: 0.5,
+            ease: 'power2.out',
+            delay: index * 0.02,
+            onStart: () => {
+              gsap.set(selector, { willChange: 'transform, opacity' });
+            },
+            onComplete: () => {
+              gsap.set(selector, { willChange: 'auto' });
+            }
           });
         }
       } else {
@@ -264,10 +291,15 @@ const Masonry: React.FC<MasonryProps> = ({
     const selector = `[data-key="${item.id}"]`;
 
     if (scaleOnHover) {
+      // Optimized hover animation
       gsap.to(selector, {
         scale: hoverScale,
-        duration: 0.3,
-        ease: 'power2.out'
+        duration: 0.2, // Reduced duration
+        ease: 'power2.out',
+        overwrite: true, // Prevent animation conflicts
+        onStart: () => {
+          gsap.set(selector, { willChange: 'transform' });
+        }
       });
     }
 
@@ -276,7 +308,7 @@ const Masonry: React.FC<MasonryProps> = ({
       if (overlay) {
         gsap.to(overlay, {
           opacity: 0.3,
-          duration: 0.3
+          duration: 0.2 // Reduced duration
         });
       }
     }
@@ -287,7 +319,7 @@ const Masonry: React.FC<MasonryProps> = ({
       gsap.to(textOverlay, {
         opacity: 1,
         y: 0,
-        duration: 0.3,
+        duration: 0.2, // Reduced duration
         ease: 'power2.out'
       });
     }
@@ -298,10 +330,15 @@ const Masonry: React.FC<MasonryProps> = ({
     const selector = `[data-key="${item.id}"]`;
 
     if (scaleOnHover) {
+      // Optimized hover out animation
       gsap.to(selector, {
         scale: 1,
-        duration: 0.3,
-        ease: 'power2.out'
+        duration: 0.2, // Reduced duration
+        ease: 'power2.out',
+        overwrite: true,
+        onComplete: () => {
+          gsap.set(selector, { willChange: 'auto' });
+        }
       });
     }
 
@@ -310,7 +347,7 @@ const Masonry: React.FC<MasonryProps> = ({
       if (overlay) {
         gsap.to(overlay, {
           opacity: 0,
-          duration: 0.3
+          duration: 0.2 // Reduced duration
         });
       }
     }
@@ -321,7 +358,7 @@ const Masonry: React.FC<MasonryProps> = ({
       gsap.to(textOverlay, {
         opacity: 0,
         y: 20,
-        duration: 0.3,
+        duration: 0.2, // Reduced duration
         ease: 'power2.out'
       });
     }

@@ -486,3 +486,4 @@ html:has(::view-transition-new(root)) .animate-marquee-smooth {
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
+

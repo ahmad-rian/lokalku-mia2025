@@ -323,7 +323,7 @@ export default function About() {
                   <img 
                     src="/assets/images/logo.png" 
                     alt="LokalKU Logo" 
-                    className="w-16 h-16 object-contain animate-bounce-slow"
+                    className="w-16 h-16 object-contain"
                     loading="eager"
                     decoding="sync"
                   />
