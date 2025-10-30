@@ -149,30 +149,30 @@ html, body {
   background: white;
 }
 
-/* Custom marker animations */
+/* Custom marker animations - GPU optimized */
 @keyframes bounce {
   0%, 20%, 50%, 80%, 100% {
-    transform: translateY(0);
+    transform: translate3d(0, 0, 0);
   }
   40% {
-    transform: translateY(-10px);
+    transform: translate3d(0, -10px, 0);
   }
   60% {
-    transform: translateY(-5px);
+    transform: translate3d(0, -5px, 0);
   }
 }
 
 @keyframes pulse {
   0% {
-    transform: scale(1);
+    transform: scale3d(1, 1, 1);
     opacity: 1;
   }
   50% {
-    transform: scale(1.2);
+    transform: scale3d(1.2, 1.2, 1);
     opacity: 0.7;
   }
   100% {
-    transform: scale(1);
+    transform: scale3d(1, 1, 1);
     opacity: 1;
   }
 }
@@ -180,11 +180,13 @@ html, body {
 .custom-umkm-marker {
   background: transparent !important;
   border: none !important;
+  will-change: transform;
 }
 
 .user-location-marker {
   background: transparent !important;
   border: none !important;
+  will-change: transform;
 }
 
 /* View Transition API */
@@ -294,17 +296,20 @@ html:has(::view-transition-new(root)) .animate-marquee-smooth {
     display: none;  /* Chrome, Safari and Opera */
   }
 
-  /* 404 Page animations */
+  /* 404 Page animations with GPU optimization */
   .animate-fade-in-up {
     animation: fade-in-up 0.8s ease-out forwards;
+    will-change: transform, opacity;
   }
 
   .animate-slide-in-left {
     animation: slide-in-left 0.6s ease-out forwards;
+    will-change: transform, opacity;
   }
 
   .animate-slide-in-right {
     animation: slide-in-right 0.6s ease-out forwards;
+    will-change: transform, opacity;
   }
 }
 
@@ -322,124 +327,98 @@ html:has(::view-transition-new(root)) .animate-marquee-smooth {
 
 @keyframes marquee {
   0% {
-    -webkit-transform: translateX(0%);
-    transform: translateX(0%);
+    transform: translate3d(0%, 0, 0);
   }
   100% {
-    -webkit-transform: translateX(-100%);
-    transform: translateX(-100%);
-  }
-}
-
-@-webkit-keyframes marquee-vertical {
-  0% {
-    -webkit-transform: translateY(0%);
-    transform: translateY(0%);
-  }
-  100% {
-    -webkit-transform: translateY(-100%);
-    transform: translateY(-100%);
+    transform: translate3d(-100%, 0, 0);
   }
 }
 
 @keyframes marquee-vertical {
   0% {
-    -webkit-transform: translateY(0%);
-    transform: translateY(0%);
+    transform: translate3d(0, 0%, 0);
   }
   100% {
-    -webkit-transform: translateY(-100%);
-    transform: translateY(-100%);
-  }
-}
-
-@-webkit-keyframes marquee-smooth {
-  0% {
-    -webkit-transform: translateX(0);
-    transform: translateX(0);
-  }
-  100% {
-    -webkit-transform: translateX(-50%);
-    transform: translateX(-50%);
+    transform: translate3d(0, -100%, 0);
   }
 }
 
 @keyframes marquee-smooth {
   0% {
-    -webkit-transform: translateX(0);
-    transform: translateX(0);
+    transform: translate3d(0, 0, 0);
   }
   100% {
-    -webkit-transform: translateX(-50%);
-    transform: translateX(-50%);
+    transform: translate3d(-50%, 0, 0);
   }
 }
 
 @keyframes fade-in-up {
   from {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translate3d(0, 30px, 0);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translate3d(0, 0, 0);
   }
 }
 
 @keyframes slide-in-left {
   from {
     opacity: 0;
-    transform: translateX(-30px);
+    transform: translate3d(-30px, 0, 0);
   }
   to {
     opacity: 1;
-    transform: translateX(0);
+    transform: translate3d(0, 0, 0);
   }
 }
 
 @keyframes slide-in-right {
   from {
     opacity: 0;
-    transform: translateX(30px);
+    transform: translate3d(30px, 0, 0);
   }
   to {
     opacity: 1;
-    transform: translateX(0);
+    transform: translate3d(0, 0, 0);
   }
 }
 
-/* Chat widget animations */
+/* Chat widget animations - GPU optimized */
 @keyframes slide-up {
   from {
     opacity: 0;
-    transform: translateY(20px) scale(0.95);
+    transform: translate3d(0, 20px, 0) scale3d(0.95, 0.95, 1);
   }
   to {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
   }
 }
 
 .animate-slide-up {
   animation: slide-up 0.3s ease-out;
+  will-change: transform, opacity;
 }
 
-/* Blur Fade Animation for Hero Section */
+/* Blur Fade Animation for Hero Section - GPU optimized */
 @keyframes blur-fade-in {
   0% {
     opacity: 0;
     filter: blur(10px);
-    transform: translateY(20px);
+    transform: translate3d(0, 20px, 0);
   }
   100% {
     opacity: 1;
     filter: blur(0px);
-    transform: translateY(0);
+    transform: translate3d(0, 0, 0);
   }
 }
 
 .blur-fade-in {
   animation: blur-fade-in 0.8s ease-out both;
+  will-change: transform, opacity, filter;
 }
 
 /* Animation delay utilities for staggered effects */

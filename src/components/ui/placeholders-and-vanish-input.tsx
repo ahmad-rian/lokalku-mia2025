@@ -204,12 +204,16 @@ export function PlaceholdersAndVanishInput({
           "w-full relative text-sm sm:text-base z-50 border-none dark:text-white bg-transparent text-black h-full rounded-full focus:outline-none focus:ring-0 pl-4 sm:pl-10 pr-20",
           animating && "text-transparent dark:text-transparent"
         )}
+        aria-label="Search for UMKM businesses"
+        placeholder=""
       />
 
       <button
         disabled={!value}
         type="submit"
-        className="absolute right-2 top-1/2 z-50 -translate-y-1/2 h-8 w-8 rounded-full disabled:bg-gray-100 bg-black dark:bg-zinc-900 dark:disabled:bg-zinc-800 transition duration-200 flex items-center justify-center"
+        className="absolute right-2 top-1/2 z-50 -translate-y-1/2 h-8 w-8 rounded-full disabled:bg-gray-100 bg-black dark:bg-zinc-900 dark:disabled:bg-zinc-800 transition duration-200 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+        aria-label="Submit search"
+        title="Submit search"
       >
         <motion.svg
           xmlns="http://www.w3.org/2000/svg"
@@ -222,6 +226,7 @@ export function PlaceholdersAndVanishInput({
           strokeLinecap="round"
           strokeLinejoin="round"
           className="text-gray-300 h-4 w-4"
+          aria-hidden="true"
         >
           <path d="m5 12 7-7 7 7" />
           <path d="M12 19V5" />

@@ -321,9 +321,9 @@ export default function About() {
                 {/* Logo */}
                 <div className="mb-8 flex justify-center lg:justify-start">
                   <img 
-                    src="/assets/images/logo.png" 
+                    src="/assets/images/logo.webp" 
                     alt="LokalKU Logo" 
-                    className="w-16 h-16 object-contain"
+                    className="w-16 h-16 object-contain animate-bounce-slow"
                     loading="eager"
                     decoding="sync"
                   />

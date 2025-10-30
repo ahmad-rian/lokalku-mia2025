@@ -46,10 +46,15 @@ export const WelcomeMessage = ({ onQuickReply }: WelcomeMessageProps) => {
         <CardBody className="p-6">
           <div className="flex items-start gap-4">
             <Avatar
-              src="/assets/images/maskot.png"
+              src="/assets/images/maskot.webp"
               alt="SABI"
               size="lg"
               className="flex-shrink-0"
+              imgProps={{
+                onError: (e) => {
+                  e.currentTarget.src = "/assets/images/maskot.webp";
+                }
+              }}
             />
             <div className="flex-1">
               <div className="flex items-center gap-2 mb-2">

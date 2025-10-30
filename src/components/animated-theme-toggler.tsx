@@ -95,9 +95,11 @@ export const AnimatedThemeToggler = ({
       ref={buttonRef}
       onClick={toggleTheme}
       className={cn(
-        "w-10 h-10 rounded-lg transition-all duration-500 hover:scale-110 hover:bg-primary-50 dark:hover:bg-primary-900/20 flex items-center justify-center group",
+        "w-10 h-10 rounded-lg transition-all duration-500 hover:scale-110 hover:bg-primary-50 dark:hover:bg-primary-900/20 flex items-center justify-center group focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2",
         className
       )}
+      aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+      title={isDark ? "Switch to light mode" : "Switch to dark mode"}
       {...props}
     >
       <div className="relative w-5 h-5 overflow-hidden">
@@ -107,6 +109,7 @@ export const AnimatedThemeToggler = ({
               ? "rotate-180 scale-0 opacity-0" 
               : "rotate-0 scale-100 opacity-100"
           } group-hover:scale-110`}
+          aria-hidden="true"
         />
         <MoonFilledIcon 
           className={`absolute inset-0 w-5 h-5 transition-all duration-700 ease-in-out transform ${
@@ -114,6 +117,7 @@ export const AnimatedThemeToggler = ({
               ? "rotate-0 scale-100 opacity-100" 
               : "-rotate-180 scale-0 opacity-0"
           } group-hover:scale-110`}
+          aria-hidden="true"
         />
       </div>
       <span className="sr-only">Toggle theme</span>

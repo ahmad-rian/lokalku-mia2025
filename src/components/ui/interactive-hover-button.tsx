@@ -9,7 +9,7 @@ export function InteractiveHoverButton({
   return (
     <button
       className={cn(
-        "group relative w-auto cursor-pointer overflow-hidden rounded-full border p-2 px-6 text-center font-semibold transition-all duration-300 ease-in-out",
+        "group relative w-auto cursor-pointer overflow-hidden rounded-full border p-2 px-6 text-center font-semibold transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2",
         className
       )}
       {...props}
@@ -28,7 +28,7 @@ export function InteractiveHoverButton({
       {/* Hover content */}
       <div className="absolute inset-0 z-20 flex items-center justify-center gap-2 opacity-0 translate-x-12 transition-all duration-300 ease-in-out group-hover:translate-x-0 group-hover:opacity-100 text-gray-900">
         <span>{children}</span>
-        <ArrowRight size={16} />
+        <ArrowRight size={16} aria-hidden="true" />
       </div>
     </button>
   );

@@ -140,12 +140,13 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
               placeholder={t("search.placeholder")}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              startContent={<Search className="w-4 h-4 text-gray-400 flex-shrink-0" />}
+              startContent={<Search className="w-4 h-4 text-gray-400 flex-shrink-0" aria-hidden="true" />}
               endContent={
                 <div className="items-center gap-1 hidden sm:flex">
                   <Kbd keys={["escape"]}>ESC</Kbd>
                 </div>
               }
+              aria-label="Search for UMKM businesses"
               classNames={{
                 input: "text-xs sm:text-sm",
                 inputWrapper: "h-9 sm:h-10 md:h-11",

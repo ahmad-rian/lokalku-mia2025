@@ -1,26 +1,40 @@
 import { Route, Routes, useLocation } from "react-router-dom";
 import { Analytics } from "@vercel/analytics/react";
 import { AnimatePresence } from "framer-motion";
+import { lazy, Suspense } from "react";
 
+// Critical pages - loaded immediately
 import IndexPage from "@/pages/index";
-import DocsPage from "@/pages/docs";
-import PricingPage from "@/pages/pricing";
-import BlogPage from "@/pages/blog";
-import AboutPage from "@/pages/about";
-import DirectoryPage from "@/pages/directory";
-import DirectoryCategoriesPage from "@/pages/directory-categories";
-import DirectoryLatestPage from "@/pages/directory-latest";
-import DetailPage from "@/pages/detail";
-import FavoritesPage from "@/pages/favorites";
-import MapPage from "@/pages/map";
-import MapNearbyPage from "@/pages/map-nearby";
-import FAQPage from "@/pages/faq";
-import TermsPage from "@/pages/syarat";
-import PrivacyPage from "@/pages/privasi";
 import NotFound from "@/pages/NotFound";
-import ChatWidget from "@/components/chat/ChatWidget";
+
+// Non-critical pages - lazy loaded
+const DocsPage = lazy(() => import("@/pages/docs"));
+const PricingPage = lazy(() => import("@/pages/pricing"));
+const BlogPage = lazy(() => import("@/pages/blog"));
+const AboutPage = lazy(() => import("@/pages/about"));
+const DirectoryPage = lazy(() => import("@/pages/directory"));
+const DirectoryCategoriesPage = lazy(() => import("@/pages/directory-categories"));
+const DirectoryLatestPage = lazy(() => import("@/pages/directory-latest"));
+const DetailPage = lazy(() => import("@/pages/detail"));
+const FavoritesPage = lazy(() => import("@/pages/favorites"));
+const MapPage = lazy(() => import("@/pages/map"));
+const MapNearbyPage = lazy(() => import("@/pages/map-nearby"));
+const FAQPage = lazy(() => import("@/pages/faq"));
+const TermsPage = lazy(() => import("@/pages/syarat"));
+const PrivacyPage = lazy(() => import("@/pages/privasi"));
+
+// Lazy load chat widget for non-map pages
+const ChatWidget = lazy(() => import("@/components/chat/ChatWidget"));
+
 import { PageLoader } from "@/components/ui/loader";
 import { usePageLoader } from "@/hooks/usePageLoader";
+
+// Loading fallback component
+const PageLoadingFallback = () => (
+  <div className="min-h-screen flex items-center justify-center">
+    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+  </div>
+);
 
 function App() {
   const location = useLocation();
@@ -36,25 +50,85 @@ function App() {
 
       <Routes>
         <Route element={<IndexPage />} path="/" />
-        <Route element={<DocsPage />} path="/docs" />
-        <Route element={<PricingPage />} path="/pricing" />
-        <Route element={<BlogPage />} path="/blog" />
-        <Route element={<AboutPage />} path="/about" />
-        <Route element={<DirectoryPage />} path="/direktori" />
-        <Route element={<DirectoryCategoriesPage />} path="/direktori/kategori" />
-        <Route element={<DirectoryLatestPage />} path="/direktori/terbaru" />
-        <Route element={<FavoritesPage />} path="/favorit" />
-        <Route element={<DetailPage />} path="/detail/:category/:slug" />
-        <Route element={<MapPage />} path="/peta" />
-        <Route element={<MapNearbyPage />} path="/peta/terdekat" />
-        <Route element={<FAQPage />} path="/faq" />
-        <Route element={<TermsPage />} path="/syarat" />
-        <Route element={<PrivacyPage />} path="/privasi" />
+        <Route element={
+          <Suspense fallback={<PageLoadingFallback />}>
+            <DocsPage />
+          </Suspense>
+        } path="/docs" />
+        <Route element={
+          <Suspense fallback={<PageLoadingFallback />}>
+            <PricingPage />
+          </Suspense>
+        } path="/pricing" />
+        <Route element={
+          <Suspense fallback={<PageLoadingFallback />}>
+            <BlogPage />
+          </Suspense>
+        } path="/blog" />
+        <Route element={
+          <Suspense fallback={<PageLoadingFallback />}>
+            <AboutPage />
+          </Suspense>
+        } path="/about" />
+        <Route element={
+          <Suspense fallback={<PageLoadingFallback />}>
+            <DirectoryPage />
+          </Suspense>
+        } path="/direktori" />
+        <Route element={
+          <Suspense fallback={<PageLoadingFallback />}>
+            <DirectoryCategoriesPage />
+          </Suspense>
+        } path="/direktori/kategori" />
+        <Route element={
+          <Suspense fallback={<PageLoadingFallback />}>
+            <DirectoryLatestPage />
+          </Suspense>
+        } path="/direktori/terbaru" />
+        <Route element={
+          <Suspense fallback={<PageLoadingFallback />}>
+            <FavoritesPage />
+          </Suspense>
+        } path="/favorit" />
+        <Route element={
+          <Suspense fallback={<PageLoadingFallback />}>
+            <DetailPage />
+          </Suspense>
+        } path="/detail/:category/:slug" />
+        <Route element={
+          <Suspense fallback={<PageLoadingFallback />}>
+            <MapPage />
+          </Suspense>
+        } path="/peta" />
+        <Route element={
+          <Suspense fallback={<PageLoadingFallback />}>
+            <MapNearbyPage />
+          </Suspense>
+        } path="/peta/terdekat" />
+        <Route element={
+          <Suspense fallback={<PageLoadingFallback />}>
+            <FAQPage />
+          </Suspense>
+        } path="/faq" />
+        <Route element={
+          <Suspense fallback={<PageLoadingFallback />}>
+            <TermsPage />
+          </Suspense>
+        } path="/syarat" />
+        <Route element={
+          <Suspense fallback={<PageLoadingFallback />}>
+            <PrivacyPage />
+          </Suspense>
+        } path="/privasi" />
         <Route element={<NotFound />} path="*" />
       </Routes>
-      
-      {/* SABI AI Chatbot - Hidden on map page */}
-      {!isMapPage && <ChatWidget />}
+
+      {/* Chat Widget - Only load on non-map pages */}
+      {!isMapPage && (
+        <Suspense fallback={null}>
+          <ChatWidget />
+        </Suspense>
+      )}
       
       {/* Vercel Analytics */}
       <Analytics />

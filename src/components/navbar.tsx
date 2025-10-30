@@ -1,6 +1,5 @@
-import { useLayoutEffect, useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 import { Link as RouterLink, useLocation, useNavigate } from "react-router-dom";
-import { gsap } from "gsap";
 import { 
   HomeIcon, 
   BuildingStorefrontIcon, 
@@ -26,7 +25,6 @@ export default function Navbar({ onSearchOpen }: NavbarProps) {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const navRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
-  const tlRef = useRef<gsap.core.Timeline | null>(null);
 
   // Keyboard shortcuts for search modal
   useEffect(() => {
@@ -138,58 +136,8 @@ export default function Navbar({ onSearchOpen }: NavbarProps) {
     return 320;
   };
 
-  const createTimeline = () => {
-    const navEl = navRef.current;
-    if (!navEl) return null;
-
-    gsap.set(navEl, { height: 70, overflow: "hidden" });
-    gsap.set(cardsRef.current, { y: 30, opacity: 0, scale: 0.95 });
-
-    const tl = gsap.timeline({ paused: true });
-
-    tl.to(navEl, {
-      height: calculateHeight,
-      duration: 0.5,
-      ease: "power3.out",
-    });
-
-    tl.to(
-      cardsRef.current,
-      {
-        y: 0,
-        opacity: 1,
-        scale: 1,
-        duration: 0.4,
-        ease: "back.out(1.4)",
-        stagger: 0.06,
-      },
-      "-=0.2"
-    );
-
-    return tl;
-  };
-
-  useLayoutEffect(() => {
-    const tl = createTimeline();
-    tlRef.current = tl;
-
-    return () => {
-      tl?.kill();
-      tlRef.current = null;
-    };
-  }, []);
-
   const toggleMenu = () => {
-    const tl = tlRef.current;
-    if (!tl) return;
-
-    if (!isMenuOpen) {
-      setIsMenuOpen(true);
-      tl.play(0);
-    } else {
-      tl.eventCallback("onReverseComplete", () => setIsMenuOpen(false));
-      tl.reverse();
-    }
+    setIsMenuOpen(!isMenuOpen);
   };
 
   const handleSearchClick = () => {
@@ -220,10 +168,13 @@ export default function Navbar({ onSearchOpen }: NavbarProps) {
     <div className="fixed inset-x-0 top-0 z-[100] flex justify-center px-2 sm:px-4 pt-2 sm:pt-4">
       <nav
         ref={navRef}
-        className={`w-full max-w-7xl bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl border border-gray-200 dark:border-gray-800 rounded-xl sm:rounded-2xl shadow-xl transition-all duration-300 overflow-hidden ${
+        className={`w-full max-w-7xl bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl border border-gray-200 dark:border-gray-800 rounded-xl sm:rounded-2xl shadow-xl transition-all duration-500 ease-out overflow-hidden ${
           isMenuOpen ? "shadow-2xl" : ""
         }`}
-        style={{ height: 70 }}
+        style={{ 
+          height: isMenuOpen ? calculateHeight() : 70,
+          transition: 'height 0.5s cubic-bezier(0.4, 0, 0.2, 1)'
+        }}
       >
         {/* Top Bar */}
         <div className="absolute top-0 left-0 right-0 h-[70px] flex items-center justify-between px-3 sm:px-6 z-10">
@@ -231,8 +182,11 @@ export default function Navbar({ onSearchOpen }: NavbarProps) {
           <div className="flex items-center gap-2 order-1">
             <button
               onClick={toggleMenu}
-              className="p-2 rounded-lg sm:rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              className="p-2 rounded-lg sm:rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
               aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={isMenuOpen}
+              aria-controls="navigation-menu"
+              title={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
             >
               <div className="w-5 h-5 sm:w-6 sm:h-6 flex flex-col justify-center items-center gap-1 sm:gap-1.5">
                 <div
@@ -312,10 +266,11 @@ export default function Navbar({ onSearchOpen }: NavbarProps) {
           <div className="flex lg:hidden items-center gap-1 sm:gap-2 order-3">
             <button
               onClick={handleSearchClick}
-              className="flex items-center gap-1 px-2 py-1.5 sm:px-3 sm:py-2 rounded-lg sm:rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-              aria-label="Search"
+              className="flex items-center gap-1 px-2 py-1.5 sm:px-3 sm:py-2 rounded-lg sm:rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+              aria-label="Open search"
+              title="Search UMKM businesses"
             >
-              <MagnifyingGlassIcon className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600 dark:text-gray-300" />
+              <MagnifyingGlassIcon className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600 dark:text-gray-300" aria-hidden="true" />
               <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 font-medium">Search</span>
             </button>
             
@@ -331,6 +286,7 @@ export default function Navbar({ onSearchOpen }: NavbarProps) {
 
         {/* Cards Content */}
         <div
+          id="navigation-menu"
           className={`absolute left-0 right-0 top-[70px] bottom-0 p-2 sm:p-4 overflow-y-auto ${
             isMenuOpen ? "pointer-events-auto" : "pointer-events-none"
           }`}
@@ -344,9 +300,18 @@ export default function Navbar({ onSearchOpen }: NavbarProps) {
                 <div
                   key={item.href}
                   ref={setCardRef(idx)}
-                  className={`bg-gradient-to-br ${item.bgColor} rounded-lg sm:rounded-xl p-3 sm:p-5 flex flex-col gap-2 sm:gap-3 shadow-lg hover:shadow-xl transition-shadow lg:h-full ${
+                  className={`bg-gradient-to-br ${item.bgColor} rounded-lg sm:rounded-xl p-3 sm:p-5 flex flex-col gap-2 sm:gap-3 shadow-lg hover:shadow-xl transition-all duration-300 lg:h-full ${
                     isActive ? "ring-2 ring-white ring-offset-2" : ""
+                  } ${
+                    isMenuOpen 
+                      ? 'opacity-100 translate-y-0 scale-100' 
+                      : 'opacity-0 translate-y-8 scale-95'
                   }`}
+                  style={{
+                    transitionDelay: isMenuOpen ? `${idx * 60}ms` : '0ms',
+                    transitionDuration: '400ms',
+                    transitionTimingFunction: 'cubic-bezier(0.34, 1.56, 0.64, 1)'
+                  }}
                 >
                   {/* Card Header */}
                   <div className="flex items-center gap-2 sm:gap-3">
@@ -372,9 +337,10 @@ export default function Navbar({ onSearchOpen }: NavbarProps) {
                             target="_blank"
                             rel="noopener noreferrer"
                             onClick={() => toggleMenu()}
-                            className="group flex items-center gap-2 text-white/90 hover:text-white text-xs sm:text-sm font-medium transition-all hover:translate-x-1"
+                            className="group flex items-center gap-2 text-white/90 hover:text-white text-xs sm:text-sm font-medium transition-all hover:translate-x-1 focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-transparent rounded-sm"
+                            aria-label={`${link.label} (opens in new tab)`}
                           >
-                            <ArrowUpRightIcon className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0 group-hover:scale-110 transition-transform" />
+                            <ArrowUpRightIcon className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0 group-hover:scale-110 transition-transform" aria-hidden="true" />
                             <span className="truncate">{link.label}</span>
                           </a>
                         ) : (
@@ -387,9 +353,9 @@ export default function Navbar({ onSearchOpen }: NavbarProps) {
                                 toggleMenu();
                               }
                             }}
-                            className="group flex items-center gap-2 text-white/90 hover:text-white text-xs sm:text-sm font-medium transition-all hover:translate-x-1"
+                            className="group flex items-center gap-2 text-white/90 hover:text-white text-xs sm:text-sm font-medium transition-all hover:translate-x-1 focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-transparent rounded-sm"
                           >
-                            <ArrowUpRightIcon className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0 group-hover:scale-110 transition-transform" />
+                            <ArrowUpRightIcon className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0 group-hover:scale-110 transition-transform" aria-hidden="true" />
                             <span className="truncate">{link.label}</span>
                           </RouterLink>
                         )

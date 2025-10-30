@@ -1,5 +1,4 @@
 // Message Bubble Component
-import { motion } from "framer-motion";
 import type { Message } from "@/types/chat.types";
 import { UMKMCard } from "./UMKMCard";
 import { User } from "lucide-react";
@@ -22,11 +21,8 @@ export const MessageBubble = ({ message, onQuickReply }: MessageBubbleProps) => 
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 10, scale: 0.95 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ duration: 0.2, ease: "easeOut" }}
-      className={`flex ${isUser ? "justify-end" : "justify-start"} gap-3`}
+    <div
+      className={`flex ${isUser ? "justify-end" : "justify-start"} gap-3 animate-in fade-in slide-in-from-bottom-2 duration-200`}
     >
       {/* Avatar - Assistant only */}
       {isAssistant && (
@@ -89,6 +85,6 @@ export const MessageBubble = ({ message, onQuickReply }: MessageBubbleProps) => 
           <User size={20} className="text-white" />
         </div>
       )}
-    </motion.div>
+    </div>
   );
 };

@@ -117,7 +117,9 @@ function UMKMCard({ umkm, viewMode, onToggleFavorite, onClick, userLocation }: U
               e.stopPropagation();
               onToggleFavorite(umkm.id);
             }}
-            className="absolute top-2 left-2 p-2 bg-white/90 dark:bg-gray-800/90 rounded-full hover:bg-white dark:hover:bg-gray-800 transition-colors"
+            className="absolute top-2 left-2 p-2 bg-white/90 dark:bg-gray-800/90 rounded-full hover:bg-white dark:hover:bg-gray-800 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+            aria-label={umkm.isFavorite ? `Remove ${umkm.name} from favorites` : `Add ${umkm.name} to favorites`}
+            title={umkm.isFavorite ? "Remove from favorites" : "Add to favorites"}
           >
             <Heart
               size={16}
@@ -126,6 +128,7 @@ function UMKMCard({ umkm, viewMode, onToggleFavorite, onClick, userLocation }: U
                   ? "fill-red-500 text-red-500" 
                   : "text-gray-600 dark:text-gray-400"
               }`}
+              aria-hidden="true"
             />
           </button>
         </div>

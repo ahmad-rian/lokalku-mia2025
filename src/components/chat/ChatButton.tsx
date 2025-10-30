@@ -15,9 +15,14 @@ export const ChatButton = ({ onClick, hasNotification = false }: ChatButtonProps
       >
         {/* Mascot Icon - Bigger size */}
         <img
-          src="/assets/images/maskot.png"
-          alt="SABI AI"
+          src="/assets/images/maskot.webp"
+          alt="Chat dengan SABI AI"
           className="w-24 h-24 object-contain drop-shadow-2xl hover:drop-shadow-[0_0_25px_rgba(249,115,22,0.6)] transition-all duration-300"
+          loading="lazy"
+          decoding="async"
+          onError={(e) => {
+            e.currentTarget.src = "/assets/images/maskot.webp";
+          }}
         />
 
         {/* Notification Badge */}

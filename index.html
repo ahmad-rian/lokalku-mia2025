@@ -14,20 +14,15 @@
       content="Platform direktori digital yang menghubungkan masyarakat dengan UMKM lokal terbaik di Banyumas."
       name="description"
     />
-    <meta
-      key="viewport"
-      content="viewport-fit=cover, width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
-      name="viewport"
-    />
     <!-- Preload critical fonts for better performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&display=swap" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&display=swap"></noscript>
     
-    <!-- Noto Sans Javanese Font - Preload for better performance -->
+    <!-- Noto Sans Javanese Font - Load asynchronously -->
     <link rel="preconnect" href="https://fontlibrary.org">
-    <link rel="preload" href="https://fontlibrary.org//face/notojavanese" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" href="https://fontlibrary.org//face/notojavanese" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="https://fontlibrary.org//face/notojavanese"></noscript>
   </head>
   <body>

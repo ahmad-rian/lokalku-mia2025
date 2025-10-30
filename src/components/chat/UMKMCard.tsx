@@ -33,7 +33,7 @@ export const UMKMCard = ({ card }: UMKMCardProps) => {
   };
 
   // Default values for optional fields
-  const image = card.image || "/assets/images/placeholder-umkm.jpg";
+  const image = card.image || "/assets/images/placeholder-umkm.svg";
   const rating = card.rating || 0;
   const distance = card.distance || null;
   const priceRange = card.priceRange || undefined;
@@ -54,7 +54,7 @@ export const UMKMCard = ({ card }: UMKMCardProps) => {
             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
             onError={(e) => {
               // Fallback image if load fails
-              e.currentTarget.src = "/assets/images/placeholder-umkm.jpg";
+              e.currentTarget.src = "/assets/images/placeholder-umkm.svg";
             }}
           />
           

@@ -346,8 +346,11 @@ export default function HeroSection() {
               </InteractiveHoverButton>
               
               <Link to="/peta/terdekat">
-                <button className="border-2 border-gray-300 dark:border-white/30 text-gray-900 dark:text-white font-semibold px-6 py-3 rounded-xl text-base flex items-center gap-2">
-                  <MapPinIcon className="w-5 h-5" />
+                <button 
+                  className="border-2 border-gray-300 dark:border-white/30 text-gray-900 dark:text-white font-semibold px-6 py-3 rounded-xl text-base flex items-center gap-2 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+                  aria-label={`${t('hero.nearbyButton')} - Find nearby UMKM locations`}
+                >
+                  <MapPinIcon className="w-5 h-5" aria-hidden="true" />
                   <span>
                     {t('hero.nearbyButton')}
                   </span>

@@ -100,7 +100,7 @@ export const ChatWidget = () => {
                   category: card.category || "Lainnya",
                   location: card.location || "Banyumas",
                   rating: card.rating || 0,
-                  image: "/assets/images/placeholder-umkm.jpg",
+                  image: "/assets/images/placeholder-umkm.svg",
                   distance: card.distance,
                   priceRange: undefined,
                 } as UMKMCard;
