@@ -1,4 +1,3 @@
-import React from "react";
 import { LoaderOne, LoaderTwo, LoaderThree } from "@/components/ui/loader";
 
 export function LoaderShowcase() {

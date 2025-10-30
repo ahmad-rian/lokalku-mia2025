@@ -1,4 +1,3 @@
-import React from "react";
 import { motion } from "framer-motion";
 
 // LoaderOne - Three bouncing dots as per the example
