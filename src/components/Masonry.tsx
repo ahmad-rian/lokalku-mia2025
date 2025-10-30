@@ -90,6 +90,36 @@ const Masonry: React.FC<MasonryProps> = ({
   animateOnView = true,
 }) => {
   const navigate = useNavigate();
+  const [activeItem, setActiveItem] = useState<string | null>(null); // For mobile double-tap
+  const [isMobile, setIsMobile] = useState(false);
+  
+  // Detect mobile device
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768 || 'ontouchstart' in window);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Reset active item after timeout
+  useEffect(() => {
+    if (activeItem) {
+      const timeout = setTimeout(() => {
+        // Remove glow effect when resetting
+        gsap.to(`[data-key="${activeItem}"] .masonry-item-img`, {
+          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
+          duration: 0.5,
+          ease: 'power2.out'
+        });
+        setActiveItem(null);
+      }, 3000); // Reset after 3 seconds
+      
+      return () => clearTimeout(timeout);
+    }
+  }, [activeItem]);
   
   // Better responsive breakpoints - FIXED: Shows 2 columns on mobile instead of 1
   const columns = useMedia(
@@ -299,6 +329,35 @@ const Masonry: React.FC<MasonryProps> = ({
 
   const handleClick = (e: React.MouseEvent | React.TouchEvent, item: GridItem) => {
     e.preventDefault();
+    
+    // Mobile double-tap logic
+    if (isMobile) {
+      if (activeItem !== item.id) {
+        // First tap - activate item
+        setActiveItem(item.id);
+        
+        // Add visual feedback for first tap
+        const element = e.currentTarget as HTMLElement;
+        gsap.to(`[data-key="${item.id}"]`, {
+          scale: 0.98,
+          duration: 0.2,
+          ease: 'power2.out',
+          yoyo: true,
+          repeat: 1
+        });
+        
+        // Add subtle glow effect
+        gsap.to(`[data-key="${item.id}"] .masonry-item-img`, {
+          boxShadow: '0 0 20px rgba(59, 130, 246, 0.5)',
+          duration: 0.3,
+          ease: 'power2.out'
+        });
+        
+        return; // Don't navigate on first tap
+      }
+      // Second tap - navigate (fall through to navigation logic)
+    }
+    
     const element = e.currentTarget as HTMLElement;
     const rect = element.getBoundingClientRect();
     
@@ -405,6 +464,32 @@ const Masonry: React.FC<MasonryProps> = ({
                     borderRadius: '12px'
                   }}
                 />
+              )}
+              
+              {/* Mobile Active State Indicator */}
+              {isMobile && activeItem === item.id && (
+                <div
+                  className="mobile-active-indicator"
+                  style={{
+                    position: 'absolute',
+                    top: '8px',
+                    right: '8px',
+                    width: '24px',
+                    height: '24px',
+                    background: 'rgba(59, 130, 246, 0.9)',
+                    borderRadius: '50%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: 'white',
+                    fontSize: '12px',
+                    fontWeight: 'bold',
+                    zIndex: 10,
+                    animation: 'pulse 1.5s infinite'
+                  }}
+                >
+                  2
+                </div>
               )}
               
               {/* Text Overlay */}

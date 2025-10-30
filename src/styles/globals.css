@@ -257,11 +257,11 @@ html:has(::view-transition-new(root)) .animate-marquee-smooth {
     transform: translateZ(0);
     -webkit-transform: translateZ(0);
     
-    /* Main animation with fallbacks */
-    -webkit-animation: marquee-smooth 40s linear infinite;
-    -moz-animation: marquee-smooth 40s linear infinite;
-    -o-animation: marquee-smooth 40s linear infinite;
-    animation: marquee-smooth 40s linear infinite;
+    /* Main animation with fallbacks - faster for mobile */
+    -webkit-animation: marquee-smooth 20s linear infinite;
+    -moz-animation: marquee-smooth 20s linear infinite;
+    -o-animation: marquee-smooth 20s linear infinite;
+    animation: marquee-smooth 20s linear infinite;
     
     /* Ensure smooth animation on mobile */
     -webkit-animation-fill-mode: both;
@@ -271,8 +271,8 @@ html:has(::view-transition-new(root)) .animate-marquee-smooth {
   /* Reduce motion for users who prefer it */
   @media (prefers-reduced-motion: reduce) {
     .animate-marquee-smooth {
-      animation-duration: 80s;
-      -webkit-animation-duration: 80s;
+      animation-duration: 40s;
+      -webkit-animation-duration: 40s;
     }
   }
 
