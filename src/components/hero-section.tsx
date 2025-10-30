@@ -311,9 +311,9 @@ export default function HeroSection() {
                   "ꦢꦶꦫꦺꦏ꧀ꦠꦺꦴꦂꦶ ꦈꦩ꧀ꦏꦺꦩ꧀ ꦧꦚꦸꦩꦱ꧀",
                   "ꦭꦺꦴꦏꦭ꧀ꦏꦸ꧈ ꦱꦺꦴꦭꦸꦱꦶ ꦥꦭꦶꦁ ꦲꦥꦶꦏ꧀"
                 ]}
-                typingSpeed={75}
-                deletingSpeed={50}
-                pauseDuration={2000}
+                typingSpeed={150}
+                deletingSpeed={80}
+                pauseDuration={3000}
                 showCursor={true}
                 cursorCharacter="|"
                 loop={true}

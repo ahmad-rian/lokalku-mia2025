@@ -8,6 +8,10 @@ interface UMKMCardProps {
 }
 
 export const UMKMCard = ({ card }: UMKMCardProps) => {
+  // Create proper slug format for routing
+  const categorySlug = card.category?.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-') || 'umkm';
+  const nameSlug = card.name.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-');
+  const detailUrl = `/detail/${categorySlug}/${nameSlug}-${card.id}`;
   // Early return if card is undefined or invalid
   if (!card || !card.id) {
     console.warn("Invalid UMKM card data:", card);
@@ -38,7 +42,7 @@ export const UMKMCard = ({ card }: UMKMCardProps) => {
 
   return (
     <Link
-      to={`/direktori/${card.id}`}
+      to={detailUrl}
       className="block bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-lg hover:border-primary-500 dark:hover:border-primary-400 transition-all duration-300 group"
     >
       <div className="flex gap-3 p-3">
