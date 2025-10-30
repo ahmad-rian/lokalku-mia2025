@@ -337,7 +337,6 @@ const Masonry: React.FC<MasonryProps> = ({
         setActiveItem(item.id);
         
         // Add visual feedback for first tap
-        const element = e.currentTarget as HTMLElement;
         gsap.to(`[data-key="${item.id}"]`, {
           scale: 0.98,
           duration: 0.2,
