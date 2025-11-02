@@ -227,9 +227,6 @@ Preview akan berjalan di `http://localhost:4173`
 - Penambahan konten untuk halaman Blog, Docs, dan Pricing
 - Optimasi SEO dengan konten real
 
-## Screenshots
-
-(Tambahkan screenshots di sini jika diperlukan)
 
 ## Kontribusi
 
