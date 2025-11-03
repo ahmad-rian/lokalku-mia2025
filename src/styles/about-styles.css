@@ -1,22 +1,9 @@
 /* Import Playfair Display - only weights we use */
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&display=swap');
 
-/* Noto Sans Javanese - fallback if local font not available */
-@font-face {
-  font-family: 'NotoJavaneseRegular';
-  src: url('/fonts/NotoSansJavanese-Regular.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
 /* Utility classes */
 .font-display {
   font-family: 'Playfair Display', serif;
-}
-
-.font-javanese {
-  font-family: 'NotoJavaneseRegular', serif;
 }
 
 /* Smooth scroll */

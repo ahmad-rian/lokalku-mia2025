@@ -14,16 +14,14 @@
       content="Platform direktori digital yang menghubungkan masyarakat dengan UMKM lokal terbaik di Banyumas."
       name="description"
     />
+    <!-- Preload critical images for better LCP -->
+    <link rel="preload" as="image" href="/assets/images/maskot.webp" fetchpriority="high">
+    
     <!-- Preload critical fonts for better performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&display=swap" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&display=swap"></noscript>
-    
-    <!-- Noto Sans Javanese Font - Load asynchronously -->
-    <link rel="preconnect" href="https://fontlibrary.org">
-    <link rel="stylesheet" href="https://fontlibrary.org//face/notojavanese" media="print" onload="this.media='all'">
-    <noscript><link rel="stylesheet" href="https://fontlibrary.org//face/notojavanese"></noscript>
   </head>
   <body>
     <div id="root"></div>

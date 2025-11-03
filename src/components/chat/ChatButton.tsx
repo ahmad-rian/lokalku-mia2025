@@ -17,8 +17,11 @@ export const ChatButton = ({ onClick, hasNotification = false }: ChatButtonProps
         <img
           src="/assets/images/maskot.webp"
           alt="Chat dengan SABI AI"
+          width="96"
+          height="96"
           className="w-24 h-24 object-contain drop-shadow-2xl hover:drop-shadow-[0_0_25px_rgba(249,115,22,0.6)] transition-all duration-300"
-          loading="lazy"
+          loading="eager"
+          fetchPriority="high"
           decoding="async"
           onError={(e) => {
             e.currentTarget.src = "/assets/images/maskot.webp";
