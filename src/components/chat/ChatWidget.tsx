@@ -1,11 +1,14 @@
 // Main Chat Widget Component - SABI AI
+import type { UMKMCard } from "@/types/chat.types";
+
 import { useCallback, useEffect } from "react";
+
 import { ChatButton } from "./ChatButton";
 import { ChatWindow } from "./ChatWindow";
+
 import { useChat } from "@/hooks/useChat";
 import { useGemini } from "@/hooks/useGemini";
 import { getUMKMById } from "@/data/umkm-data";
-import type { UMKMCard } from "@/types/chat.types";
 
 export const ChatWidget = () => {
   const {
@@ -33,12 +36,14 @@ export const ChatWidget = () => {
           content:
             "Maaf, Anda sudah mencapai batas maksimal 20 pesan per sesi. Silakan refresh halaman untuk memulai percakapan baru. 😊",
         });
+
         return;
       }
 
       // Warn if near limit
       if (isNearLimit) {
         const remaining = 20 - messages.filter((m) => m.role === "user").length;
+
         addMessage({
           role: "assistant",
           content: `⚠️ Anda tinggal ${remaining} pesan lagi dalam sesi ini.`,
@@ -75,12 +80,13 @@ export const ChatWidget = () => {
               // Validate card
               if (!card || !card.id) {
                 console.warn("Invalid UMKM card:", card);
+
                 return null;
               }
 
               // Get full data
               const fullData = getUMKMById(card.id);
-              
+
               if (fullData) {
                 return {
                   id: card.id,
@@ -94,6 +100,7 @@ export const ChatWidget = () => {
                 } as UMKMCard;
               } else {
                 console.warn(`UMKM ${card.id} not found`);
+
                 return {
                   id: card.id,
                   name: card.name || "UMKM",
@@ -135,7 +142,7 @@ export const ChatWidget = () => {
       setTyping,
       getConversationHistory,
       sendToGemini,
-    ]
+    ],
   );
 
   // Handle quick reply
@@ -143,7 +150,7 @@ export const ChatWidget = () => {
     (reply: string) => {
       handleSendMessage(reply);
     },
-    [handleSendMessage]
+    [handleSendMessage],
   );
 
   // Show error if Gemini API fails
@@ -155,19 +162,17 @@ export const ChatWidget = () => {
 
   return (
     <>
-      {!isOpen && (
-        <ChatButton onClick={toggleChat} hasNotification={false} />
-      )}
+      {!isOpen && <ChatButton hasNotification={false} onClick={toggleChat} />}
 
       {isOpen && (
         <ChatWindow
-          messages={messages}
-          isTyping={isTyping}
-          onSendMessage={handleSendMessage}
-          onQuickReply={handleQuickReply}
-          onMinimize={closeChat}
-          onClose={closeChat}
           disabled={!canSendMessage}
+          isTyping={isTyping}
+          messages={messages}
+          onClose={closeChat}
+          onMinimize={closeChat}
+          onQuickReply={handleQuickReply}
+          onSendMessage={handleSendMessage}
         />
       )}
     </>

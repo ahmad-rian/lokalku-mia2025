@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+
 import { cn } from "@/lib/utils";
 
 interface OptimizedImageProps {
@@ -43,7 +44,7 @@ export default function OptimizedImage({
       {
         rootMargin: "50px",
         threshold: 0.1,
-      }
+      },
     );
 
     if (imgRef.current) {
@@ -55,10 +56,12 @@ export default function OptimizedImage({
 
   // Convert PNG to WebP if supported
   const getOptimizedSrc = (originalSrc: string) => {
-    if (originalSrc.includes('.png') && !originalSrc.startsWith('http')) {
-      const webpSrc = originalSrc.replace('.png', '.webp');
+    if (originalSrc.includes(".png") && !originalSrc.startsWith("http")) {
+      const webpSrc = originalSrc.replace(".png", ".webp");
+
       return webpSrc;
     }
+
     return originalSrc;
   };
 
@@ -70,8 +73,8 @@ export default function OptimizedImage({
   const handleError = () => {
     setHasError(true);
     // Fallback to WebP if original fails (for consistency with WebP format)
-    if (imgRef.current && src.includes('.png') && !src.includes('.webp')) {
-      imgRef.current.src = src.replace('.png', '.webp');
+    if (imgRef.current && src.includes(".png") && !src.includes(".webp")) {
+      imgRef.current.src = src.replace(".png", ".webp");
     }
     onError?.();
   };
@@ -80,24 +83,24 @@ export default function OptimizedImage({
     <div className={cn("relative overflow-hidden", className)}>
       <img
         ref={imgRef}
-        src={isInView ? getOptimizedSrc(src) : placeholder}
         alt={alt}
-        width={width}
-        height={height}
-        loading={priority ? "eager" : "lazy"}
-        decoding="async"
         className={cn(
           "transition-opacity duration-300",
           isLoaded ? "opacity-100" : "opacity-0",
-          hasError && "opacity-50"
+          hasError && "opacity-50",
         )}
-        onLoad={handleLoad}
-        onError={handleError}
+        decoding="async"
+        height={height}
+        loading={priority ? "eager" : "lazy"}
+        src={isInView ? getOptimizedSrc(src) : placeholder}
         style={{
           willChange: isLoaded ? "auto" : "opacity",
         }}
+        width={width}
+        onError={handleError}
+        onLoad={handleLoad}
       />
-      
+
       {/* Loading placeholder */}
       {!isLoaded && !hasError && (
         <div className="absolute inset-0 bg-gray-200 animate-pulse flex items-center justify-center">

@@ -1,7 +1,9 @@
 // Custom hook for Gemini AI integration
-import { useState, useCallback } from "react";
-import { chatWithGemini } from "@/services/gemini.service";
 import type { GeminiResponse } from "@/types/chat.types";
+
+import { useState, useCallback } from "react";
+
+import { chatWithGemini } from "@/services/gemini.service";
 
 const TIMEOUT_MS = 10000; // 10 seconds
 
@@ -13,7 +15,7 @@ export const useGemini = () => {
     async (
       message: string,
       conversationHistory: string[] = [],
-      userLocation?: { lat: number; lng: number }
+      userLocation?: { lat: number; lng: number },
     ): Promise<GeminiResponse> => {
       setIsLoading(true);
       setError(null);
@@ -31,15 +33,18 @@ export const useGemini = () => {
         ]);
 
         setIsLoading(false);
+
         return response;
       } catch (err: any) {
         setIsLoading(false);
-        const errorMessage = err.message || "Terjadi kesalahan. Coba lagi ya! 🙏";
+        const errorMessage =
+          err.message || "Terjadi kesalahan. Coba lagi ya! 🙏";
+
         setError(errorMessage);
         throw new Error(errorMessage);
       }
     },
-    []
+    [],
   );
 
   const clearError = useCallback(() => {

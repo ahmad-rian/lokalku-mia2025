@@ -1,9 +1,18 @@
 import { useState, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { Button, Card, CardBody, Chip } from "@heroui/react";
-import { Heart, Star, MapPin, Trash2, Share2, ExternalLink } from "lucide-react";
+import {
+  Heart,
+  Star,
+  MapPin,
+  Trash2,
+  Share2,
+  ExternalLink,
+} from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+
 import DefaultLayout from "@/layouts/default";
+import LazyImage from "@/components/LazyImage";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { cn } from "@/lib/utils";
 
@@ -21,10 +30,24 @@ interface UMKM {
 }
 
 // Lightweight Background Ripple Effect Component
-const BackgroundRipple = ({ rows = 8, cols = 25, cellSize = 56 }: { rows?: number; cols?: number; cellSize?: number }) => {
-  const [clickedCell, setClickedCell] = useState<{ row: number; col: number } | null>(null);
+const BackgroundRipple = ({
+  rows = 8,
+  cols = 25,
+  cellSize = 56,
+}: {
+  rows?: number;
+  cols?: number;
+  cellSize?: number;
+}) => {
+  const [clickedCell, setClickedCell] = useState<{
+    row: number;
+    col: number;
+  } | null>(null);
 
-  const cells = useMemo(() => Array.from({ length: rows * cols }, (_, idx) => idx), [rows, cols]);
+  const cells = useMemo(
+    () => Array.from({ length: rows * cols }, (_, idx) => idx),
+    [rows, cols],
+  );
 
   const gridStyle: React.CSSProperties = {
     display: "grid",
@@ -40,9 +63,9 @@ const BackgroundRipple = ({ rows = 8, cols = 25, cellSize = 56 }: { rows?: numbe
       <div className="relative h-auto w-auto overflow-hidden">
         {/* Pointer events blocker overlay */}
         <div className="pointer-events-none absolute inset-0 z-[2] h-full w-full overflow-hidden" />
-        
-        <div 
-          className="relative z-[3] mask-radial-from-20% mask-radial-at-top" 
+
+        <div
+          className="relative z-[3] mask-radial-from-20% mask-radial-at-top"
           style={gridStyle}
         >
           {cells.map((idx) => {
@@ -62,12 +85,14 @@ const BackgroundRipple = ({ rows = 8, cols = 25, cellSize = 56 }: { rows?: numbe
                   "border-neutral-300 dark:border-neutral-700",
                   "bg-neutral-100 dark:bg-neutral-900",
                   "dark:shadow-[0px_0px_40px_1px_rgba(0,0,0,0.3)_inset]",
-                  clickedCell && "animate-cell-ripple"
+                  clickedCell && "animate-cell-ripple",
                 )}
-                style={{
-                  "--delay": `${delay}ms`,
-                  "--duration": `${duration}ms`,
-                } as React.CSSProperties}
+                style={
+                  {
+                    "--delay": `${delay}ms`,
+                    "--duration": `${duration}ms`,
+                  } as React.CSSProperties
+                }
                 onClick={() => {
                   setClickedCell({ row: rowIdx, col: colIdx });
                 }}
@@ -89,6 +114,7 @@ export default function Favorites() {
   useEffect(() => {
     // Load favorites from localStorage
     const savedFavorites = localStorage.getItem("favorites");
+
     if (savedFavorites) {
       setFavorites(JSON.parse(savedFavorites));
     }
@@ -96,12 +122,16 @@ export default function Favorites() {
 
   const handleRemoveFavorite = (id: string) => {
     const updatedFavorites = favorites.filter((fav) => fav.id !== id);
+
     setFavorites(updatedFavorites);
     localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
   };
 
   const handleBulkDelete = () => {
-    const updatedFavorites = favorites.filter((fav) => !selectedItems.has(fav.id));
+    const updatedFavorites = favorites.filter(
+      (fav) => !selectedItems.has(fav.id),
+    );
+
     setFavorites(updatedFavorites);
     localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
     setSelectedItems(new Set());
@@ -120,6 +150,7 @@ export default function Favorites() {
 
   const toggleSelection = (id: string) => {
     const newSelection = new Set(selectedItems);
+
     if (newSelection.has(id)) {
       newSelection.delete(id);
     } else {
@@ -141,14 +172,18 @@ export default function Favorites() {
       <div className="min-h-screen bg-gradient-to-b from-gray-50 via-white to-gray-50 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 relative overflow-hidden">
         {/* Background Ripple Effect */}
         <BackgroundRipple />
-        
+
         {/* Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-white/50 dark:to-gray-900/50 pointer-events-none" />
 
         {/* Content */}
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-12">{/* Changed pt-24 to pt-32 for more top padding */}
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-12">
+          {/* Changed pt-24 to pt-32 for more top padding */}
           {/* Header */}
-          <div className="text-center mb-12 blur-fade-in" style={{ animationDelay: "0.1s" }}>
+          <div
+            className="text-center mb-12 blur-fade-in"
+            style={{ animationDelay: "0.1s" }}
+          >
             <h1
               className="text-4xl md:text-5xl font-bold mb-4 text-gray-900 dark:text-white"
               style={{ fontFamily: "'Playfair Display', serif" }}
@@ -163,18 +198,19 @@ export default function Favorites() {
 
           {/* Action Bar */}
           {favorites.length > 0 && (
-            <div className="flex flex-wrap gap-4 justify-between items-center mb-8 blur-fade-in" style={{ animationDelay: "0.3s" }}>
+            <div
+              className="flex flex-wrap gap-4 justify-between items-center mb-8 blur-fade-in"
+              style={{ animationDelay: "0.3s" }}
+            >
               <div className="flex items-center gap-4">
-                <Chip color="primary" variant="flat" size="lg">
+                <Chip color="primary" size="lg" variant="flat">
                   {favorites.length} UMKM
                 </Chip>
                 {isSelectionMode && (
-                  <Button
-                    size="sm"
-                    variant="flat"
-                    onPress={selectAll}
-                  >
-                    {selectedItems.size === favorites.length ? t("favorites.actions.deselectAll") : t("favorites.actions.selectAll")}
+                  <Button size="sm" variant="flat" onPress={selectAll}>
+                    {selectedItems.size === favorites.length
+                      ? t("favorites.actions.deselectAll")
+                      : t("favorites.actions.selectAll")}
                   </Button>
                 )}
               </div>
@@ -183,12 +219,12 @@ export default function Favorites() {
                 {isSelectionMode ? (
                   <>
                     <Button
-                      size="sm"
                       color="danger"
-                      variant="flat"
-                      startContent={<Trash2 className="w-4 h-4" />}
-                      onPress={handleBulkDelete}
                       isDisabled={selectedItems.size === 0}
+                      size="sm"
+                      startContent={<Trash2 className="w-4 h-4" />}
+                      variant="flat"
+                      onPress={handleBulkDelete}
                     >
                       {t("favorites.actions.delete")} ({selectedItems.size})
                     </Button>
@@ -219,9 +255,9 @@ export default function Favorites() {
           {/* Favorites Grid */}
           {favorites.length === 0 ? (
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               className="text-center py-20"
+              initial={{ opacity: 0, y: 20 }}
             >
               <Heart className="w-24 h-24 mx-auto text-gray-300 dark:text-gray-700 mb-6" />
               <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
@@ -232,10 +268,10 @@ export default function Favorites() {
               </p>
               <Button
                 as={Link}
-                to="/direktori"
+                className="font-semibold"
                 color="primary"
                 size="lg"
-                className="font-semibold"
+                to="/direktori"
               >
                 {t("favorites.actions.explore")}
               </Button>
@@ -247,43 +283,58 @@ export default function Favorites() {
                   <motion.div
                     key={umkm.id}
                     layout
-                    initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.9 }}
-                    transition={{ duration: 0.3, delay: idx * 0.05 }}
                     className="blur-fade-in"
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    initial={{ opacity: 0, scale: 0.9 }}
                     style={{ animationDelay: `${0.4 + idx * 0.1}s` }}
+                    transition={{ duration: 0.3, delay: idx * 0.05 }}
                   >
                     <Card
                       className={cn(
                         "group hover:shadow-2xl transition-all duration-300 border border-gray-200 dark:border-gray-800",
                         isSelectionMode && "cursor-pointer",
-                        selectedItems.has(umkm.id) && "ring-2 ring-primary-500"
+                        selectedItems.has(umkm.id) && "ring-2 ring-primary-500",
                       )}
                       isPressable={isSelectionMode}
-                      onPress={() => isSelectionMode && toggleSelection(umkm.id)}
+                      onPress={() =>
+                        isSelectionMode && toggleSelection(umkm.id)
+                      }
                     >
                       <CardBody className="p-0">
                         {/* Image */}
                         <div className="relative h-48 overflow-hidden">
-                          <img
-                            src={umkm.image}
+                          <LazyImage
                             alt={umkm.name}
-                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                            blurDataURL="/assets/images/placeholder-umkm.webp"
+                            className="w-full h-full"
+                            src={umkm.image}
                           />
-                          
+
                           {/* Selection Checkbox */}
                           {isSelectionMode && (
                             <div className="absolute top-3 left-3 bg-white dark:bg-gray-900 rounded-full p-2">
-                              <div className={cn(
-                                "w-6 h-6 rounded-full border-2 flex items-center justify-center",
-                                selectedItems.has(umkm.id)
-                                  ? "bg-primary-500 border-primary-500"
-                                  : "border-gray-400"
-                              )}>
+                              <div
+                                className={cn(
+                                  "w-6 h-6 rounded-full border-2 flex items-center justify-center",
+                                  selectedItems.has(umkm.id)
+                                    ? "bg-primary-500 border-primary-500"
+                                    : "border-gray-400",
+                                )}
+                              >
                                 {selectedItems.has(umkm.id) && (
-                                  <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                  <svg
+                                    className="w-4 h-4 text-white"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path
+                                      d="M5 13l4 4L19 7"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      strokeWidth={2}
+                                    />
                                   </svg>
                                 )}
                               </div>
@@ -293,12 +344,16 @@ export default function Favorites() {
                           {/* Status Badge */}
                           <div className="absolute top-3 right-3">
                             <Chip
-                          size="sm"
-                          color={umkm.status === "open" ? "success" : "default"}
-                          variant="flat"
-                        >
-                          {umkm.status === "open" ? t("favorites.status.open") : t("favorites.status.closed")}
-                        </Chip>
+                              color={
+                                umkm.status === "open" ? "success" : "default"
+                              }
+                              size="sm"
+                              variant="flat"
+                            >
+                              {umkm.status === "open"
+                                ? t("favorites.status.open")
+                                : t("favorites.status.closed")}
+                            </Chip>
                           </div>
 
                           {/* Quick Actions (Non-selection mode) */}
@@ -306,20 +361,20 @@ export default function Favorites() {
                             <div className="absolute bottom-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                               <Button
                                 isIconOnly
-                                size="sm"
+                                className="backdrop-blur-md"
                                 color="danger"
+                                size="sm"
                                 variant="flat"
                                 onPress={() => handleRemoveFavorite(umkm.id)}
-                                className="backdrop-blur-md"
                               >
                                 <Trash2 className="w-4 h-4" />
                               </Button>
                               <Button
                                 isIconOnly
+                                className="backdrop-blur-md bg-white/90 dark:bg-gray-900/90"
                                 size="sm"
                                 variant="flat"
                                 onPress={() => handleShare(umkm)}
-                                className="backdrop-blur-md bg-white/90 dark:bg-gray-900/90"
                               >
                                 <Share2 className="w-4 h-4" />
                               </Button>
@@ -335,7 +390,12 @@ export default function Favorites() {
                             </h3>
                           </div>
 
-                          <Chip size="sm" variant="flat" color="primary" className="mb-3">
+                          <Chip
+                            className="mb-3"
+                            color="primary"
+                            size="sm"
+                            variant="flat"
+                          >
                             {umkm.category}
                           </Chip>
 
@@ -347,7 +407,9 @@ export default function Favorites() {
                           <div className="space-y-2 mb-4">
                             <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
                               <MapPin className="w-4 h-4 text-primary-500" />
-                              <span className="line-clamp-1">{umkm.location}</span>
+                              <span className="line-clamp-1">
+                                {umkm.location}
+                              </span>
                             </div>
                             <div className="flex items-center gap-2">
                               <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
@@ -363,13 +425,13 @@ export default function Favorites() {
                           {/* View Details Button */}
                           {!isSelectionMode && (
                             <Button
-                              as={Link}
-                              to={`/umkm/${umkm.id}`}
-                              color="primary"
-                              variant="flat"
                               fullWidth
-                              endContent={<ExternalLink className="w-4 h-4" />}
+                              as={Link}
                               className="font-semibold"
+                              color="primary"
+                              endContent={<ExternalLink className="w-4 h-4" />}
+                              to={`/umkm/${umkm.id}`}
+                              variant="flat"
                             >
                               {t("favorites.actions.viewDetails")}
                             </Button>

@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 export function usePageLoader() {
   const [isLoading, setIsLoading] = useState(false);
@@ -8,7 +8,7 @@ export function usePageLoader() {
   useEffect(() => {
     // Show loader on route change
     setIsLoading(true);
-    
+
     // Hide loader after a shorter delay for better performance
     const timer = setTimeout(() => {
       setIsLoading(false);
@@ -31,6 +31,6 @@ export function useComponentLoader(initialState = false) {
     isLoading,
     startLoading,
     stopLoading,
-    setIsLoading
+    setIsLoading,
   };
 }

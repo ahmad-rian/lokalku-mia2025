@@ -1,10 +1,13 @@
 // Chat Messages Component
-import { useEffect, useRef } from "react";
 import type { Message } from "@/types/chat.types";
+
+import { useEffect, useRef } from "react";
+
+import OptimizedMaskot from "../OptimizedMaskot";
+
 import { MessageBubble } from "./MessageBubble";
 import { WelcomeMessage } from "./WelcomeMessage";
 import { TypingIndicator } from "./TypingIndicator";
-import OptimizedMaskot from "../OptimizedMaskot";
 
 interface ChatMessagesProps {
   messages: Message[];
@@ -34,16 +37,13 @@ export const ChatMessages = ({
         {/* Messages */}
         {messages.map((message, index) => (
           <div key={message.id}>
-            <MessageBubble
-              message={message}
-              onQuickReply={onQuickReply}
-            />
-            
+            <MessageBubble message={message} onQuickReply={onQuickReply} />
+
             {/* Add spacing between different senders */}
-            {index < messages.length - 1 && 
-             messages[index].role !== messages[index + 1].role && (
-              <div className="h-2" />
-            )}
+            {index < messages.length - 1 &&
+              messages[index].role !== messages[index + 1].role && (
+                <div className="h-2" />
+              )}
           </div>
         ))}
 
@@ -51,10 +51,10 @@ export const ChatMessages = ({
         {isTyping && (
           <div className="flex items-start gap-3 animate-fade-in">
             <div className="flex-shrink-0 w-10 h-10 rounded-full bg-gradient-to-br from-primary-500 to-orange-500 p-0.5 shadow-md">
-                <div className="w-full h-full bg-white dark:bg-gray-800 rounded-full flex items-center justify-center">
-                  <OptimizedMaskot size="sm" />
-                </div>
+              <div className="w-full h-full bg-white dark:bg-gray-800 rounded-full flex items-center justify-center">
+                <OptimizedMaskot size="sm" />
               </div>
+            </div>
             <TypingIndicator />
           </div>
         )}

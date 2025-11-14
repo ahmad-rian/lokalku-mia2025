@@ -1,11 +1,5 @@
 import { Card, CardBody, Button, Chip, Avatar } from "@heroui/react";
-import { 
-  MapPin, 
-  Store, 
-  Heart,
-  Coffee,
-  Lightbulb
-} from "lucide-react";
+import { MapPin, Store, Heart, Coffee, Lightbulb } from "lucide-react";
 
 interface WelcomeMessageProps {
   onQuickReply: (reply: string) => void;
@@ -17,25 +11,25 @@ export const WelcomeMessage = ({ onQuickReply }: WelcomeMessageProps) => {
       icon: MapPin,
       text: "Warung makan terdekat",
       query: "Cari warung makan terdekat",
-      color: "danger" as const
+      color: "danger" as const,
     },
     {
       icon: Store,
       text: "Toko batik Banyumas",
       query: "Cari toko batik Banyumas",
-      color: "primary" as const
+      color: "primary" as const,
     },
     {
       icon: Coffee,
       text: "Rekomendasi kafe",
       query: "Rekomendasikan kafe yang bagus",
-      color: "secondary" as const
+      color: "secondary" as const,
     },
     {
       icon: Heart,
       text: "UMKM rating tertinggi",
       query: "Tampilkan UMKM dengan rating tertinggi",
-      color: "success" as const
+      color: "success" as const,
     },
   ];
 
@@ -46,28 +40,29 @@ export const WelcomeMessage = ({ onQuickReply }: WelcomeMessageProps) => {
         <CardBody className="p-6">
           <div className="flex items-start gap-4">
             <Avatar
-              src="/assets/images/maskot.webp"
               alt="SABI"
-              size="lg"
               className="flex-shrink-0"
               imgProps={{
                 onError: (e) => {
                   e.currentTarget.src = "/assets/images/maskot.webp";
-                }
+                },
               }}
+              size="lg"
+              src="/assets/images/maskot.webp"
             />
             <div className="flex-1">
               <div className="flex items-center gap-2 mb-2">
                 <h3 className="font-playfair text-xl font-semibold text-gray-900 dark:text-gray-100">
                   Selamat datang di LokalKU
                 </h3>
-                <Chip size="sm" color="primary" variant="flat">
+                <Chip color="primary" size="sm" variant="flat">
                   SABI AI
                 </Chip>
               </div>
               <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-                Temukan UMKM terbaik di Banyumas dengan mudah. Saya siap membantu Anda mencari 
-                makanan, tempat belanja, jasa, dan berbagai kebutuhan lainnya.
+                Temukan UMKM terbaik di Banyumas dengan mudah. Saya siap
+                membantu Anda mencari makanan, tempat belanja, jasa, dan
+                berbagai kebutuhan lainnya.
               </p>
             </div>
           </div>
@@ -79,17 +74,18 @@ export const WelcomeMessage = ({ onQuickReply }: WelcomeMessageProps) => {
         <h4 className="font-playfair text-lg font-medium text-gray-800 dark:text-gray-200 px-1">
           Mulai Pencarian
         </h4>
-        
+
         <div className="grid grid-cols-1 gap-2">
           {quickStartOptions.map((option, idx) => {
             const IconComponent = option.icon;
+
             return (
               <Button
                 key={idx}
-                variant="flat"
-                color={option.color}
                 className="justify-start h-auto p-4"
+                color={option.color}
                 startContent={<IconComponent size={20} />}
+                variant="flat"
                 onPress={() => onQuickReply(option.query)}
               >
                 <span className="text-left">{option.text}</span>
@@ -105,7 +101,7 @@ export const WelcomeMessage = ({ onQuickReply }: WelcomeMessageProps) => {
           <div className="flex gap-3">
             <div className="flex-shrink-0">
               <div className="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
-                <Lightbulb size={16} className="text-white" />
+                <Lightbulb className="text-white" size={16} />
               </div>
             </div>
             <div className="flex-1">
@@ -113,8 +109,9 @@ export const WelcomeMessage = ({ onQuickReply }: WelcomeMessageProps) => {
                 Tips Pencarian
               </h5>
               <p className="text-xs text-blue-800 dark:text-blue-300 leading-relaxed">
-                Anda bisa bertanya apa saja! Contoh: "Cari bengkel motor terdekat", 
-                "Rekomendasi tempat nongkrong", atau "UMKM dengan rating 4.5+"
+                Anda bisa bertanya apa saja! Contoh: "Cari bengkel motor
+                terdekat", "Rekomendasi tempat nongkrong", atau "UMKM dengan
+                rating 4.5+"
               </p>
             </div>
           </div>

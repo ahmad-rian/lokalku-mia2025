@@ -18,9 +18,13 @@ interface LazyMasonryProps {
 }
 
 // Fallback components
-const TextTypeFallback = ({ text, className }: { text: string; className?: string }) => (
-  <div className={className}>{text}</div>
-);
+const TextTypeFallback = ({
+  text,
+  className,
+}: {
+  text: string;
+  className?: string;
+}) => <div className={className}>{text}</div>;
 
 const MasonryFallback = ({ children }: { children: React.ReactNode }) => (
   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -30,7 +34,11 @@ const MasonryFallback = ({ children }: { children: React.ReactNode }) => (
 
 export function LazyTextType(props: LazyTextTypeProps) {
   return (
-    <Suspense fallback={<TextTypeFallback text={props.text} className={props.className} />}>
+    <Suspense
+      fallback={
+        <TextTypeFallback className={props.className} text={props.text} />
+      }
+    >
       <TextTypeComponent {...props} />
     </Suspense>
   );

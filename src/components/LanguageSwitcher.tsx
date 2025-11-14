@@ -1,26 +1,32 @@
 import { Button } from "@heroui/button";
-import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@heroui/dropdown";
+import {
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
+} from "@heroui/dropdown";
+
 import { useLanguage } from "@/contexts/LanguageContext";
 
 // Flag SVG components
 const IndonesianFlag = ({ className }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 24 16" fill="none">
-    <rect width="24" height="8" fill="#FF0000" />
-    <rect y="8" width="24" height="8" fill="#FFFFFF" />
+  <svg className={className} fill="none" viewBox="0 0 24 16">
+    <rect fill="#FF0000" height="8" width="24" />
+    <rect fill="#FFFFFF" height="8" width="24" y="8" />
   </svg>
 );
 
 const AmericanFlag = ({ className }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 24 16" fill="none">
-    <rect width="24" height="16" fill="#B22234" />
-    <rect y="1" width="24" height="1" fill="#FFFFFF" />
-    <rect y="3" width="24" height="1" fill="#FFFFFF" />
-    <rect y="5" width="24" height="1" fill="#FFFFFF" />
-    <rect y="7" width="24" height="1" fill="#FFFFFF" />
-    <rect y="9" width="24" height="1" fill="#FFFFFF" />
-    <rect y="11" width="24" height="1" fill="#FFFFFF" />
-    <rect y="13" width="24" height="1" fill="#FFFFFF" />
-    <rect width="10" height="8" fill="#3C3B6E" />
+  <svg className={className} fill="none" viewBox="0 0 24 16">
+    <rect fill="#B22234" height="16" width="24" />
+    <rect fill="#FFFFFF" height="1" width="24" y="1" />
+    <rect fill="#FFFFFF" height="1" width="24" y="3" />
+    <rect fill="#FFFFFF" height="1" width="24" y="5" />
+    <rect fill="#FFFFFF" height="1" width="24" y="7" />
+    <rect fill="#FFFFFF" height="1" width="24" y="9" />
+    <rect fill="#FFFFFF" height="1" width="24" y="11" />
+    <rect fill="#FFFFFF" height="1" width="24" y="13" />
+    <rect fill="#3C3B6E" height="8" width="10" />
     <g fill="#FFFFFF">
       <circle cx="1.5" cy="1.5" r="0.3" />
       <circle cx="3" cy="1.5" r="0.3" />
@@ -64,20 +70,20 @@ export default function LanguageSwitcher() {
 
   const languages = [
     {
-      key: 'id',
-      label: 'Bahasa Indonesia',
+      key: "id",
+      label: "Bahasa Indonesia",
       flag: IndonesianFlag,
-      shortLabel: 'ID'
+      shortLabel: "ID",
     },
     {
-      key: 'en',
-      label: 'English',
+      key: "en",
+      label: "English",
       flag: AmericanFlag,
-      shortLabel: 'EN'
-    }
+      shortLabel: "EN",
+    },
   ];
 
-  const currentLanguage = languages.find(lang => lang.key === language);
+  const currentLanguage = languages.find((lang) => lang.key === language);
   const CurrentFlag = currentLanguage?.flag || IndonesianFlag;
 
   return (
@@ -85,9 +91,9 @@ export default function LanguageSwitcher() {
       <DropdownTrigger>
         <Button
           isIconOnly
-          variant="light"
-          className="min-w-8 w-8 h-8 sm:min-w-10 sm:w-10 sm:h-10 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
           aria-label="Change language"
+          className="min-w-8 w-8 h-8 sm:min-w-10 sm:w-10 sm:h-10 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+          variant="light"
         >
           <CurrentFlag className="w-4 h-3 sm:w-5 sm:h-4 rounded-sm border border-gray-200 dark:border-gray-600" />
         </Button>
@@ -98,20 +104,22 @@ export default function LanguageSwitcher() {
         selectionMode="single"
         onSelectionChange={(keys) => {
           const selectedKey = Array.from(keys)[0] as string;
-          if (selectedKey && (selectedKey === 'id' || selectedKey === 'en')) {
+
+          if (selectedKey && (selectedKey === "id" || selectedKey === "en")) {
             setLanguage(selectedKey);
           }
         }}
       >
         {languages.map((lang) => {
           const FlagComponent = lang.flag;
+
           return (
             <DropdownItem
               key={lang.key}
+              className="text-sm"
               startContent={
                 <FlagComponent className="w-5 h-4 rounded-sm border border-gray-200 dark:border-gray-600" />
               }
-              className="text-sm"
             >
               {lang.label}
             </DropdownItem>

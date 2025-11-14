@@ -2,7 +2,8 @@ export type SiteConfig = typeof siteConfig;
 
 export const siteConfig = {
   name: "LokalKu",
-  description: "Platform direktori digital untuk mendukung ekonomi lokal Purwokerto dan sekitarnya",
+  description:
+    "Platform direktori digital untuk mendukung ekonomi lokal Purwokerto dan sekitarnya",
   navItems: [
     {
       label: "Beranda",

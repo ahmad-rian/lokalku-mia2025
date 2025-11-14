@@ -1,4 +1,5 @@
 import React, { memo, useMemo } from "react";
+
 import { cn } from "@/lib/utils";
 
 interface MarqueeProps {
@@ -35,8 +36,8 @@ export const Marquee = memo(function Marquee({
           })}
           style={{
             // Use transform3d for GPU acceleration
-            transform: 'translate3d(0, 0, 0)',
-            willChange: 'transform',
+            transform: "translate3d(0, 0, 0)",
+            willChange: "transform",
           }}
         >
           {children}
@@ -53,15 +54,15 @@ export const Marquee = memo(function Marquee({
           "flex-row": !vertical,
           "flex-col": vertical,
         },
-        className
+        className,
       )}
       style={{
         // Optimize for animations
-        willChange: 'transform',
-        transform: 'translate3d(0, 0, 0)',
+        willChange: "transform",
+        transform: "translate3d(0, 0, 0)",
         // Reduce paint operations
-        backfaceVisibility: 'hidden',
-        perspective: '1000px',
+        backfaceVisibility: "hidden",
+        perspective: "1000px",
       }}
     >
       {repeatedElements}

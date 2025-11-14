@@ -8,7 +8,7 @@ import {
   CardBody,
   Chip,
   Select,
-  SelectItem
+  SelectItem,
 } from "@heroui/react";
 import {
   Navigation,
@@ -19,8 +19,9 @@ import {
   Eye,
   Locate,
   Clock,
-  Heart
+  Heart,
 } from "lucide-react";
+
 import { useLanguage } from "@/contexts/LanguageContext";
 import DefaultLayout from "@/layouts/default";
 import { umkmData, categories } from "@/data/umkm-data";
@@ -52,23 +53,31 @@ interface UMKMWithDistance {
 const sortOptions = [
   { key: "distance", label: "Jarak Terdekat" },
   { key: "rating", label: "Rating Tertinggi" },
-  { key: "name", label: "Nama A-Z" }
+  { key: "name", label: "Nama A-Z" },
 ];
 
 // User location (Purwokerto center as default)
 const DEFAULT_LOCATION: [number, number] = [109.234439, -7.421389]; // [lng, lat]
 
 // Calculate distance between two coordinates using Haversine formula
-function calculateDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
+function calculateDistance(
+  lat1: number,
+  lon1: number,
+  lat2: number,
+  lon2: number,
+): number {
   const R = 6371; // Radius of the Earth in kilometers
-  const dLat = (lat2 - lat1) * Math.PI / 180;
-  const dLon = (lon2 - lon1) * Math.PI / 180;
-  const a = 
-    Math.sin(dLat/2) * Math.sin(dLat/2) +
-    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * 
-    Math.sin(dLon/2) * Math.sin(dLon/2);
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  const dLat = ((lat2 - lat1) * Math.PI) / 180;
+  const dLon = ((lon2 - lon1) * Math.PI) / 180;
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos((lat1 * Math.PI) / 180) *
+      Math.cos((lat2 * Math.PI) / 180) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   const distance = R * c;
+
   return distance;
 }
 
@@ -77,6 +86,7 @@ function formatDistance(distance: number): string {
   if (distance < 1) {
     return `${Math.round(distance * 1000)} m`;
   }
+
   return `${distance.toFixed(1)} km`;
 }
 
@@ -85,154 +95,175 @@ interface UMKMCardProps {
   onViewDetails: () => void;
 }
 
-const UMKMCard = forwardRef<HTMLDivElement, UMKMCardProps>(({ umkm, onViewDetails }, ref) => {
-  const { language } = useLanguage();
+const UMKMCard = forwardRef<HTMLDivElement, UMKMCardProps>(
+  ({ umkm, onViewDetails }, ref) => {
+    const { language } = useLanguage();
 
-  const handleToggleFavorite = () => {
-    console.log("Toggle favorite for:", umkm.id);
-  };
+    const handleToggleFavorite = () => {
+      console.log("Toggle favorite for:", umkm.id);
+    };
 
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -20 }}
-      transition={{ duration: 0.3 }}
-    >
-      <Card className="hover:shadow-lg transition-all duration-300 border border-gray-200 dark:border-gray-700">
-        <CardBody className="p-0">
-          <div className="flex flex-col sm:flex-row gap-0 sm:gap-4">
-            {/* Image */}
-            <div className="relative w-full sm:w-32 h-48 sm:h-32 flex-shrink-0">
-              <img
-                src={umkm.image}
-                alt={umkm.name}
-                className="w-full h-full object-cover rounded-t-lg sm:rounded-l-lg sm:rounded-t-none"
-              />
-              
-              {/* Status Badge */}
-              <Chip
-                color={umkm.status === "open" ? "success" : "danger"}
-                variant="solid"
-                size="sm"
-                className="absolute top-2 left-2"
-              >
-                {umkm.status === "open" 
-                  ? (language === 'en' ? 'Open' : 'Buka') 
-                  : (language === 'en' ? 'Closed' : 'Tutup')
-                }
-              </Chip>
-
-              {/* Favorite Button */}
-              <Button
-                isIconOnly
-                size="sm"
-                variant="flat"
-                className="absolute top-2 right-2 bg-white/90 dark:bg-gray-900/90"
-                onPress={handleToggleFavorite}
-              >
-                <Heart 
-                  size={16} 
-                  className={umkm.isFavorite ? "text-red-500 fill-red-500" : "text-gray-600"} 
+    return (
+      <motion.div
+        ref={ref}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -20 }}
+        initial={{ opacity: 0, y: 20 }}
+        transition={{ duration: 0.3 }}
+      >
+        <Card className="hover:shadow-lg transition-all duration-300 border border-gray-200 dark:border-gray-700">
+          <CardBody className="p-0">
+            <div className="flex flex-col sm:flex-row gap-0 sm:gap-4">
+              {/* Image */}
+              <div className="relative w-full sm:w-32 h-48 sm:h-32 flex-shrink-0">
+                <img
+                  alt={umkm.name}
+                  className="w-full h-full object-cover rounded-t-lg sm:rounded-l-lg sm:rounded-t-none"
+                  src={umkm.image}
                 />
-              </Button>
-            </div>
 
-            {/* Content */}
-            <div className="flex-1 p-4">
-              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-3">
-                <div className="flex-1">
-                  <h3 className="font-playfair text-lg font-semibold text-gray-900 dark:text-white mb-1">
-                    {umkm.name}
-                  </h3>
-                  <Chip color="primary" variant="flat" size="sm" className="mb-2">
-                    {umkm.category}
-                  </Chip>
-                </div>
-                
-                {umkm.priceRange && (
-                  <Chip color="secondary" variant="flat" size="sm">
-                    {umkm.priceRange}
-                  </Chip>
-                )}
-              </div>
-
-              <p className="text-sm text-gray-600 dark:text-gray-300 mb-3 line-clamp-2">
-                {umkm.description}
-              </p>
-
-              {/* Info Row */}
-              <div className="flex flex-wrap items-center gap-4 mb-4">
-                <div className="flex items-center gap-1">
-                  <Star size={14} className="text-yellow-400 fill-current" />
-                  <span className="text-sm font-medium">{umkm.rating}</span>
-                  <span className="text-xs text-gray-500">({umkm.reviewCount})</span>
-                </div>
-                
-                <div className="flex items-center gap-1 text-gray-500">
-                  <MapPin size={14} />
-                  <span className="text-sm">{formatDistance(umkm.calculatedDistance)}</span>
-                </div>
-
-                <div className="flex items-center gap-1 text-gray-500">
-                  <Clock size={14} />
-                  <span className="text-sm">{umkm.location}</span>
-                </div>
-              </div>
-
-              {/* Address */}
-              <div className="flex items-start gap-2 mb-4">
-                <MapPin size={14} className="text-gray-400 mt-0.5 flex-shrink-0" />
-                <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-1">
-                  {umkm.address}
-                </p>
-              </div>
-
-              {/* Actions */}
-              <div className="flex flex-wrap gap-2">
-                <Button
-                  color="primary"
+                {/* Status Badge */}
+                <Chip
+                  className="absolute top-2 left-2"
+                  color={umkm.status === "open" ? "success" : "danger"}
                   size="sm"
-                  startContent={<Eye size={16} />}
-                  onPress={onViewDetails}
-                  className="flex-1 sm:flex-none"
+                  variant="solid"
                 >
-                  {language === 'en' ? 'View Details' : 'Lihat Detail'}
+                  {umkm.status === "open"
+                    ? language === "en"
+                      ? "Open"
+                      : "Buka"
+                    : language === "en"
+                      ? "Closed"
+                      : "Tutup"}
+                </Chip>
+
+                {/* Favorite Button */}
+                <Button
+                  isIconOnly
+                  className="absolute top-2 right-2 bg-white/90 dark:bg-gray-900/90"
+                  size="sm"
+                  variant="flat"
+                  onPress={handleToggleFavorite}
+                >
+                  <Heart
+                    className={
+                      umkm.isFavorite
+                        ? "text-red-500 fill-red-500"
+                        : "text-gray-600"
+                    }
+                    size={16}
+                  />
                 </Button>
-                
-                {umkm.phone && (
+              </div>
+
+              {/* Content */}
+              <div className="flex-1 p-4">
+                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-3">
+                  <div className="flex-1">
+                    <h3 className="font-playfair text-lg font-semibold text-gray-900 dark:text-white mb-1">
+                      {umkm.name}
+                    </h3>
+                    <Chip
+                      className="mb-2"
+                      color="primary"
+                      size="sm"
+                      variant="flat"
+                    >
+                      {umkm.category}
+                    </Chip>
+                  </div>
+
+                  {umkm.priceRange && (
+                    <Chip color="secondary" size="sm" variant="flat">
+                      {umkm.priceRange}
+                    </Chip>
+                  )}
+                </div>
+
+                <p className="text-sm text-gray-600 dark:text-gray-300 mb-3 line-clamp-2">
+                  {umkm.description}
+                </p>
+
+                {/* Info Row */}
+                <div className="flex flex-wrap items-center gap-4 mb-4">
+                  <div className="flex items-center gap-1">
+                    <Star className="text-yellow-400 fill-current" size={14} />
+                    <span className="text-sm font-medium">{umkm.rating}</span>
+                    <span className="text-xs text-gray-500">
+                      ({umkm.reviewCount})
+                    </span>
+                  </div>
+
+                  <div className="flex items-center gap-1 text-gray-500">
+                    <MapPin size={14} />
+                    <span className="text-sm">
+                      {formatDistance(umkm.calculatedDistance)}
+                    </span>
+                  </div>
+
+                  <div className="flex items-center gap-1 text-gray-500">
+                    <Clock size={14} />
+                    <span className="text-sm">{umkm.location}</span>
+                  </div>
+                </div>
+
+                {/* Address */}
+                <div className="flex items-start gap-2 mb-4">
+                  <MapPin
+                    className="text-gray-400 mt-0.5 flex-shrink-0"
+                    size={14}
+                  />
+                  <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-1">
+                    {umkm.address}
+                  </p>
+                </div>
+
+                {/* Actions */}
+                <div className="flex flex-wrap gap-2">
                   <Button
-                    variant="bordered"
+                    className="flex-1 sm:flex-none"
+                    color="primary"
                     size="sm"
+                    startContent={<Eye size={16} />}
+                    onPress={onViewDetails}
+                  >
+                    {language === "en" ? "View Details" : "Lihat Detail"}
+                  </Button>
+
+                  {umkm.phone && (
+                    <Button
+                      isIconOnly
+                      as="a"
+                      href={`tel:${umkm.phone}`}
+                      size="sm"
+                      variant="bordered"
+                    >
+                      <Phone size={16} />
+                    </Button>
+                  )}
+
+                  <Button
                     isIconOnly
                     as="a"
-                    href={`tel:${umkm.phone}`}
+                    href={`https://www.google.com/maps/dir/?api=1&destination=${umkm.coordinates.lat},${umkm.coordinates.lng}`}
+                    size="sm"
+                    target="_blank"
+                    variant="bordered"
                   >
-                    <Phone size={16} />
+                    <Navigation size={16} />
                   </Button>
-                )}
-                
-                <Button
-                  variant="bordered"
-                  size="sm"
-                  isIconOnly
-                  as="a"
-                  href={`https://www.google.com/maps/dir/?api=1&destination=${umkm.coordinates.lat},${umkm.coordinates.lng}`}
-                  target="_blank"
-                >
-                  <Navigation size={16} />
-                </Button>
+                </div>
               </div>
             </div>
-          </div>
-        </CardBody>
-      </Card>
-    </motion.div>
-  );
-});
+          </CardBody>
+        </Card>
+      </motion.div>
+    );
+  },
+);
 
-UMKMCard.displayName = 'UMKMCard';
+UMKMCard.displayName = "UMKMCard";
 
 export default function MapNearbyPage() {
   const navigate = useNavigate();
@@ -240,54 +271,58 @@ export default function MapNearbyPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("Semua");
   const [sortBy, setSortBy] = useState("distance");
-  const [userLocation, setUserLocation] = useState<[number, number]>(DEFAULT_LOCATION);
+  const [userLocation, setUserLocation] =
+    useState<[number, number]>(DEFAULT_LOCATION);
   const [isLoadingLocation, setIsLoadingLocation] = useState(false);
   const [hasUserLocation, setHasUserLocation] = useState(false);
 
   // Get all UMKM data and calculate distances
   const processedUMKM = useMemo(() => {
-    console.log('🔍 Processing UMKM data:', umkmData.length, 'items');
-    console.log('📍 User location:', userLocation);
-    
+    console.log("🔍 Processing UMKM data:", umkmData.length, "items");
+    console.log("📍 User location:", userLocation);
+
     const processed = umkmData.map((umkm) => {
       // Calculate distance from user location
       const distance = calculateDistance(
         userLocation[1], // user lat
         userLocation[0], // user lng
         umkm.coordinates.lat,
-        umkm.coordinates.lng
+        umkm.coordinates.lng,
       );
 
       console.log(`📍 ${umkm.name}: ${distance.toFixed(2)} km`);
 
       return {
         ...umkm,
-        calculatedDistance: distance
+        calculatedDistance: distance,
       };
     });
 
     // Filter only UMKM within 10km by default
-    const nearby = processed.filter(umkm => umkm.calculatedDistance <= 10);
+    const nearby = processed.filter((umkm) => umkm.calculatedDistance <= 10);
+
     console.log(`✅ Found ${nearby.length} UMKM within 10km`);
-    
+
     return nearby;
   }, [userLocation]);
 
   // Filter and sort UMKM
   const filteredAndSortedUMKM = useMemo(() => {
-    console.log('🔎 Filtering UMKM...');
-    console.log('Search query:', searchQuery);
-    console.log('Selected category:', selectedCategory);
-    console.log('Sort by:', sortBy);
-    
-    let filtered = processedUMKM.filter(umkm => {
-      const matchesSearch = searchQuery === "" || 
+    console.log("🔎 Filtering UMKM...");
+    console.log("Search query:", searchQuery);
+    console.log("Selected category:", selectedCategory);
+    console.log("Sort by:", sortBy);
+
+    let filtered = processedUMKM.filter((umkm) => {
+      const matchesSearch =
+        searchQuery === "" ||
         umkm.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         umkm.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
         umkm.address.toLowerCase().includes(searchQuery.toLowerCase());
-      
-      const matchesCategory = selectedCategory === "Semua" || umkm.category === selectedCategory;
-      
+
+      const matchesCategory =
+        selectedCategory === "Semua" || umkm.category === selectedCategory;
+
       return matchesSearch && matchesCategory;
     });
 
@@ -320,7 +355,8 @@ export default function MapNearbyPage() {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
-          console.log('📍 Got user location:', longitude, latitude);
+
+          console.log("📍 Got user location:", longitude, latitude);
           setUserLocation([longitude, latitude]);
           setHasUserLocation(true);
           setIsLoadingLocation(false);
@@ -329,7 +365,7 @@ export default function MapNearbyPage() {
           console.error("❌ Error getting location:", error);
           setIsLoadingLocation(false);
           // Keep using default location
-        }
+        },
       );
     }
   };
@@ -339,7 +375,7 @@ export default function MapNearbyPage() {
     handleGetUserLocation();
   }, []);
 
-  console.log('🎯 Rendering with', filteredAndSortedUMKM.length, 'UMKM');
+  console.log("🎯 Rendering with", filteredAndSortedUMKM.length, "UMKM");
 
   return (
     <DefaultLayout>
@@ -350,41 +386,45 @@ export default function MapNearbyPage() {
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
               <div>
                 <h1 className="font-playfair text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
-                  {language === 'en' ? 'Nearby SMEs' : 'UMKM Terdekat'}
+                  {language === "en" ? "Nearby SMEs" : "UMKM Terdekat"}
                 </h1>
                 <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                  {language === 'en' 
-                    ? 'Find SMEs around your location' 
-                    : 'Temukan UMKM di sekitar lokasi Anda'
-                  }
+                  {language === "en"
+                    ? "Find SMEs around your location"
+                    : "Temukan UMKM di sekitar lokasi Anda"}
                 </p>
               </div>
-              
+
               <Button
                 color="primary"
-                variant="flat"
+                isLoading={isLoadingLocation}
                 size="sm"
                 startContent={<Locate size={16} />}
+                variant="flat"
                 onPress={handleGetUserLocation}
-                isLoading={isLoadingLocation}
               >
-                {isLoadingLocation 
-                  ? (language === 'en' ? 'Searching...' : 'Mencari...') 
-                  : (language === 'en' ? 'Update Location' : 'Perbarui Lokasi')
-                }
+                {isLoadingLocation
+                  ? language === "en"
+                    ? "Searching..."
+                    : "Mencari..."
+                  : language === "en"
+                    ? "Update Location"
+                    : "Perbarui Lokasi"}
               </Button>
             </div>
-            
+
             {/* Location Info */}
             {hasUserLocation && (
               <div className="mt-4 p-3 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg">
                 <div className="flex items-center gap-2">
-                  <MapPin size={16} className="text-green-600 dark:text-green-400" />
+                  <MapPin
+                    className="text-green-600 dark:text-green-400"
+                    size={16}
+                  />
                   <p className="text-sm text-green-700 dark:text-green-300">
-                    {language === 'en' 
-                      ? 'Using your current location' 
-                      : 'Menggunakan lokasi Anda saat ini'
-                    }
+                    {language === "en"
+                      ? "Using your current location"
+                      : "Menggunakan lokasi Anda saat ini"}
                   </p>
                 </div>
               </div>
@@ -399,39 +439,41 @@ export default function MapNearbyPage() {
               {/* Search */}
               <div className="flex-1">
                 <Input
-                  placeholder={language === 'en' 
-                    ? "Search SMEs, categories, or addresses..." 
-                    : "Cari UMKM, kategori, atau alamat..."
-                  }
-                  value={searchQuery}
-                  onValueChange={setSearchQuery}
-                  startContent={<Search size={18} className="text-gray-400" />}
+                  isClearable
                   classNames={{
                     input: "text-sm",
-                    inputWrapper: "h-10"
+                    inputWrapper: "h-10",
                   }}
-                  isClearable
+                  placeholder={
+                    language === "en"
+                      ? "Search SMEs, categories, or addresses..."
+                      : "Cari UMKM, kategori, atau alamat..."
+                  }
+                  startContent={<Search className="text-gray-400" size={18} />}
+                  value={searchQuery}
                   onClear={() => setSearchQuery("")}
+                  onValueChange={setSearchQuery}
                 />
               </div>
 
               {/* Category Filter */}
               <div className="w-full sm:w-48">
                 <Select
-                  placeholder={language === 'en' ? 'Select Category' : 'Pilih Kategori'}
+                  classNames={{
+                    trigger: "h-10",
+                  }}
+                  placeholder={
+                    language === "en" ? "Select Category" : "Pilih Kategori"
+                  }
                   selectedKeys={[selectedCategory]}
                   onSelectionChange={(keys) => {
                     const selected = Array.from(keys)[0] as string;
+
                     setSelectedCategory(selected);
-                  }}
-                  classNames={{
-                    trigger: "h-10"
                   }}
                 >
                   {categories.map((category) => (
-                    <SelectItem key={category}>
-                      {category}
-                    </SelectItem>
+                    <SelectItem key={category}>{category}</SelectItem>
                   ))}
                 </Select>
               </div>
@@ -439,20 +481,19 @@ export default function MapNearbyPage() {
               {/* Sort */}
               <div className="w-full sm:w-48">
                 <Select
-                  placeholder={language === 'en' ? 'Sort By' : 'Urutkan'}
+                  classNames={{
+                    trigger: "h-10",
+                  }}
+                  placeholder={language === "en" ? "Sort By" : "Urutkan"}
                   selectedKeys={[sortBy]}
                   onSelectionChange={(keys) => {
                     const selected = Array.from(keys)[0] as string;
+
                     setSortBy(selected);
-                  }}
-                  classNames={{
-                    trigger: "h-10"
                   }}
                 >
                   {sortOptions.map((option) => (
-                    <SelectItem key={option.key}>
-                      {option.label}
-                    </SelectItem>
+                    <SelectItem key={option.key}>{option.label}</SelectItem>
                   ))}
                 </Select>
               </div>
@@ -466,16 +507,14 @@ export default function MapNearbyPage() {
           <div className="flex items-center justify-between mb-6">
             <div>
               <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
-                {language === 'en' 
-                  ? `${filteredAndSortedUMKM.length} SMEs Found` 
-                  : `${filteredAndSortedUMKM.length} UMKM Ditemukan`
-                }
+                {language === "en"
+                  ? `${filteredAndSortedUMKM.length} SMEs Found`
+                  : `${filteredAndSortedUMKM.length} UMKM Ditemukan`}
               </h2>
               <p className="text-sm text-gray-600 dark:text-gray-400">
-                {language === 'en' 
-                  ? `Sorted by ${sortOptions.find(opt => opt.key === sortBy)?.label.toLowerCase()}` 
-                  : `Diurutkan berdasarkan ${sortOptions.find(opt => opt.key === sortBy)?.label.toLowerCase()}`
-                }
+                {language === "en"
+                  ? `Sorted by ${sortOptions.find((opt) => opt.key === sortBy)?.label.toLowerCase()}`
+                  : `Diurutkan berdasarkan ${sortOptions.find((opt) => opt.key === sortBy)?.label.toLowerCase()}`}
               </p>
             </div>
           </div>
@@ -485,13 +524,14 @@ export default function MapNearbyPage() {
             <div className="text-center py-12">
               <MapPin className="w-16 h-16 mx-auto text-gray-300 dark:text-gray-600 mb-4" />
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                {language === 'en' ? 'No SMEs Found' : 'Tidak Ada UMKM Ditemukan'}
+                {language === "en"
+                  ? "No SMEs Found"
+                  : "Tidak Ada UMKM Ditemukan"}
               </h3>
               <p className="text-gray-600 dark:text-gray-400 mb-6">
-                {language === 'en' 
-                  ? 'Try changing your search keywords or selected filters' 
-                  : 'Coba ubah filter atau kata kunci pencarian Anda'
-                }
+                {language === "en"
+                  ? "Try changing your search keywords or selected filters"
+                  : "Coba ubah filter atau kata kunci pencarian Anda"}
               </p>
               <Button
                 color="primary"
@@ -501,7 +541,7 @@ export default function MapNearbyPage() {
                   setSelectedCategory("Semua");
                 }}
               >
-                {language === 'en' ? 'Reset Filter' : 'Reset Filter'}
+                {language === "en" ? "Reset Filter" : "Reset Filter"}
               </Button>
             </div>
           ) : (

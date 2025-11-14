@@ -1,15 +1,21 @@
 // Message Bubble Component
 import type { Message } from "@/types/chat.types";
-import { UMKMCard } from "./UMKMCard";
+
 import { User } from "lucide-react";
+
 import OptimizedMaskot from "../OptimizedMaskot";
+
+import { UMKMCard } from "./UMKMCard";
 
 interface MessageBubbleProps {
   message: Message;
   onQuickReply: (reply: string) => void;
 }
 
-export const MessageBubble = ({ message, onQuickReply }: MessageBubbleProps) => {
+export const MessageBubble = ({
+  message,
+  onQuickReply,
+}: MessageBubbleProps) => {
   const isUser = message.role === "user";
   const isAssistant = message.role === "assistant";
 
@@ -34,7 +40,9 @@ export const MessageBubble = ({ message, onQuickReply }: MessageBubbleProps) => 
       )}
 
       {/* Message Content */}
-      <div className={`flex flex-col ${isUser ? "items-end" : "items-start"} max-w-[75%]`}>
+      <div
+        className={`flex flex-col ${isUser ? "items-end" : "items-start"} max-w-[75%]`}
+      >
         {/* Message Bubble */}
         <div
           className={`rounded-2xl px-4 py-3 shadow-sm ${
@@ -64,8 +72,8 @@ export const MessageBubble = ({ message, onQuickReply }: MessageBubbleProps) => 
             {message.quick_replies.map((reply, idx) => (
               <button
                 key={idx}
-                onClick={() => onQuickReply(reply)}
                 className="text-xs px-4 py-2 rounded-full bg-white dark:bg-gray-800 border-2 border-primary-500 text-primary-600 dark:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-all font-medium shadow-sm hover:shadow-md"
+                onClick={() => onQuickReply(reply)}
               >
                 {reply}
               </button>
@@ -82,7 +90,7 @@ export const MessageBubble = ({ message, onQuickReply }: MessageBubbleProps) => 
       {/* Avatar - User only */}
       {isUser && (
         <div className="flex-shrink-0 w-10 h-10 rounded-full bg-gradient-to-br from-gray-600 to-gray-700 flex items-center justify-center shadow-md">
-          <User size={20} className="text-white" />
+          <User className="text-white" size={20} />
         </div>
       )}
     </div>

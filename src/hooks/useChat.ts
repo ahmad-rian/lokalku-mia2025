@@ -1,6 +1,7 @@
 // Custom hook for chat state management
-import { useState, useCallback, useEffect, useRef } from "react";
 import type { Message, ChatState } from "@/types/chat.types";
+
+import { useState, useCallback, useEffect, useRef } from "react";
 
 const STORAGE_KEY = "lokalku_chat_sabi";
 const MAX_MESSAGES = 50;
@@ -10,9 +11,11 @@ export const useChat = () => {
   const [state, setState] = useState<ChatState>(() => {
     // Load from sessionStorage
     const stored = sessionStorage.getItem(STORAGE_KEY);
+
     if (stored) {
       try {
         const parsed = JSON.parse(stored);
+
         return {
           messages: parsed.messages || [],
           isOpen: false,
@@ -23,6 +26,7 @@ export const useChat = () => {
         console.error("Failed to parse chat state:", e);
       }
     }
+
     return {
       messages: [],
       isOpen: false,
@@ -40,7 +44,7 @@ export const useChat = () => {
       JSON.stringify({
         messages: state.messages.slice(-MAX_MESSAGES),
         messageCount: state.messageCount,
-      })
+      }),
     );
   }, [state.messages, state.messageCount]);
 
@@ -58,33 +62,37 @@ export const useChat = () => {
   }, [state.messages, state.isOpen, scrollToBottom]);
 
   const toggleChat = useCallback(() => {
-    setState(prev => ({ ...prev, isOpen: !prev.isOpen }));
+    setState((prev) => ({ ...prev, isOpen: !prev.isOpen }));
   }, []);
 
   const openChat = useCallback(() => {
-    setState(prev => ({ ...prev, isOpen: true }));
+    setState((prev) => ({ ...prev, isOpen: true }));
   }, []);
 
   const closeChat = useCallback(() => {
-    setState(prev => ({ ...prev, isOpen: false }));
+    setState((prev) => ({ ...prev, isOpen: false }));
   }, []);
 
-  const addMessage = useCallback((message: Omit<Message, "id" | "timestamp">) => {
-    const newMessage: Message = {
-      ...message,
-      id: `${Date.now()}-${Math.random()}`,
-      timestamp: Date.now(),
-    };
+  const addMessage = useCallback(
+    (message: Omit<Message, "id" | "timestamp">) => {
+      const newMessage: Message = {
+        ...message,
+        id: `${Date.now()}-${Math.random()}`,
+        timestamp: Date.now(),
+      };
 
-    setState(prev => ({
-      ...prev,
-      messages: [...prev.messages, newMessage].slice(-MAX_MESSAGES),
-      messageCount: message.role === "user" ? prev.messageCount + 1 : prev.messageCount,
-    }));
-  }, []);
+      setState((prev) => ({
+        ...prev,
+        messages: [...prev.messages, newMessage].slice(-MAX_MESSAGES),
+        messageCount:
+          message.role === "user" ? prev.messageCount + 1 : prev.messageCount,
+      }));
+    },
+    [],
+  );
 
   const setTyping = useCallback((isTyping: boolean) => {
-    setState(prev => ({ ...prev, isTyping }));
+    setState((prev) => ({ ...prev, isTyping }));
   }, []);
 
   const clearChat = useCallback(() => {
@@ -104,7 +112,10 @@ export const useChat = () => {
   const getConversationHistory = useCallback((): string[] => {
     return state.messages
       .slice(-10)
-      .map(msg => `${msg.role === "user" ? "User" : "Assistant"}: ${msg.content}`);
+      .map(
+        (msg) =>
+          `${msg.role === "user" ? "User" : "Assistant"}: ${msg.content}`,
+      );
   }, [state.messages]);
 
   return {

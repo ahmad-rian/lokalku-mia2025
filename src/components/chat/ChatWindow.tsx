@@ -1,8 +1,9 @@
 // Chat Window Component
+import type { Message } from "@/types/chat.types";
+
 import { ChatHeader } from "./ChatHeader";
 import { ChatMessages } from "./ChatMessages";
 import { ChatInput } from "./ChatInput";
-import type { Message } from "@/types/chat.types";
 
 interface ChatWindowProps {
   messages: Message[];
@@ -24,7 +25,8 @@ export const ChatWindow = ({
   disabled = false,
 }: ChatWindowProps) => {
   return (
-    <div className="fixed z-50 
+    <div
+      className="fixed z-50 
                     top-20 bottom-4 
                     right-4 
                     w-[calc(100vw-2rem)] 
@@ -36,19 +38,20 @@ export const ChatWindow = ({
                     rounded-2xl shadow-2xl 
                     flex flex-col 
                     animate-slide-up
-                    border border-gray-200 dark:border-gray-700">
+                    border border-gray-200 dark:border-gray-700"
+    >
       {/* Header */}
-      <ChatHeader onMinimize={onMinimize} onClose={onClose} />
+      <ChatHeader onClose={onClose} onMinimize={onMinimize} />
 
       {/* Messages */}
       <ChatMessages
-        messages={messages}
         isTyping={isTyping}
+        messages={messages}
         onQuickReply={onQuickReply}
       />
 
       {/* Input */}
-      <ChatInput onSend={onSendMessage} disabled={disabled || isTyping} />
+      <ChatInput disabled={disabled || isTyping} onSend={onSendMessage} />
     </div>
   );
 };

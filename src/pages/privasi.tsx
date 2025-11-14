@@ -1,15 +1,16 @@
 import { useState } from "react";
-import { 
-  ChevronDownIcon, 
-  DocumentTextIcon, 
+import {
+  ChevronDownIcon,
+  DocumentTextIcon,
   ShieldCheckIcon,
   EnvelopeIcon,
   ChatBubbleLeftRightIcon,
   CheckCircleIcon,
   InformationCircleIcon,
-  LockClosedIcon
+  LockClosedIcon,
 } from "@heroicons/react/24/outline";
 import { motion, AnimatePresence } from "framer-motion";
+
 import DefaultLayout from "@/layouts/default";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { cn } from "@/lib/utils";
@@ -26,15 +27,18 @@ const BackgroundPattern = () => {
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
       {/* Grid Pattern */}
       <div className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05]">
-        <div className="absolute inset-0" style={{
-          backgroundImage: `linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px)`,
-          backgroundSize: '64px 64px',
-        }} />
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px)`,
+            backgroundSize: "64px 64px",
+          }}
+        />
       </div>
-      
+
       {/* Gradient Overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/50 to-white dark:via-gray-900/50 dark:to-gray-900" />
-      
+
       {/* Top Accent */}
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary-500/20 to-transparent" />
     </div>
@@ -42,12 +46,12 @@ const BackgroundPattern = () => {
 };
 
 // Table of Contents Component
-const TableOfContents = ({ 
-  sections, 
-  activeSection, 
-  onNavigate 
-}: { 
-  sections: PrivacySection[]; 
+const TableOfContents = ({
+  sections,
+  activeSection,
+  onNavigate,
+}: {
+  sections: PrivacySection[];
   activeSection: number | null;
   onNavigate: (index: number) => void;
 }) => {
@@ -59,22 +63,22 @@ const TableOfContents = ({
           Daftar Isi
         </h3>
       </div>
-      
+
       <nav className="space-y-1">
         {sections.map((section, index) => (
           <button
             key={index}
-            onClick={() => onNavigate(index)}
             className={cn(
               "w-full text-left px-3 py-2 rounded-lg text-sm transition-all",
               activeSection === index
                 ? "bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400 font-medium"
-                : "text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700/50"
+                : "text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700/50",
             )}
+            onClick={() => onNavigate(index)}
           >
             <span className="flex items-center gap-2">
               <span className="text-xs font-mono text-gray-400">
-                {String(index + 1).padStart(2, '0')}
+                {String(index + 1).padStart(2, "0")}
               </span>
               <span className="line-clamp-1">{section.title}</span>
             </span>
@@ -86,71 +90,75 @@ const TableOfContents = ({
 };
 
 // Accordion Item Component
-const AccordionItem = ({ 
-  item, 
-  index, 
-  isOpen, 
-  onToggle 
-}: { 
-  item: PrivacySection; 
-  index: number; 
-  isOpen: boolean; 
+const AccordionItem = ({
+  item,
+  index,
+  isOpen,
+  onToggle,
+}: {
+  item: PrivacySection;
+  index: number;
+  isOpen: boolean;
   onToggle: () => void;
 }) => {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.05 }}
       className="border-b border-gray-200 dark:border-gray-700 last:border-0"
       id={`section-${index}`}
+      initial={{ opacity: 0, y: 20 }}
+      transition={{ delay: index * 0.05 }}
     >
       <button
-        onClick={onToggle}
         className="w-full flex items-start justify-between gap-4 py-6 px-1 text-left group"
+        onClick={onToggle}
       >
         <div className="flex items-start gap-4 flex-1 min-w-0">
           <div className="flex-shrink-0 mt-1">
-            <div className={cn(
-              "w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold transition-all",
-              isOpen 
-                ? "bg-primary-600 text-white shadow-md" 
-                : "bg-gray-100 dark:bg-gray-800 text-gray-400 group-hover:bg-primary-50 dark:group-hover:bg-primary-900/20 group-hover:text-primary-600 dark:group-hover:text-primary-400"
-            )}>
-              {String(index + 1).padStart(2, '0')}
+            <div
+              className={cn(
+                "w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold transition-all",
+                isOpen
+                  ? "bg-primary-600 text-white shadow-md"
+                  : "bg-gray-100 dark:bg-gray-800 text-gray-400 group-hover:bg-primary-50 dark:group-hover:bg-primary-900/20 group-hover:text-primary-600 dark:group-hover:text-primary-400",
+              )}
+            >
+              {String(index + 1).padStart(2, "0")}
             </div>
           </div>
-          
+
           <div className="flex-1 min-w-0">
-            <h3 className={cn(
-              "text-lg font-semibold mb-1 transition-colors",
-              isOpen 
-                ? "text-primary-600 dark:text-primary-400" 
-                : "text-gray-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400"
-            )}>
+            <h3
+              className={cn(
+                "text-lg font-semibold mb-1 transition-colors",
+                isOpen
+                  ? "text-primary-600 dark:text-primary-400"
+                  : "text-gray-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400",
+              )}
+            >
               {item.title}
             </h3>
           </div>
         </div>
-        
-        <ChevronDownIcon 
+
+        <ChevronDownIcon
           className={cn(
             "w-5 h-5 flex-shrink-0 mt-1 transition-all duration-300",
-            isOpen 
-              ? "rotate-180 text-primary-600 dark:text-primary-400" 
-              : "text-gray-400 group-hover:text-primary-600 dark:group-hover:text-primary-400"
+            isOpen
+              ? "rotate-180 text-primary-600 dark:text-primary-400"
+              : "text-gray-400 group-hover:text-primary-600 dark:group-hover:text-primary-400",
           )}
         />
       </button>
-      
+
       <AnimatePresence initial={false}>
         {isOpen && (
           <motion.div
-            initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
             className="overflow-hidden"
+            exit={{ height: 0, opacity: 0 }}
+            initial={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
           >
             <div className="pl-12 pr-1 pb-6">
               <div className="prose prose-gray dark:prose-invert max-w-none">
@@ -167,32 +175,32 @@ const AccordionItem = ({
 };
 
 // Info Box Component
-const InfoBox = ({ 
-  children, 
-  variant = "info" 
-}: { 
-  children: React.ReactNode; 
-  variant?: "info" | "warning" | "success" 
+const InfoBox = ({
+  children,
+  variant = "info",
+}: {
+  children: React.ReactNode;
+  variant?: "info" | "warning" | "success";
 }) => {
   const variants = {
     info: {
       bg: "bg-blue-50 dark:bg-blue-900/20",
       border: "border-blue-200 dark:border-blue-800",
       icon: "text-blue-600 dark:text-blue-400",
-      IconComponent: InformationCircleIcon
+      IconComponent: InformationCircleIcon,
     },
     warning: {
       bg: "bg-amber-50 dark:bg-amber-900/20",
       border: "border-amber-200 dark:border-amber-800",
       icon: "text-amber-600 dark:text-amber-400",
-      IconComponent: ShieldCheckIcon
+      IconComponent: ShieldCheckIcon,
     },
     success: {
       bg: "bg-green-50 dark:bg-green-900/20",
       border: "border-green-200 dark:border-green-800",
       icon: "text-green-600 dark:text-green-400",
-      IconComponent: CheckCircleIcon
-    }
+      IconComponent: CheckCircleIcon,
+    },
   };
 
   const config = variants[variant];
@@ -217,44 +225,44 @@ export default function PrivacyPolicy() {
   const privacyData: PrivacySection[] = [
     {
       title: t("privacy.sections.introduction.title"),
-      content: t("privacy.sections.introduction.content")
+      content: t("privacy.sections.introduction.content"),
     },
     {
       title: t("privacy.sections.informationCollection.title"),
-      content: t("privacy.sections.informationCollection.content")
+      content: t("privacy.sections.informationCollection.content"),
     },
     {
       title: t("privacy.sections.informationUse.title"),
-      content: t("privacy.sections.informationUse.content")
+      content: t("privacy.sections.informationUse.content"),
     },
     {
       title: t("privacy.sections.informationSharing.title"),
-      content: t("privacy.sections.informationSharing.content")
+      content: t("privacy.sections.informationSharing.content"),
     },
     {
       title: t("privacy.sections.dataSecurity.title"),
-      content: t("privacy.sections.dataSecurity.content")
+      content: t("privacy.sections.dataSecurity.content"),
     },
     {
       title: t("privacy.sections.cookies.title"),
-      content: t("privacy.sections.cookies.content")
+      content: t("privacy.sections.cookies.content"),
     },
     {
       title: t("privacy.sections.thirdParty.title"),
-      content: t("privacy.sections.thirdParty.content")
+      content: t("privacy.sections.thirdParty.content"),
     },
     {
       title: t("privacy.sections.userRights.title"),
-      content: t("privacy.sections.userRights.content")
+      content: t("privacy.sections.userRights.content"),
     },
     {
       title: t("privacy.sections.dataRetention.title"),
-      content: t("privacy.sections.dataRetention.content")
+      content: t("privacy.sections.dataRetention.content"),
     },
     {
       title: t("privacy.sections.changes.title"),
-      content: t("privacy.sections.changes.content")
-    }
+      content: t("privacy.sections.changes.content"),
+    },
   ];
 
   // Handler untuk toggle accordion tanpa scroll
@@ -265,17 +273,19 @@ export default function PrivacyPolicy() {
   // Handler untuk navigasi dari table of contents dengan scroll
   const handleNavigate = (index: number) => {
     setOpenIndex(index);
-    
+
     setTimeout(() => {
       const element = document.getElementById(`section-${index}`);
+
       if (element) {
         const headerOffset = 100;
         const elementPosition = element.getBoundingClientRect().top;
-        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+        const offsetPosition =
+          elementPosition + window.pageYOffset - headerOffset;
 
         window.scrollTo({
           top: offsetPosition,
-          behavior: 'smooth'
+          behavior: "smooth",
         });
       }
     }, 100);
@@ -294,7 +304,10 @@ export default function PrivacyPolicy() {
             <div className="max-w-3xl">
               {/* Breadcrumb */}
               <nav className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 mb-6">
-                <a href="/" className="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                <a
+                  className="hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+                  href="/"
+                >
                   Beranda
                 </a>
                 <ChevronDownIcon className="w-4 h-4 -rotate-90" />
@@ -311,11 +324,11 @@ export default function PrivacyPolicy() {
                     {t("privacy.badge")}
                   </span>
                 </div>
-                
+
                 <h1 className="font-playfair text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
                   {t("privacy.title")}
                 </h1>
-                
+
                 <p className="text-lg text-gray-600 dark:text-gray-400 leading-relaxed">
                   {t("privacy.description")}
                 </p>
@@ -324,25 +337,30 @@ export default function PrivacyPolicy() {
               {/* Meta Info */}
               <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
                 <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                  <div className="w-2 h-2 bg-green-500 rounded-full" />
                   <span>Efektif sejak: 1 Januari 2024</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                  <span>Terakhir diperbarui: {new Date().toLocaleDateString('id-ID', { 
-                    day: 'numeric',
-                    month: 'long', 
-                    year: 'numeric'
-                  })}</span>
+                  <div className="w-2 h-2 bg-blue-500 rounded-full" />
+                  <span>
+                    Terakhir diperbarui:{" "}
+                    {new Date().toLocaleDateString("id-ID", {
+                      day: "numeric",
+                      month: "long",
+                      year: "numeric",
+                    })}
+                  </span>
                 </div>
               </div>
 
               {/* Important Notice */}
               <div className="mt-8">
                 <InfoBox variant="info">
-                  <strong className="font-semibold">Komitmen Kami:</strong> LokalKu berkomitmen untuk melindungi privasi Anda. 
-                  Kebijakan ini menjelaskan bagaimana kami mengumpulkan, menggunakan, dan melindungi informasi pribadi Anda 
-                  saat menggunakan layanan kami.
+                  <strong className="font-semibold">Komitmen Kami:</strong>{" "}
+                  LokalKu berkomitmen untuk melindungi privasi Anda. Kebijakan
+                  ini menjelaskan bagaimana kami mengumpulkan, menggunakan, dan
+                  melindungi informasi pribadi Anda saat menggunakan layanan
+                  kami.
                 </InfoBox>
               </div>
             </div>
@@ -353,9 +371,9 @@ export default function PrivacyPolicy() {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
               {/* Table of Contents - Desktop Only */}
               <div className="hidden lg:block lg:col-span-3">
-                <TableOfContents 
-                  sections={privacyData}
+                <TableOfContents
                   activeSection={openIndex}
+                  sections={privacyData}
                   onNavigate={handleNavigate}
                 />
               </div>
@@ -366,9 +384,9 @@ export default function PrivacyPolicy() {
                   {privacyData.map((item, index) => (
                     <AccordionItem
                       key={index}
-                      item={item}
                       index={index}
                       isOpen={openIndex === index}
+                      item={item}
                       onToggle={() => handleToggle(index)}
                     />
                   ))}
@@ -377,8 +395,11 @@ export default function PrivacyPolicy() {
                 {/* Bottom CTA */}
                 <div className="mt-8">
                   <InfoBox variant="success">
-                    <strong className="font-semibold">Punya pertanyaan tentang privasi Anda?</strong> Kami siap membantu! 
-                    Hubungi tim kami untuk informasi lebih lanjut tentang bagaimana kami melindungi data Anda.
+                    <strong className="font-semibold">
+                      Punya pertanyaan tentang privasi Anda?
+                    </strong>{" "}
+                    Kami siap membantu! Hubungi tim kami untuk informasi lebih
+                    lanjut tentang bagaimana kami melindungi data Anda.
                   </InfoBox>
                 </div>
               </div>
@@ -390,40 +411,43 @@ export default function PrivacyPolicy() {
             <div className="bg-gradient-to-br from-primary-600 via-primary-500 to-orange-500 rounded-3xl p-8 md:p-12 relative overflow-hidden shadow-xl">
               {/* Decorative Pattern */}
               <div className="absolute inset-0 opacity-10">
-                <div className="absolute inset-0" style={{
-                  backgroundImage: `radial-gradient(circle at 2px 2px, white 1px, transparent 0)`,
-                  backgroundSize: '32px 32px'
-                }} />
+                <div
+                  className="absolute inset-0"
+                  style={{
+                    backgroundImage: `radial-gradient(circle at 2px 2px, white 1px, transparent 0)`,
+                    backgroundSize: "32px 32px",
+                  }}
+                />
               </div>
 
               <div className="relative z-10">
                 <div className="max-w-3xl mx-auto text-center">
                   <LockClosedIcon className="w-12 h-12 text-white mx-auto mb-4" />
-                  
+
                   <h2 className="font-playfair text-3xl md:text-4xl font-bold text-white mb-4">
                     {t("privacy.contact.title")}
                   </h2>
-                  
+
                   <p className="text-lg text-white/90 mb-8">
                     {t("privacy.contact.description")}
                   </p>
-                  
+
                   <div className="flex flex-col sm:flex-row gap-4 justify-center">
                     <a
-                      href="https://www.ahmadrian.site/"
-                      target="_blank"
-                      rel="noopener noreferrer"
                       className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white text-primary-600 rounded-xl font-semibold hover:bg-gray-100 transition-all hover:scale-105 shadow-lg"
+                      href="https://www.ahmadrian.site/"
+                      rel="noopener noreferrer"
+                      target="_blank"
                     >
                       <EnvelopeIcon className="w-5 h-5" />
                       {t("privacy.contact.email")}
                     </a>
-                    
+
                     <a
-                      href="https://wa.me/6282123479638"
-                      target="_blank"
-                      rel="noopener noreferrer"
                       className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white/20 backdrop-blur-sm text-white rounded-xl font-semibold hover:bg-white/30 transition-all hover:scale-105 border-2 border-white/30"
+                      href="https://wa.me/6282123479638"
+                      rel="noopener noreferrer"
+                      target="_blank"
                     >
                       <ChatBubbleLeftRightIcon className="w-5 h-5" />
                       {t("privacy.contact.whatsapp")}

@@ -1,13 +1,13 @@
-import { 
-  MapPinIcon,
-} from "@heroicons/react/24/outline";
+import { MapPinIcon } from "@heroicons/react/24/outline";
 import { Link, useNavigate } from "react-router-dom";
-import { useRef, useEffect, useState } from 'react';
-import { Renderer, Program, Triangle, Mesh } from 'ogl';
-import { useLanguage } from '@/contexts/LanguageContext';
-import { PlaceholdersAndVanishInput } from './ui/placeholders-and-vanish-input';
-import TextType from './ui/TextType';
-import { InteractiveHoverButton } from './ui/interactive-hover-button';
+import { useRef, useEffect, useState } from "react";
+import { Renderer, Program, Triangle, Mesh } from "ogl";
+
+import { PlaceholdersAndVanishInput } from "./ui/placeholders-and-vanish-input";
+import TextType from "./ui/TextType";
+import { InteractiveHoverButton } from "./ui/interactive-hover-button";
+
+import { useLanguage } from "@/contexts/LanguageContext";
 
 // Light Rays Component using OGL
 const LightRays = ({ isDarkMode }: { isDarkMode: boolean }) => {
@@ -20,7 +20,14 @@ const LightRays = ({ isDarkMode }: { isDarkMode: boolean }) => {
 
   const hexToRgb = (hex: string): [number, number, number] => {
     const m = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-    return m ? [parseInt(m[1], 16) / 255, parseInt(m[2], 16) / 255, parseInt(m[3], 16) / 255] : [1, 1, 1];
+
+    return m
+      ? [
+          parseInt(m[1], 16) / 255,
+          parseInt(m[2], 16) / 255,
+          parseInt(m[3], 16) / 255,
+        ]
+      : [1, 1, 1];
   };
 
   useEffect(() => {
@@ -36,13 +43,15 @@ const LightRays = ({ isDarkMode }: { isDarkMode: boolean }) => {
 
       const renderer = new Renderer({
         dpr: Math.min(window.devicePixelRatio, 2),
-        alpha: true
+        alpha: true,
       });
+
       rendererRef.current = renderer;
 
       const gl = renderer.gl;
-      gl.canvas.style.width = '100%';
-      gl.canvas.style.height = '100%';
+
+      gl.canvas.style.width = "100%";
+      gl.canvas.style.height = "100%";
 
       while (containerRef.current.firstChild) {
         containerRef.current.removeChild(containerRef.current.firstChild);
@@ -109,8 +118,8 @@ void main() {
       // Different colors for light and dark mode
       // Light mode: Warm amber/yellow (#fbbf24)
       // Dark mode: Orange (#f97316)
-      const rayColor = isDarkMode ? '#f97316' : '#fbbf24';
-      
+      const rayColor = isDarkMode ? "#f97316" : "#fbbf24";
+
       const uniforms = {
         iTime: { value: 0 },
         iResolution: { value: [1, 1] },
@@ -121,21 +130,24 @@ void main() {
         lightSpread: { value: isDarkMode ? 0.8 : 1.2 },
         rayLength: { value: isDarkMode ? 2.0 : 1.8 },
       };
+
       uniformsRef.current = uniforms;
 
       const geometry = new Triangle(gl);
       const program = new Program(gl, {
         vertex: vert,
         fragment: frag,
-        uniforms
+        uniforms,
       });
       const mesh = new Mesh(gl, { geometry, program });
+
       meshRef.current = mesh;
 
       const updatePlacement = () => {
         if (!containerRef.current || !renderer) return;
 
         const { clientWidth: wCSS, clientHeight: hCSS } = containerRef.current;
+
         renderer.setSize(wCSS, hCSS);
 
         const dpr = renderer.dpr;
@@ -158,12 +170,13 @@ void main() {
           renderer.render({ scene: mesh });
           animationIdRef.current = requestAnimationFrame(loop);
         } catch (error) {
-          console.warn('WebGL rendering error:', error);
+          console.warn("WebGL rendering error:", error);
+
           return;
         }
       };
 
-      window.addEventListener('resize', updatePlacement);
+      window.addEventListener("resize", updatePlacement);
       updatePlacement();
       animationIdRef.current = requestAnimationFrame(loop);
 
@@ -173,12 +186,14 @@ void main() {
           animationIdRef.current = null;
         }
 
-        window.removeEventListener('resize', updatePlacement);
+        window.removeEventListener("resize", updatePlacement);
 
         if (renderer) {
           try {
             const canvas = renderer.gl.canvas;
-            const loseContextExt = renderer.gl.getExtension('WEBGL_lose_context');
+            const loseContextExt =
+              renderer.gl.getExtension("WEBGL_lose_context");
+
             if (loseContextExt) {
               loseContextExt.loseContext();
             }
@@ -187,7 +202,7 @@ void main() {
               canvas.parentNode.removeChild(canvas);
             }
           } catch (error) {
-            console.warn('Error during WebGL cleanup:', error);
+            console.warn("Error during WebGL cleanup:", error);
           }
         }
 
@@ -208,12 +223,12 @@ void main() {
   }, [isDarkMode]);
 
   return (
-    <div 
-      ref={containerRef} 
+    <div
+      ref={containerRef}
       className="absolute inset-0 w-full h-full pointer-events-none z-0"
-      style={{ 
-        mixBlendMode: isDarkMode ? 'screen' : 'multiply',
-        opacity: isDarkMode ? 1 : 0.2
+      style={{
+        mixBlendMode: isDarkMode ? "screen" : "multiply",
+        opacity: isDarkMode ? 1 : 0.2,
       }}
     />
   );
@@ -227,16 +242,17 @@ export default function HeroSection() {
   useEffect(() => {
     // Check initial theme
     const checkTheme = () => {
-      setIsDarkMode(document.documentElement.classList.contains('dark'));
+      setIsDarkMode(document.documentElement.classList.contains("dark"));
     };
-    
+
     checkTheme();
 
     // Watch for theme changes
     const observer = new MutationObserver(checkTheme);
+
     observer.observe(document.documentElement, {
       attributes: true,
-      attributeFilter: ['class']
+      attributeFilter: ["class"],
     });
 
     return () => observer.disconnect();
@@ -244,7 +260,7 @@ export default function HeroSection() {
 
   // Search placeholders for PlaceholdersAndVanishInput
   const searchPlaceholders = [
-    t('hero.searchPlaceholder'),
+    t("hero.searchPlaceholder"),
     "Warung makan terdekat...",
     "Jasa laundry 24 jam...",
     "Toko batik Banyumas...",
@@ -252,12 +268,12 @@ export default function HeroSection() {
   ];
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log('Search value:', e.target.value);
+    console.log("Search value:", e.target.value);
   };
 
   const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('Search submitted');
+    console.log("Search submitted");
   };
 
   return (
@@ -293,38 +309,37 @@ export default function HeroSection() {
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center max-w-5xl mx-auto hero-content">
-
             {/* Main Heading - Using font-display Tailwind class */}
             <h1 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6 blur-fade-in-delay-100">
               <span className="block text-gray-900 dark:text-white mb-2">
-                {t('hero.title')}
+                {t("hero.title")}
               </span>
               <span className="block bg-gradient-to-r from-primary-600 via-orange-500 to-orange-600 bg-clip-text text-transparent">
-                {t('hero.titleHighlight')}
+                {t("hero.titleHighlight")}
               </span>
             </h1>
 
             {/* Javanese Script with Typing Effect */}
             <div className="mb-6 blur-fade-in-delay-300">
               <TextType
-                text={[
-                  "ꦢꦶꦫꦺꦏ꧀ꦠꦺꦴꦂꦶ ꦈꦩ꧀ꦏꦺꦩ꧀ ꦧꦚꦸꦩꦱ꧀",
-                  "ꦭꦺꦴꦏꦭ꧀ꦏꦸ꧈ ꦱꦺꦴꦭꦸꦱꦶ ꦥꦭꦶꦁ ꦲꦥꦶꦏ꧀"
-                ]}
-                typingSpeed={150}
+                className="text-2xl md:text-3xl font-medium text-orange-600 dark:text-orange-400/80"
+                cursorCharacter="|"
                 deletingSpeed={80}
+                loop={true}
                 pauseDuration={3000}
                 showCursor={true}
-                cursorCharacter="|"
-                loop={true}
-                className="text-2xl md:text-3xl font-medium text-orange-600 dark:text-orange-400/80"
-                style={{ fontFamily: 'NotoJavaneseRegular, serif' }}
+                style={{ fontFamily: "NotoJavaneseRegular, serif" }}
+                text={[
+                  "ꦢꦶꦫꦺꦏ꧀ꦠꦺꦴꦂꦶ ꦈꦩ꧀ꦏꦺꦩ꧀ ꦧꦚꦸꦩꦱ꧀",
+                  "ꦭꦺꦴꦏꦭ꧀ꦏꦸ꧈ ꦱꦺꦴꦭꦸꦱꦶ ꦥꦭꦶꦁ ꦲꦥꦶꦏ꧀",
+                ]}
+                typingSpeed={150}
               />
             </div>
 
             {/* Subheading */}
             <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300 leading-relaxed mb-12 max-w-3xl mx-auto blur-fade-in-delay-500">
-              {t('hero.subtitle')}
+              {t("hero.subtitle")}
             </p>
 
             {/* Search Bar with PlaceholdersAndVanishInput */}
@@ -338,22 +353,20 @@ export default function HeroSection() {
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center blur-fade-in-delay-900">
-              <InteractiveHoverButton 
+              <InteractiveHoverButton
                 className="bg-gray-900 dark:bg-white/10 backdrop-blur-md border border-gray-900 dark:border-white/20 text-white font-semibold hover:bg-gray-800 dark:hover:bg-white/20 transition-all shadow-lg"
-                onClick={() => navigate('/direktori')}
+                onClick={() => navigate("/direktori")}
               >
-                {t('hero.exploreButton')}
+                {t("hero.exploreButton")}
               </InteractiveHoverButton>
-              
+
               <Link to="/peta/terdekat">
-                <button 
+                <button
+                  aria-label={`${t("hero.nearbyButton")} - Find nearby UMKM locations`}
                   className="border-2 border-gray-300 dark:border-white/30 text-gray-900 dark:text-white font-semibold px-6 py-3 rounded-xl text-base flex items-center gap-2 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
-                  aria-label={`${t('hero.nearbyButton')} - Find nearby UMKM locations`}
                 >
-                  <MapPinIcon className="w-5 h-5" aria-hidden="true" />
-                  <span>
-                    {t('hero.nearbyButton')}
-                  </span>
+                  <MapPinIcon aria-hidden="true" className="w-5 h-5" />
+                  <span>{t("hero.nearbyButton")}</span>
                 </button>
               </Link>
             </div>
@@ -361,25 +374,33 @@ export default function HeroSection() {
             {/* Stats */}
             <div className="grid grid-cols-3 gap-8 mt-16 max-w-2xl mx-auto blur-fade-in-delay-1100">
               <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-1">150+</div>
-                <div className="text-xs md:text-sm text-gray-600 dark:text-gray-400">{t('hero.stats.registered')}</div>
+                <div className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-1">
+                  150+
+                </div>
+                <div className="text-xs md:text-sm text-gray-600 dark:text-gray-400">
+                  {t("hero.stats.registered")}
+                </div>
               </div>
               <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-1">4.8</div>
-                <div className="text-xs md:text-sm text-gray-600 dark:text-gray-400">{t('hero.stats.rating')}</div>
+                <div className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-1">
+                  4.8
+                </div>
+                <div className="text-xs md:text-sm text-gray-600 dark:text-gray-400">
+                  {t("hero.stats.rating")}
+                </div>
               </div>
               <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-1">2.5K+</div>
-                <div className="text-xs md:text-sm text-gray-600 dark:text-gray-400">{t('hero.stats.users')}</div>
+                <div className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-1">
+                  2.5K+
+                </div>
+                <div className="text-xs md:text-sm text-gray-600 dark:text-gray-400">
+                  {t("hero.stats.users")}
+                </div>
               </div>
             </div>
           </div>
         </div>
-
-
       </section>
-
-    
     </>
   );
 }

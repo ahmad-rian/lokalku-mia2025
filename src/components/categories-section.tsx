@@ -1,18 +1,16 @@
 import { Button } from "@heroui/react";
 import { Link } from "react-router-dom";
-import { 
-  ShoppingBag, 
-  Cake, 
-  ChevronRight,
-  Store
-} from "lucide-react";
-import LazySection from "./LazySection";
+import { ShoppingBag, Cake, ChevronRight, Store } from "lucide-react";
+
 import { useLanguage } from "../contexts/LanguageContext";
+
+import LazySection from "./LazySection";
+
 import { getUMKMByCategory } from "@/data/umkm-data";
 
 export default function CategoriesSection() {
   const { t } = useLanguage();
-  
+
   // Get categories from centralized data and add UI-specific properties
   const categoryItems = [
     {
@@ -23,7 +21,7 @@ export default function CategoriesSection() {
       description: "Makanan dan minuman lokal khas Banyumas",
       gradient: "from-orange-500 to-red-500",
       image: "/assets/data-umkm/Cuankuy/cuankuy-1.webp",
-      imageCredit: "Cuankuy"
+      imageCredit: "Cuankuy",
     },
     {
       id: 2,
@@ -33,7 +31,7 @@ export default function CategoriesSection() {
       description: "Pakaian, batik, dan aksesoris tradisional",
       gradient: "from-purple-500 to-pink-500",
       image: "/assets/data-umkm/pringmasbatik/pringmas.webp",
-      imageCredit: "Pringmas Batik"
+      imageCredit: "Pringmas Batik",
     },
     {
       id: 3,
@@ -43,7 +41,7 @@ export default function CategoriesSection() {
       description: "Kafe dan kedai kopi dengan suasana nyaman",
       gradient: "from-blue-500 to-cyan-500",
       image: "/assets/data-umkm/Nakopi/nakopi.webp",
-      imageCredit: "Nakopi"
+      imageCredit: "Nakopi",
     },
     {
       id: 4,
@@ -53,13 +51,13 @@ export default function CategoriesSection() {
       description: "Minimarket dan toko kebutuhan sehari-hari",
       gradient: "from-teal-500 to-cyan-500",
       image: "/assets/data-umkm/Boersakampus/boersa-1.webp",
-      imageCredit: "Boersa Kampus"
-    }
+      imageCredit: "Boersa Kampus",
+    },
   ];
 
   return (
-    <LazySection 
-      animationType="slideLeft" 
+    <LazySection
+      animationType="slideLeft"
       className="py-16 md:py-24 bg-gradient-to-br from-blue-50/30 via-white to-orange-50/20 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 relative overflow-hidden"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -71,14 +69,17 @@ export default function CategoriesSection() {
               {t("categories.subtitle")}
             </span>
           </h2>
-          
+
           {/* Javanese Script */}
           <div className="mb-4">
-            <p className="text-xl md:text-2xl font-medium text-primary-700 dark:text-primary-300" style={{ fontFamily: 'NotoJavaneseRegular, serif' }}>
+            <p
+              className="text-xl md:text-2xl font-medium text-primary-700 dark:text-primary-300"
+              style={{ fontFamily: "NotoJavaneseRegular, serif" }}
+            >
               ꦗꦼꦭꦗꦲꦶ ꦏꦠꦼꦒꦺꦴꦂꦶ
             </p>
           </div>
-          
+
           <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
             {t("categories.description")}
           </p>
@@ -88,25 +89,27 @@ export default function CategoriesSection() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
           {categoryItems.map((category) => {
             const IconComponent = category.icon;
-            
+
             return (
               <Link
                 key={category.id}
-                to="/direktori/kategori"
                 className="group relative bg-white dark:bg-gray-800 rounded-xl border border-gray-200/50 dark:border-gray-700/50 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden"
+                to="/direktori/kategori"
               >
                 {/* Image Section - Fixed Height */}
                 <div className="relative h-40 overflow-hidden rounded-t-xl">
                   <img
-                    src={category.image}
                     alt={category.name}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     loading="lazy"
+                    src={category.image}
                   />
-                  
+
                   {/* Gradient Overlay */}
-                  <div className={`absolute inset-0 bg-gradient-to-br ${category.gradient} opacity-20`} />
-                  
+                  <div
+                    className={`absolute inset-0 bg-gradient-to-br ${category.gradient} opacity-20`}
+                  />
+
                   {/* Image Credit */}
                   <div className="absolute bottom-2 right-2 text-xs text-white/70 bg-black/30 backdrop-blur-sm px-2 py-1 rounded">
                     {category.imageCredit}
@@ -148,11 +151,11 @@ export default function CategoriesSection() {
         {/* View All Button */}
         <div className="text-center">
           <Button
-            size="lg"
             as={Link}
-            to="/direktori/kategori"
             className="bg-gradient-to-r from-primary-600 to-orange-500 text-white font-semibold shadow-lg hover:shadow-xl transition-all px-8"
             endContent={<ChevronRight className="w-4 h-4" />}
+            size="lg"
+            to="/direktori/kategori"
           >
             {t("categories.viewAll")}
           </Button>

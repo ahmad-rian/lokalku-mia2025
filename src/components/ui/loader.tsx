@@ -33,25 +33,29 @@ export const PageLoader = () => {
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm animate-fade-in">
       <div className="flex flex-col items-center gap-4 animate-fade-in-up">
         <LoaderOne />
-        <p className="text-sm text-muted-foreground font-medium">
-          Memuat...
-        </p>
+        <p className="text-sm text-muted-foreground font-medium">Memuat...</p>
       </div>
     </div>
   );
 };
 
 // Component loader for inline usage - optimized
-export const ComponentLoader = ({ size = "md" }: { size?: "sm" | "md" | "lg" }) => {
+export const ComponentLoader = ({
+  size = "md",
+}: {
+  size?: "sm" | "md" | "lg";
+}) => {
   const sizeClasses = {
     sm: "w-4 h-4 border",
     md: "w-6 h-6 border-2",
-    lg: "w-8 h-8 border-2"
+    lg: "w-8 h-8 border-2",
   };
 
   return (
     <div className="flex items-center justify-center p-4">
-      <div className={`${sizeClasses[size]} border-primary border-t-transparent rounded-full animate-spin`} />
+      <div
+        className={`${sizeClasses[size]} border-primary border-t-transparent rounded-full animate-spin`}
+      />
     </div>
   );
 };
@@ -68,12 +72,12 @@ export const DotsLoader = () => {
 };
 
 // Skeleton loader for content - optimized
-export const SkeletonLoader = ({ 
-  lines = 3, 
-  className = "" 
-}: { 
-  lines?: number; 
-  className?: string; 
+export const SkeletonLoader = ({
+  lines = 3,
+  className = "",
+}: {
+  lines?: number;
+  className?: string;
 }) => {
   return (
     <div className={`space-y-3 ${className}`}>

@@ -1,10 +1,11 @@
-import { ReactNode } from 'react';
-import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
+import { ReactNode } from "react";
+
+import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 
 interface LazySectionProps {
   children: ReactNode;
   className?: string;
-  animationType?: 'fadeIn' | 'slideUp' | 'slideLeft' | 'slideRight' | 'scale';
+  animationType?: "fadeIn" | "slideUp" | "slideLeft" | "slideRight" | "scale";
   delay?: number;
   threshold?: number;
   id?: string;
@@ -12,32 +13,32 @@ interface LazySectionProps {
 
 export default function LazySection({
   children,
-  className = '',
-  animationType = 'fadeIn',
+  className = "",
+  animationType = "fadeIn",
   delay = 0,
   threshold = 0.1,
-  id
+  id,
 }: LazySectionProps) {
   const { elementRef, isIntersecting } = useIntersectionObserver({
     threshold,
-    rootMargin: '50px',
-    triggerOnce: true
+    rootMargin: "50px",
+    triggerOnce: true,
   });
 
   const getAnimationClasses = () => {
-    const baseClasses = 'transition-all duration-700 ease-out';
-    
+    const baseClasses = "transition-all duration-700 ease-out";
+
     if (!isIntersecting) {
       switch (animationType) {
-        case 'fadeIn':
+        case "fadeIn":
           return `${baseClasses} opacity-0`;
-        case 'slideUp':
+        case "slideUp":
           return `${baseClasses} opacity-0 translate-y-8`;
-        case 'slideLeft':
+        case "slideLeft":
           return `${baseClasses} opacity-0 translate-x-8`;
-        case 'slideRight':
+        case "slideRight":
           return `${baseClasses} opacity-0 -translate-x-8`;
-        case 'scale':
+        case "scale":
           return `${baseClasses} opacity-0 scale-95`;
         default:
           return `${baseClasses} opacity-0`;
@@ -50,10 +51,10 @@ export default function LazySection({
   return (
     <div
       ref={elementRef as any}
-      id={id}
       className={`${getAnimationClasses()} ${className}`}
+      id={id}
       style={{
-        transitionDelay: isIntersecting ? `${delay}ms` : '0ms'
+        transitionDelay: isIntersecting ? `${delay}ms` : "0ms",
       }}
     >
       {children}

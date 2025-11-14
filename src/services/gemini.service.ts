@@ -1,6 +1,8 @@
 // Gemini AI Service for SABI AI
-import { GoogleGenerativeAI } from "@google/generative-ai";
 import type { GeminiResponse } from "@/types/chat.types";
+
+import { GoogleGenerativeAI } from "@google/generative-ai";
+
 import { umkmData } from "@/data/umkm-data";
 
 const API_KEY = import.meta.env.VITE_GEMINI_API_KEY || "";
@@ -14,7 +16,7 @@ const genAI = new GoogleGenerativeAI(API_KEY);
 // System prompt for SABI AI
 const getSystemPrompt = () => {
   const umkmDataString = JSON.stringify(umkmData, null, 2);
-  
+
   return `Anda adalah SABI AI (Sahabat Bisnis), asisten virtual LokalKu - direktori UMKM Banyumas & Purwokerto.
 
 TUGAS UTAMA:
@@ -133,12 +135,12 @@ PENTING:
 export const chatWithGemini = async (
   userMessage: string,
   conversationHistory: string[] = [],
-  userLocation?: { lat: number; lng: number }
+  userLocation?: { lat: number; lng: number },
 ): Promise<GeminiResponse> => {
   try {
     // Use gemini-2.5-flash (stable version, fast and efficient)
-    const model = genAI.getGenerativeModel({ 
-      model: "gemini-2.5-flash"
+    const model = genAI.getGenerativeModel({
+      model: "gemini-2.5-flash",
     });
 
     // Build context with system prompt and history
@@ -146,11 +148,11 @@ export const chatWithGemini = async (
     const context = [
       systemPrompt,
       ...conversationHistory,
-      `User: ${userMessage}`
+      `User: ${userMessage}`,
     ].join("\n\n");
 
     // Add user location context if available
-    const locationContext = userLocation 
+    const locationContext = userLocation
       ? `\n\nUser location: Lat ${userLocation.lat}, Lng ${userLocation.lng}. Prioritize nearby UMKM.`
       : "";
 
@@ -161,8 +163,10 @@ export const chatWithGemini = async (
     // Try to parse as JSON first
     try {
       const jsonMatch = text.match(/\{[\s\S]*\}/);
+
       if (jsonMatch) {
         const parsed = JSON.parse(jsonMatch[0]) as GeminiResponse;
+
         return parsed;
       }
     } catch (e) {
@@ -173,19 +177,22 @@ export const chatWithGemini = async (
     return {
       message: text.trim(),
       umkm_cards: [],
-      quick_replies: []
+      quick_replies: [],
     };
-
   } catch (error: any) {
     console.error("Gemini API Error:", error);
-    
+
     // Handle specific errors
     if (error.message?.includes("quota")) {
-      throw new Error("SABI sedang istirahat sebentar. Coba lagi dalam beberapa menit ya! 😊");
+      throw new Error(
+        "SABI sedang istirahat sebentar. Coba lagi dalam beberapa menit ya! 😊",
+      );
     }
-    
+
     if (error.message?.includes("API key")) {
-      throw new Error("Ada masalah dengan konfigurasi SABI. Hubungi administrator.");
+      throw new Error(
+        "Ada masalah dengan konfigurasi SABI. Hubungi administrator.",
+      );
     }
 
     throw new Error("Maaf, SABI sedang bermasalah. Coba lagi ya! 🙏");
@@ -195,7 +202,7 @@ export const chatWithGemini = async (
 // Process user query to extract intent
 export const processQuery = (query: string) => {
   const lowerQuery = query.toLowerCase();
-  
+
   const intent = {
     type: "general" as "recommendation" | "info" | "general",
     category: null as string | null,
@@ -206,21 +213,23 @@ export const processQuery = (query: string) => {
   };
 
   // Check if asking about specific UMKM
-  const umkmNames = umkmData.map(u => u.name.toLowerCase());
-  const mentionedUMKM = umkmNames.find(name => 
-    lowerQuery.includes(name.toLowerCase()) || 
-    name.toLowerCase().includes(lowerQuery)
+  const umkmNames = umkmData.map((u) => u.name.toLowerCase());
+  const mentionedUMKM = umkmNames.find(
+    (name) =>
+      lowerQuery.includes(name.toLowerCase()) ||
+      name.toLowerCase().includes(lowerQuery),
   );
-  
+
   if (mentionedUMKM) {
     intent.type = "info";
     intent.umkmName = mentionedUMKM;
+
     return intent;
   }
 
   // Check for recommendation keywords
   if (
-    lowerQuery.includes("cari") || 
+    lowerQuery.includes("cari") ||
     lowerQuery.includes("rekomendasi") ||
     lowerQuery.includes("ada apa") ||
     lowerQuery.includes("suggest") ||
@@ -230,30 +239,64 @@ export const processQuery = (query: string) => {
   }
 
   // Extract category
-  if (lowerQuery.includes("kopi") || lowerQuery.includes("cafe") || lowerQuery.includes("kafe")) {
+  if (
+    lowerQuery.includes("kopi") ||
+    lowerQuery.includes("cafe") ||
+    lowerQuery.includes("kafe")
+  ) {
     intent.category = "Kafe & Resto";
-  } else if (lowerQuery.includes("makan") || lowerQuery.includes("food") || lowerQuery.includes("kuliner") || lowerQuery.includes("dimsum") || lowerQuery.includes("sate") || lowerQuery.includes("getuk") || lowerQuery.includes("snack") || lowerQuery.includes("cemilan")) {
+  } else if (
+    lowerQuery.includes("makan") ||
+    lowerQuery.includes("food") ||
+    lowerQuery.includes("kuliner") ||
+    lowerQuery.includes("dimsum") ||
+    lowerQuery.includes("sate") ||
+    lowerQuery.includes("getuk") ||
+    lowerQuery.includes("snack") ||
+    lowerQuery.includes("cemilan")
+  ) {
     intent.category = "Makanan & Minuman";
-  } else if (lowerQuery.includes("batik") || lowerQuery.includes("baju") || lowerQuery.includes("fashion") || lowerQuery.includes("pakaian")) {
+  } else if (
+    lowerQuery.includes("batik") ||
+    lowerQuery.includes("baju") ||
+    lowerQuery.includes("fashion") ||
+    lowerQuery.includes("pakaian")
+  ) {
     intent.category = "Fashion";
-  } else if (lowerQuery.includes("minimarket") || lowerQuery.includes("retail") || lowerQuery.includes("toko") || lowerQuery.includes("belanja")) {
+  } else if (
+    lowerQuery.includes("minimarket") ||
+    lowerQuery.includes("retail") ||
+    lowerQuery.includes("toko") ||
+    lowerQuery.includes("belanja")
+  ) {
     intent.category = "Retail";
   }
 
   // Extract location (based on actual UMKM data)
-  if (lowerQuery.includes("purwokerto timur")) intent.location = "Purwokerto Timur";
-  else if (lowerQuery.includes("purwokerto barat")) intent.location = "Purwokerto Barat";
+  if (lowerQuery.includes("purwokerto timur"))
+    intent.location = "Purwokerto Timur";
+  else if (lowerQuery.includes("purwokerto barat"))
+    intent.location = "Purwokerto Barat";
   else if (lowerQuery.includes("purwokerto")) intent.location = "Purwokerto";
   else if (lowerQuery.includes("sokaraja")) intent.location = "Sokaraja";
   else if (lowerQuery.includes("banyumas")) intent.location = "Banyumas";
   else if (lowerQuery.includes("karanglewas")) intent.location = "Karanglewas";
   else if (lowerQuery.includes("wangon")) intent.location = "Wangon";
-  else if (lowerQuery.includes("bancarkembar")) intent.location = "Bancarkembar";
+  else if (lowerQuery.includes("bancarkembar"))
+    intent.location = "Bancarkembar";
 
   // Extract price range
-  if (lowerQuery.includes("murah") || lowerQuery.includes("budget") || lowerQuery.includes("hemat")) {
+  if (
+    lowerQuery.includes("murah") ||
+    lowerQuery.includes("budget") ||
+    lowerQuery.includes("hemat")
+  ) {
     intent.priceRange = "$";
-  } else if (lowerQuery.includes("mahal") || lowerQuery.includes("premium") || lowerQuery.includes("mewah")) {
+  } else if (
+    lowerQuery.includes("mahal") ||
+    lowerQuery.includes("premium") ||
+    lowerQuery.includes("mewah")
+  ) {
     intent.priceRange = "$$$";
   }
 

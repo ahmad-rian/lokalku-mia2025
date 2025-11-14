@@ -1,4 +1,4 @@
-import React, { Component, ReactNode } from 'react';
+import React, { Component, ReactNode } from "react";
 
 interface Props {
   children: ReactNode;
@@ -21,15 +21,17 @@ export default class ErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    console.error('ErrorBoundary caught an error:', error, errorInfo);
+    console.error("ErrorBoundary caught an error:", error, errorInfo);
   }
 
   render() {
     if (this.state.hasError) {
-      return this.props.fallback || (
-        <div className="flex items-center justify-center p-4 text-gray-500">
-          <span>Something went wrong with the animation.</span>
-        </div>
+      return (
+        this.props.fallback || (
+          <div className="flex items-center justify-center p-4 text-gray-500">
+            <span>Something went wrong with the animation.</span>
+          </div>
+        )
       );
     }
 

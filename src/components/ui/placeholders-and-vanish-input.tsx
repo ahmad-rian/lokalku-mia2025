@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
+
 import { cn } from "@/lib/utils";
 
 export function PlaceholdersAndVanishInput({
@@ -51,8 +52,10 @@ export function PlaceholdersAndVanishInput({
   const draw = useCallback(() => {
     if (!inputRef.current) return;
     const canvas = canvasRef.current;
+
     if (!canvas) return;
     const ctx = canvas.getContext("2d", { willReadFrequently: true });
+
     if (!ctx) return;
 
     canvas.width = 800;
@@ -61,6 +64,7 @@ export function PlaceholdersAndVanishInput({
     const computedStyles = getComputedStyle(inputRef.current);
 
     const fontSize = parseFloat(computedStyles.getPropertyValue("font-size"));
+
     ctx.font = `${fontSize * 2}px ${computedStyles.fontFamily}`;
     ctx.fillStyle = "#FFF";
     ctx.fillText(value, 16, 40);
@@ -71,8 +75,10 @@ export function PlaceholdersAndVanishInput({
 
     for (let t = 0; t < 800; t++) {
       let i = 4 * t * 800;
+
       for (let n = 0; n < 800; n++) {
         let e = i + 4 * n;
+
         if (
           pixelData[e] !== 0 &&
           pixelData[e + 1] !== 0 &&
@@ -108,8 +114,10 @@ export function PlaceholdersAndVanishInput({
     const animateFrame = (pos: number = 0) => {
       requestAnimationFrame(() => {
         const newArr = [];
+
         for (let i = 0; i < newDataRef.current.length; i++) {
           const current = newDataRef.current[i];
+
           if (current.x < pos) {
             newArr.push(current);
           } else {
@@ -125,10 +133,12 @@ export function PlaceholdersAndVanishInput({
         }
         newDataRef.current = newArr;
         const ctx = canvasRef.current?.getContext("2d");
+
         if (ctx) {
           ctx.clearRect(pos, 0, 800, 800);
           newDataRef.current.forEach((t) => {
             const { x: n, y: i, r: s, color: color } = t;
+
             if (n > pos) {
               ctx.beginPath();
               ctx.rect(n, i, s, s);
@@ -146,6 +156,7 @@ export function PlaceholdersAndVanishInput({
         }
       });
     };
+
     animateFrame(start);
   };
 
@@ -160,11 +171,13 @@ export function PlaceholdersAndVanishInput({
     draw();
 
     const value = inputRef.current?.value || "";
+
     if (value && inputRef.current) {
       const maxX = newDataRef.current.reduce(
         (prev, current) => (current.x > prev ? current.x : prev),
-        0
+        0,
       );
+
       animate(maxX);
     }
   };
@@ -174,22 +187,32 @@ export function PlaceholdersAndVanishInput({
     vanishAndSubmit();
     onSubmit && onSubmit(e);
   };
+
   return (
     <form
       className={cn(
         "w-full relative max-w-xl mx-auto bg-white dark:bg-zinc-800 h-12 rounded-full overflow-hidden shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),_0px_1px_0px_0px_rgba(25,28,33,0.02),_0px_0px_0px_1px_rgba(25,28,33,0.08)] transition duration-200",
-        value && "bg-gray-50"
+        value && "bg-gray-50",
       )}
       onSubmit={handleSubmit}
     >
       <canvas
+        ref={canvasRef}
         className={cn(
           "absolute pointer-events-none  text-base transform scale-50 top-[20%] left-2 sm:left-8 origin-top-left filter invert-0 pr-20",
-          !animating ? "opacity-0" : "opacity-100"
+          !animating ? "opacity-0" : "opacity-100",
         )}
-        ref={canvasRef}
       />
       <input
+        ref={inputRef}
+        aria-label="Search for UMKM businesses"
+        className={cn(
+          "w-full relative text-sm sm:text-base z-50 border-none dark:text-white bg-transparent text-black h-full rounded-full focus:outline-none focus:ring-0 pl-4 sm:pl-10 pr-20",
+          animating && "text-transparent dark:text-transparent",
+        )}
+        placeholder=""
+        type="text"
+        value={value}
         onChange={(e) => {
           if (!animating) {
             setValue(e.target.value);
@@ -197,36 +220,27 @@ export function PlaceholdersAndVanishInput({
           }
         }}
         onKeyDown={handleKeyDown}
-        ref={inputRef}
-        value={value}
-        type="text"
-        className={cn(
-          "w-full relative text-sm sm:text-base z-50 border-none dark:text-white bg-transparent text-black h-full rounded-full focus:outline-none focus:ring-0 pl-4 sm:pl-10 pr-20",
-          animating && "text-transparent dark:text-transparent"
-        )}
-        aria-label="Search for UMKM businesses"
-        placeholder=""
       />
 
       <button
-        disabled={!value}
-        type="submit"
-        className="absolute right-2 top-1/2 z-50 -translate-y-1/2 h-8 w-8 rounded-full disabled:bg-gray-100 bg-black dark:bg-zinc-900 dark:disabled:bg-zinc-800 transition duration-200 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
         aria-label="Submit search"
+        className="absolute right-2 top-1/2 z-50 -translate-y-1/2 h-8 w-8 rounded-full disabled:bg-gray-100 bg-black dark:bg-zinc-900 dark:disabled:bg-zinc-800 transition duration-200 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+        disabled={!value}
         title="Submit search"
+        type="submit"
       >
         <motion.svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
+          aria-hidden="true"
+          className="text-gray-300 h-4 w-4"
           fill="none"
+          height="24"
           stroke="currentColor"
-          strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className="text-gray-300 h-4 w-4"
-          aria-hidden="true"
+          strokeWidth="2"
+          viewBox="0 0 24 24"
+          width="24"
+          xmlns="http://www.w3.org/2000/svg"
         >
           <path d="m5 12 7-7 7 7" />
           <path d="M12 19V5" />
@@ -237,24 +251,24 @@ export function PlaceholdersAndVanishInput({
         <AnimatePresence mode="wait">
           {!value && (
             <motion.p
-              initial={{
-                y: 5,
-                opacity: 0,
-              }}
               key={`current-placeholder-${currentPlaceholder}`}
               animate={{
                 y: 0,
                 opacity: 1,
               }}
+              className="dark:text-zinc-500 text-sm sm:text-base font-normal text-neutral-500 pl-4 sm:pl-12 text-left w-[calc(100%-2rem)] truncate"
               exit={{
                 y: -15,
+                opacity: 0,
+              }}
+              initial={{
+                y: 5,
                 opacity: 0,
               }}
               transition={{
                 duration: 0.3,
                 ease: "linear",
               }}
-              className="dark:text-zinc-500 text-sm sm:text-base font-normal text-neutral-500 pl-4 sm:pl-12 text-left w-[calc(100%-2rem)] truncate"
             >
               {placeholders[currentPlaceholder]}
             </motion.p>
