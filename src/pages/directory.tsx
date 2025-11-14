@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { Button, Chip, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Pagination } from "@heroui/react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { 
   ArrowUpDown, 
   MapPin, 
@@ -205,7 +205,8 @@ function UMKMCard({ umkm, viewMode, onToggleFavorite, onClick, userLocation }: U
 export default function DirectoryPage() {
   const navigate = useNavigate();
   const { language } = useLanguage();
-  
+  const [searchParams] = useSearchParams();
+
   // Use centralized categories and locations data
   const categoryList = [
     {
@@ -221,28 +222,22 @@ export default function DirectoryPage() {
       count: getUMKMByCategory("Makanan & Minuman").length
     },
     {
-      id: "Fashion",
-      name: "Fashion",
-      icon: ShoppingBag,
-      count: getUMKMByCategory("Fashion").length
-    },
-    {
       id: "Kafe & Resto",
       name: "Kafe & Resto",
       icon: Coffee,
       count: getUMKMByCategory("Kafe & Resto").length
     },
     {
-      id: "Kecantikan",
-      name: "Kecantikan",
-      icon: Sparkles,
-      count: getUMKMByCategory("Kecantikan").length
+      id: "Fashion",
+      name: "Fashion",
+      icon: ShoppingBag,
+      count: getUMKMByCategory("Fashion").length
     },
     {
-      id: "Otomotif & Jasa",
-      name: "Otomotif & Jasa",
-      icon: Wrench,
-      count: getUMKMByCategory("Otomotif & Jasa").length
+      id: "Retail",
+      name: "Retail",
+      icon: ShoppingBag,
+      count: getUMKMByCategory("Retail").length
     }
   ];
   const locationList = locations;
@@ -263,6 +258,14 @@ export default function DirectoryPage() {
   const [locationError, setLocationError] = useState<string | null>(null);
   
   // Modal Controls - removed unused modal functionality
+
+  // Read category from URL query parameter
+  useEffect(() => {
+    const categoryParam = searchParams.get('kategori');
+    if (categoryParam) {
+      setSelectedCategory(categoryParam);
+    }
+  }, [searchParams]);
 
   // Force grid view on mobile
   useEffect(() => {

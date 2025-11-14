@@ -61,190 +61,203 @@ export interface Product {
 export const umkmData: UMKM[] = [
   {
     id: "1",
-    name: "Warung Sate Pak Kumis",
+    name: "Cuankuy",
     category: "Makanan & Minuman",
-    location: "Purwokerto Utara",
-    distance: "2.5 km",
+    location: "Purwokerto",
+    distance: "1.2 km",
     rating: 4.8,
-    reviewCount: 124,
-    description: "Sate kambing dan ayam dengan bumbu kacang khas Banyumas yang gurih dan lezat",
-    image: "https://images.unsplash.com/photo-1529042410759-befb1204b468?w=800&h=600&fit=crop",
+    reviewCount: 156,
+    description: "Bakso aci dan cuanky dengan varian rasa keju pedas yang menggugah selera",
+    image: "/assets/data-umkm/Cuankuy/cuankuy-1.webp",
     status: "open",
-    priceRange: "$$",
+    priceRange: "$",
     isFavorite: false,
-    coordinates: { lat: -7.4204, lng: 109.2344 },
-    phone: "+62812345678",
-    address: "Jl. Gatot Subroto No. 45, Purwokerto Utara"
+    coordinates: { lat: -7.4254, lng: 109.2378 },
+    phone: "+6281286939793",
+    address: "Purwokerto",
+    tags: ["Bakso", "Cuanky", "Pedas"],
+    isNew: false,
+    isTrending: true
   },
   {
     id: "2",
-    name: "Batik Gumelem Asli",
-    category: "Fashion",
-    location: "Purwokerto Selatan",
-    distance: "1.8 km",
-    rating: 4.9,
-    reviewCount: 89,
-    description: "Batik khas Banyumas dengan motif tradisional dan modern berkualitas tinggi",
-    image: "https://batikgumelem.com/images/dashboard_banner_image.png",
+    name: "Tuku Dimsum",
+    category: "Makanan & Minuman",
+    location: "Purwokerto Timur",
+    distance: "2.3 km",
+    rating: 4.7,
+    reviewCount: 203,
+    description: "Dimsum enak dengan berbagai varian rasa dan paket hemat yang terjangkau",
+    image: "/assets/data-umkm/Tuku/tuku.webp",
     status: "open",
-    priceRange: "$$$",
+    priceRange: "$",
     isFavorite: true,
-    coordinates: { lat: -7.4298, lng: 109.2411 },
-    phone: "+62856789012",
-    address: "Jl. Jenderal Sudirman No. 234, Purwokerto Selatan"
+    coordinates: { lat: -7.4171, lng: 109.2494 },
+    phone: "+628180937839",
+    address: "Tuku Dimsum Gor Satria, Mangunjaya, Purwokerto Lor, Banyumas",
+    tags: ["Dimsum", "Frozen"],
+    isNew: false,
+    isTrending: true
   },
   {
     id: "3",
-    name: "Getuk Goreng Bu Tini",
-    category: "Makanan & Minuman",
-    location: "Sokaraja",
-    distance: "3.2 km",
-    rating: 4.7,
-    reviewCount: 156,
-    description: "Getuk goreng tradisional dengan berbagai topping dan rasa yang menggugah selera",
-    image: "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=800&h=600&fit=crop",
-    status: "closed",
-    priceRange: "$",
-    isFavorite: false,
-    coordinates: { lat: -7.4558, lng: 109.2756 },
-    phone: "+62878901234",
-    address: "Jl. Overste Isdiman No. 89, Sokaraja"
+    name: "Nakopi",
+    category: "Kafe & Resto",
+    location: "Banyumas",
+    distance: "4.5 km",
+    rating: 4.9,
+    reviewCount: 178,
+    description: "Slow bar dan roastery kopi dengan biji kopi arabika premium dari berbagai daerah",
+    image: "/assets/data-umkm/Nakopi/nakopi.webp",
+    status: "open",
+    priceRange: "$$",
+    isFavorite: true,
+    coordinates: { lat: -7.4289, lng: 109.2867 },
+    phone: "+6283863150405",
+    address: "Nakopi Slow Bar and Roastery, Jl. KH. Agus Salim, Karangpucung, Banyumas",
+    tags: ["Kopi", "Roastery", "Arabika"],
+    isNew: false,
+    isTrending: true
   },
   {
     id: "4",
-    name: "Kopi Gunung Slamet",
-    category: "Kafe & Resto",
-    location: "Purwokerto Barat",
-    distance: "4.1 km",
-    rating: 4.6,
-    reviewCount: 203,
-    description: "Kopi arabika premium dari lereng Gunung Slamet dengan cita rasa yang khas",
-    image: "https://images.unsplash.com/photo-1511920170033-f8396924c348?w=800&h=600&fit=crop",
+    name: "Madame Mbois",
+    category: "Makanan & Minuman",
+    location: "Karanglewas",
+    distance: "6.8 km",
+    rating: 4.8,
+    reviewCount: 44,
+    description: "Camilan dan kue kering khas dengan Stik Jahe dan Brownies Tempe Cookies yang unik",
+    image: "/assets/data-umkm/madame/madem1.webp",
     status: "open",
-    priceRange: "$$",
-    coordinates: { lat: -7.4191, lng: 109.2189 },
+    priceRange: "$",
     isFavorite: false,
-    phone: "+62821234567",
-    address: "Jl. HR Bunyamin No. 156, Purwokerto Barat"
+    coordinates: { lat: -7.4512, lng: 109.2623 },
+    phone: "+62085291375099",
+    address: "Jl. Lettu Irawan RT 04/01 No.40, Dusun II, Pangebatan, Karanglewas, Banyumas",
+    tags: ["Camilan", "Kue Kering", "Jahe"],
+    isNew: false,
+    isTrending: false
   },
   {
     id: "5",
-    name: "Salon Cantik Ayu",
-    category: "Kecantikan",
-    location: "Purwokerto Timur",
-    distance: "2.9 km",
-    rating: 4.5,
-    reviewCount: 67,
-    description: "Layanan perawatan kecantikan lengkap dengan teknisi berpengalaman",
-    image: "https://images.unsplash.com/photo-1562322140-8baeececf3df?w=800&h=600&fit=crop",
+    name: "Kopi Banyumas Mbekayu",
+    category: "Kafe & Resto",
+    location: "Wangon",
+    distance: "12.5 km",
+    rating: 4.6,
+    reviewCount: 8,
+    description: "Kopi lokal Banyumas dengan berbagai varian dari robusta, arabica hingga excelsa",
+    image: "/assets/data-umkm/mbekayu/mbekayu.webp",
     status: "open",
-    priceRange: "$$",
+    priceRange: "$",
     isFavorite: false,
-    coordinates: { lat: -7.4252, lng: 109.2489 },
-    phone: "+62813456789",
-    address: "Jl. Veteran No. 78, Purwokerto Timur"
+    coordinates: { lat: -7.5234, lng: 109.1567 },
+    phone: "+620811369119",
+    address: "Klapagading Kulon RT 04/02, Pecikalan Satu, Wangon, Banyumas",
+    tags: ["Kopi", "Lokal", "Robusta"],
+    isNew: false,
+    isTrending: false
   },
   {
     id: "6",
-    name: "Mendoan Cokro Kembang",
-    category: "Makanan & Minuman",
+    name: "Pringmas Batik",
+    category: "Fashion",
     location: "Banyumas",
-    distance: "5.3 km",
+    distance: "8.3 km",
     rating: 4.9,
-    reviewCount: 298,
-    description: "Mendoan tempe khas Banyumas yang renyah dan gurih dengan sambal kacang",
-    image: "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=800&h=600&fit=crop",
+    reviewCount: 67,
+    description: "Batik tulis, cap, dan kombinasi khas Banyumas dengan motif tradisional berkualitas",
+    image: "/assets/data-umkm/pringmasbatik/pringmas.webp",
     status: "open",
-    priceRange: "$",
+    priceRange: "$$$",
     isFavorite: true,
-    coordinates: { lat: -7.4689, lng: 109.2978 },
-    phone: "+62857890123",
-    address: "Jl. Raya Banyumas-Purwokerto, Banyumas"
+    coordinates: { lat: -7.4867, lng: 109.3123 },
+    phone: "+62085643312590",
+    address: "Galery Batik Pringmas, Kalisuren, Papringan, Banyumas",
+    tags: ["Batik", "Tulis", "Cap"],
+    isNew: false,
+    isTrending: true
   },
   {
     id: "7",
-    name: "Bengkel Motor Jaya Abadi",
-    category: "Otomotif & Jasa",
-    location: "Purwokerto Selatan",
-    distance: "3.7 km",
-    rating: 4.4,
-    reviewCount: 92,
-    description: "Bengkel motor terpercaya dengan teknisi berpengalaman dan spare part original",
-    image: "https://images.unsplash.com/photo-1625047509248-ec889cbff17f?w=800&h=600&fit=crop",
+    name: "Sate Taichan Skuyy",
+    category: "Makanan & Minuman",
+    location: "Purwokerto Timur",
+    distance: "3.1 km",
+    rating: 4.7,
+    reviewCount: 189,
+    description: "Sate taichan daging dan kulit dengan sambal pedas khas dan minuman squash segar",
+    image: "/assets/data-umkm/SateTaichanSkuyy/sate-1.webp",
     status: "open",
-    priceRange: "$$",
+    priceRange: "$",
     isFavorite: false,
-    coordinates: { lat: -7.4356, lng: 109.2445 },
-    phone: "+62818-7890-1234",
-    address: "Jl. Gatot Subroto No. 156, Purwokerto Selatan"
+    coordinates: { lat: -7.4234, lng: 109.2489 },
+    phone: "+62085166447510",
+    address: "Pasar Pon (bagian Barat), Jl. DI Panjaitan, Kongsen, Purwokerto Timur",
+    tags: ["Sate", "Pedas", "Taichan"],
+    isNew: false,
+    isTrending: true
   },
   {
     id: "8",
-    name: "Lanting Bu Narti",
+    name: "Getuk Goreng Asli Haji Tohirin",
     category: "Makanan & Minuman",
-    location: "Cilongok",
-    distance: "6.2 km",
+    location: "Sokaraja",
+    distance: "5.4 km",
     rating: 4.7,
-    reviewCount: 134,
-    description: "Lanting khas Banyumas dengan rasa gurih dan tekstur yang renyah",
-    image: "https://images.unsplash.com/photo-1599490659213-e2b9527bd087?w=800&h=600&fit=crop",
+    reviewCount: 4000,
+    description: "Getuk goreng legendaris dengan keripik bayam, pisang aroma, dan opak kucai pedas",
+    image: "/assets/data-umkm/Getukgorengaslihajitohirin/getuk-1.webp",
     status: "open",
     priceRange: "$",
-    isFavorite: false,
-    coordinates: { lat: -7.4567, lng: 109.1876 },
-    phone: "+62819-8901-2345",
-    address: "Jl. Raya Cilongok No. 78, Cilongok"
+    isFavorite: true,
+    coordinates: { lat: -7.4556, lng: 109.2734 },
+    phone: "+6208112814141",
+    address: "Jl. Jend. Sudirman No.151, Sokaraja Tengah, Banyumas",
+    tags: ["Getuk", "Tradisional", "Keripik"],
+    isNew: false,
+    isTrending: true
   },
   {
     id: "9",
-    name: "Toko Kelontong Sari Rejeki",
-    category: "Retail",
-    location: "Purwokerto Utara",
-    distance: "1.2 km",
-    rating: 4.3,
-    reviewCount: 45,
-    description: "Toko kelontong lengkap dengan berbagai kebutuhan sehari-hari dan harga terjangkau",
-    image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=600&fit=crop",
+    name: "Kubaro",
+    category: "Makanan & Minuman",
+    location: "Purwokerto Barat",
+    distance: "2.8 km",
+    rating: 4.6,
+    reviewCount: 167,
+    description: "Dimsum dengan berbagai varian seperti ayam, udang, mentai, dan paket hemat lengkap",
+    image: "/assets/data-umkm/kubaro/kubaro.webp",
     status: "open",
     priceRange: "$",
     isFavorite: false,
-    coordinates: { lat: -7.4189, lng: 109.2356 },
-    phone: "+62821-9876-5432",
-    address: "Jl. Ahmad Yani No. 123, Purwokerto Utara"
+    coordinates: { lat: -7.4198, lng: 109.2289 },
+    phone: "+620895422791307",
+    address: "Ruko Jl. Ps. Manis No.6, Pesayangan, Kedungwuluh, Purwokerto Barat",
+    tags: ["Dimsum", "Paket Hemat", "Mentai"],
+    isNew: false,
+    isTrending: false
   },
   {
     id: "10",
-    name: "Minimarket Berkah Jaya",
+    name: "Boersa Kampus",
     category: "Retail",
-    location: "Purwokerto Selatan",
-    distance: "2.1 km",
-    rating: 4.4,
-    reviewCount: 67,
-    description: "Minimarket modern dengan produk lengkap dan pelayanan 24 jam",
-    image: "https://i.pinimg.com/736x/77/16/09/771609319be2d6911a2a0193b490405a.jpg",
+    location: "Bancarkembar",
+    distance: "3.9 km",
+    rating: 4.5,
+    reviewCount: 312,
+    description: "Minimarket modern dengan berbagai produk kebutuhan sehari-hari dan pelayanan lengkap",
+    image: "/assets/data-umkm/Boersakampus/boersa-1.webp",
     status: "open",
     priceRange: "$$",
     isFavorite: false,
-    coordinates: { lat: -7.4312, lng: 109.2423 },
-    phone: "+62822-1234-5678",
-    address: "Jl. Soedirman No. 89, Purwokerto Selatan"
-  },
-  {
-    id: "11",
-    name: "Warung Sembako Ibu Siti",
-    category: "Retail",
-    location: "Banyumas",
-    distance: "4.8 km",
-    rating: 4.2,
-    reviewCount: 32,
-    description: "Warung sembako tradisional dengan harga bersahabat dan pelayanan ramah",
-    image: "https://i.pinimg.com/1200x/61/be/cf/61becf0909c62bec3681488197cfca47.jpg",
-    status: "open",
-    priceRange: "$",
-    isFavorite: false,
-    coordinates: { lat: -7.4678, lng: 109.2987 },
-    phone: "+62823-4567-8901",
-    address: "Jl. Raya Banyumas No. 45, Banyumas"
+    coordinates: { lat: -7.4145, lng: 109.2567 },
+    phone: "+622816574499",
+    address: "Ruko Purwokerto Citywalk No.1-3, JL. HR Bunyamin, Dukuhbandong, Bancarkembar",
+    tags: ["Minimarket", "Retail", "Modern"],
+    isNew: false,
+    isTrending: false
   }
 ];
 
@@ -252,396 +265,426 @@ export const umkmData: UMKM[] = [
 export const umkmDatabase: Record<string, UMKMDetail> = {
   "1": {
     ...umkmData[0],
-    slug: "warung-sate-pak-kumis",
+    slug: "cuankuy",
     nextStatusChange: "22:00",
-    whatsapp: "+62812345678",
-    instagram: "@satepakkumis",
-    facebook: "Sate Pak Kumis Official",
+    whatsapp: "6281286939793",
+    instagram: "@cuankuy.pwt",
     images: [
-      "https://images.unsplash.com/photo-1529042410759-befb1204b468?w=800&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1544025162-d76694265947?w=800&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1603360946369-dc9bb6258143?w=800&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800&h=600&fit=crop"
+      "/assets/data-umkm/Cuankuy/cuankuy-1.webp",
+      "/assets/data-umkm/Cuankuy/cuankut-2.webp",
+      "/assets/data-umkm/Cuankuy/cuankut-3.webp"
     ],
     hours: {
       monday: "10:00-22:00",
       tuesday: "10:00-22:00",
       wednesday: "10:00-22:00",
       thursday: "10:00-22:00",
-      friday: "10:00-23:00",
-      saturday: "10:00-23:00",
+      friday: "10:00-22:00",
+      saturday: "10:00-22:00",
       sunday: "10:00-22:00"
     },
-    facilities: ["Parkir", "Toilet", "Area Makan", "Tempat Cuci Tangan"],
-    payments: ["Cash", "QRIS", "GoPay", "OVO"],
+    facilities: ["Parkir Motor", "Area Makan", "Tempat Cuci Tangan"],
+    payments: ["Cash", "QRIS", "GoPay", "OVO", "ShopeePay"],
     products: [
       {
         id: 1,
-        name: "Sate Kambing",
-        price: "Rp 45.000",
-        image: "https://images.unsplash.com/photo-1529042410759-befb1204b468?w=400&h=400&fit=crop",
-        description: "Sate kambing pilihan dengan bumbu kacang khas Banyumas",
-        ingredients: ["Daging kambing muda", "Bumbu kacang", "Kecap manis", "Bawang merah goreng", "Lontong"],
-        category: "Sate"
+        name: "Paket Double-Biasa",
+        price: "Rp 28.000",
+        image: "/assets/data-umkm/Cuankuy/cuankuy-1.webp",
+        description: "1 Aci Biasa + 1 Cuanky Biasa + 2 Es Teh Sereh",
+        ingredients: ["Bakso Aci", "Cuanky", "Es Teh Sereh"],
+        category: "Paket Spesial"
       },
       {
         id: 2,
-        name: "Sate Ayam",
+        name: "Paket Double-Campur",
         price: "Rp 30.000",
-        image: "https://images.unsplash.com/photo-1603360946369-dc9bb6258143?w=400&h=400&fit=crop",
-        description: "Sate ayam empuk dengan bumbu kacang yang gurih",
-        ingredients: ["Ayam kampung", "Bumbu kacang", "Kecap manis", "Bawang merah", "Lontong"],
-        category: "Sate"
+        image: "/assets/data-umkm/Cuankuy/cuankut-2.webp",
+        description: "1 Bakso Aci/Cuanky Keju Pedas + 1 Bakso Aci/Cuanky Biasa + 2 Es Teh Sereh",
+        ingredients: ["Bakso Aci/Cuanky Keju Pedas", "Bakso Aci Biasa", "Es Teh Sereh"],
+        category: "Paket Spesial"
       },
       {
         id: 3,
-        name: "Sate Usus",
-        price: "Rp 25.000",
-        image: "https://images.unsplash.com/photo-1544025162-d76694265947?w=400&h=400&fit=crop",
-        description: "Sate usus ayam yang renyah dan gurih",
-        ingredients: ["Usus ayam", "Bumbu rempah", "Kecap", "Cabai rawit"],
-        category: "Sate"
+        name: "Paket Double-Spesial",
+        price: "Rp 32.000",
+        image: "/assets/data-umkm/Cuankuy/cuankut-3.webp",
+        description: "1 Bakso Aci Keju Pedas + 1 Cuanky Keju Pedas + 2 Es Teh Sereh",
+        ingredients: ["Bakso Aci Keju Pedas", "Cuanky Keju Pedas", "Es Teh Sereh"],
+        category: "Paket Spesial"
+      },
+      {
+        id: 4,
+        name: "PAHE (Paket Aci-Hemat)",
+        price: "Rp 14.000",
+        image: "/assets/data-umkm/Cuankuy/cuankuy-1.webp",
+        description: "Bakso Aci/Cuanky Biasa + Es Teh Sereh",
+        ingredients: ["Bakso Aci/Cuanky Biasa", "Es Teh Sereh"],
+        category: "Paket Hemat"
+      },
+      {
+        id: 5,
+        name: "Paket Puas",
+        price: "Rp 16.000",
+        image: "/assets/data-umkm/Cuankuy/cuankut-2.webp",
+        description: "Bakso Aci/Cuanky Kuah Keju Pedas + Es Teh Sereh",
+        ingredients: ["Bakso Aci/Cuanky Keju Pedas", "Es Teh Sereh"],
+        category: "Paket Hemat"
+      },
+      {
+        id: 6,
+        name: "Paket Double",
+        price: "Rp 20.000 - 22.000",
+        image: "/assets/data-umkm/Cuankuy/cuankut-3.webp",
+        description: "1 Bakso Aci/Cuanky Biasa + 1 Bakso Aci/Cuanky Kuah Keju Pedas",
+        ingredients: ["Bakso Aci Biasa", "Cuanky Keju Pedas"],
+        category: "Paket Hemat"
       }
     ],
-    services: ["Dine In", "Take Away", "Delivery (via GoFood & GrabFood)"],
+    services: ["Dine In", "Take Away", "Delivery"],
     reviews: []
   },
   "2": {
     ...umkmData[1],
-    slug: "batik-gumelem-asli",
-    nextStatusChange: "21:00",
-    whatsapp: "+62856789012",
-    instagram: "@batikgumelem",
-    facebook: "Batik Gumelem Official",
-    email: "info@batikgumelem.com",
+    slug: "tuku-dimsum",
+    nextStatusChange: "22:00",
+    whatsapp: "628180937839",
+    instagram: "@tuku_dimsumpwt",
     images: [
-      "https://batikgumelem.com/storage/products/kembang_asem.jpeg",
-      "https://batikgumelem.com/storage/products/rujak_senthe.jpeg",
-      "https://batikgumelem.com/storage/products/gajah_uling.jpeg",
-      "https://batikgumelem.com/storage/products/parang_angkrik.jpeg"
+      "/assets/data-umkm/Tuku/tuku.webp",
+      "/assets/data-umkm/Tuku/tuku_2.webp",
+      "/assets/data-umkm/Tuku/tuku-menu.webp"
+    ],
+    hours: {
+      monday: "09:00-21:00",
+      tuesday: "09:00-21:00",
+      wednesday: "09:00-21:00",
+      thursday: "09:00-21:00",
+      friday: "09:00-21:00",
+      saturday: "09:00-22:00",
+      sunday: "09:00-21:00"
+    },
+    facilities: ["Parkir Motor", "Area Makan", "Tempat Cuci Tangan", "WiFi"],
+    payments: ["Cash", "QRIS", "GoPay", "OVO", "ShopeePay", "DANA"],
+    products: [
+      {
+        id: 1,
+        name: "Dimsum Udang Ayam (4 pcs)",
+        price: "Rp 13.000",
+        image: "/assets/data-umkm/Tuku/tuku.webp",
+        description: "Dimsum dengan isian udang dan ayam segar",
+        ingredients: ["Udang", "Ayam", "Kulit dimsum"],
+        category: "Dimsum"
+      },
+      {
+        id: 2,
+        name: "Dimsum Mozzarella (4 pcs)",
+        price: "Rp 13.000",
+        image: "/assets/data-umkm/Tuku/tuku_2.webp",
+        description: "Dimsum dengan isian keju mozzarella yang meleleh",
+        ingredients: ["Keju Mozzarella", "Kulit dimsum"],
+        category: "Dimsum"
+      },
+      {
+        id: 3,
+        name: "Dimsum Mentai (4 pcs)",
+        price: "Rp 15.000",
+        image: "/assets/data-umkm/Tuku/tuku-menu.webp",
+        description: "Dimsum dengan saus mentai yang creamy",
+        ingredients: ["Isian dimsum", "Saus mentai", "Kulit dimsum"],
+        category: "Dimsum"
+      },
+      {
+        id: 4,
+        name: "Gyoza (4 pcs)",
+        price: "Rp 13.000",
+        image: "/assets/data-umkm/Tuku/tuku.webp",
+        description: "Gyoza kukus atau goreng dengan isian ayam",
+        ingredients: ["Ayam", "Sayuran", "Kulit gyoza"],
+        category: "Dimsum"
+      },
+      {
+        id: 5,
+        name: "Paket Teh (T1-T3)",
+        price: "Rp 17.000 - 21.000",
+        image: "/assets/data-umkm/Tuku/tuku-menu.webp",
+        description: "Paket dimsum dengan teh manis atau tawar",
+        ingredients: ["Dimsum pilihan", "Teh"],
+        category: "Paket"
+      },
+      {
+        id: 6,
+        name: "Frozen Box Small (20 pcs)",
+        price: "Rp 60.000 - 62.000",
+        image: "/assets/data-umkm/Tuku/tuku_2.webp",
+        description: "Paket frozen dimsum untuk stock di rumah",
+        ingredients: ["20 pcs dimsum pilihan"],
+        category: "Frozen"
+      },
+      {
+        id: 7,
+        name: "Frozen Box Big (30 pcs)",
+        price: "Rp 85.000 - 88.000",
+        image: "/assets/data-umkm/Tuku/tuku.webp",
+        description: "Paket frozen dimsum besar untuk stock di rumah",
+        ingredients: ["30 pcs dimsum pilihan"],
+        category: "Frozen"
+      }
+    ],
+    services: ["Dine In", "Take Away", "Frozen Box", "Delivery"],
+    reviews: []
+  },
+  "3": {
+    ...umkmData[2],
+    slug: "nakopi",
+    nextStatusChange: "21:00",
+    whatsapp: "6283863150405",
+    instagram: "@ini.nakopi",
+    images: [
+      "/assets/data-umkm/Nakopi/nakopi.webp",
+      "/assets/data-umkm/Nakopi/nakopi2.webp"
     ],
     hours: {
       monday: "08:00-21:00",
       tuesday: "08:00-21:00",
       wednesday: "08:00-21:00",
       thursday: "08:00-21:00",
-      friday: "08:00-21:00",
+      friday: "08:00-22:00",
       saturday: "08:00-22:00",
-      sunday: "09:00-20:00"
+      sunday: "08:00-21:00"
     },
-    facilities: ["AC", "Fitting Room", "Parkir", "WiFi", "Photo Spot"],
-    payments: ["Cash", "Debit Card", "Credit Card", "QRIS", "Transfer Bank"],
+    facilities: ["WiFi", "AC", "Colokan", "Toilet", "Parkir", "Smoking Area"],
+    payments: ["Cash", "QRIS", "GoPay", "OVO", "DANA", "ShopeePay", "Transfer Bank"],
     products: [
       {
         id: 1,
-        name: "Batik Tulis Gumelem Premium",
-        price: "Rp 850.000",
-        image: "https://batikgumelem.com/storage/products/kembang_asem.jpeg",
-        description: "Batik tulis halus dengan motif khas Gumelem",
-        ingredients: ["Kain katun premium", "Pewarna alami", "Malam berkualitas", "Dikerjakan oleh pengrajin berpengalaman"],
-        category: "Batik Tulis"
+        name: "Arabika Kailasa/Honey 100gr",
+        price: "Rp 35.000",
+        image: "/assets/data-umkm/Nakopi/nakopi.webp",
+        description: "Kopi arabika dengan notes sweet caramel, kismis, sweet dry, fruit",
+        ingredients: ["Biji kopi arabika Kailasa/Honey"],
+        category: "Kopi Arabika"
       },
       {
         id: 2,
-        name: "Batik Cap Modern",
-        price: "Rp 250.000",
-        image: "https://batikgumelem.com/storage/products/rujak_senthe.jpeg",
-        description: "Batik cap dengan motif kontemporer untuk anak muda",
-        ingredients: ["Kain katun", "Pewarna reaktif", "Motif modern", "Finishing rapih"],
-        category: "Batik Cap"
+        name: "Arabika Kailasa/Honey 250gr",
+        price: "Rp 83.500",
+        image: "/assets/data-umkm/Nakopi/nakopi2.webp",
+        description: "Paket hemat 250gr kopi arabika Kailasa",
+        ingredients: ["Biji kopi arabika Kailasa/Honey 250gr"],
+        category: "Kopi Arabika"
       },
       {
         id: 3,
-        name: "Kemeja Batik Pria",
-        price: "Rp 350.000",
-        image: "https://batikgumelem.com/storage/products/gajah_uling.jpeg",
-        description: "Kemeja batik pria ready to wear dengan cutting modern",
-        ingredients: ["Batik cap premium", "Kancing branded", "Jahitan presisi", "Furing halus"],
-        category: "Ready to Wear"
+        name: "Arabika Brazil/Rio Verde 100gr",
+        price: "Rp 37.500",
+        image: "/assets/data-umkm/Nakopi/nakopi.webp",
+        description: "Kopi arabika Brazil dengan notes hazelnut, chocolate, almond",
+        ingredients: ["Biji kopi arabika Brazil/Rio Verde"],
+        category: "Kopi Arabika"
       },
       {
         id: 4,
-        name: "Dress Batik Wanita",
-        price: "Rp 450.000",
-        image: "https://batikgumelem.com/storage/products/parang_angkrik.jpeg",
-        description: "Dress batik elegan untuk wanita dengan desain eksklusif",
-        ingredients: ["Batik tulis kombinasi", "Resleting jepang", "Furing satin", "Model eksklusif"],
-        category: "Ready to Wear"
+        name: "Arabika Ratamba/Funky 100gr",
+        price: "Rp 36.500",
+        image: "/assets/data-umkm/Nakopi/nakopi2.webp",
+        description: "Kopi arabika Banjarnegara dengan notes funky berry, fruity",
+        ingredients: ["Biji kopi arabika Ratamba/Funky"],
+        category: "Kopi Arabika"
+      },
+      {
+        id: 5,
+        name: "Arabika Halu/Carbonic 100gr",
+        price: "Rp 36.500",
+        image: "/assets/data-umkm/Nakopi/nakopi.webp",
+        description: "Kopi arabika dengan proses carbonic maceration, notes sweet banana, caramel",
+        ingredients: ["Biji kopi arabika Halu/Carbonic"],
+        category: "Kopi Arabika"
+      },
+      {
+        id: 6,
+        name: "Arabika Kailasa 1kg",
+        price: "Rp 325.000",
+        image: "/assets/data-umkm/Nakopi/nakopi2.webp",
+        description: "Paket kiloan arabika Kailasa untuk kebutuhan kafe atau roastery",
+        ingredients: ["Biji kopi arabika Kailasa 1kg"],
+        category: "Kopi Arabika"
       }
     ],
-    services: ["Custom Order", "Kursus Membatik", "Wholesale", "Export"],
-    reviews: []
-  },
-  "3": {
-    ...umkmData[2],
-    slug: "getuk-goreng-bu-tini",
-    nextStatusChange: "15:00",
-    whatsapp: "+62878901234",
-    instagram: "@getukbutini",
-    images: [
-      "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=800&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1586985289688-ca3cf47d3e6e?w=800&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=800&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=800&h=600&fit=crop"
-    ],
-    hours: {
-      monday: "15:00-21:00",
-      tuesday: "15:00-21:00",
-      wednesday: "15:00-21:00",
-      thursday: "15:00-21:00",
-      friday: "15:00-22:00",
-      saturday: "14:00-22:00",
-      sunday: "14:00-21:00"
-    },
-    facilities: ["Parkir Motor", "Area Tunggu", "WiFi"],
-    payments: ["Cash", "QRIS"],
-    products: [
-      {
-        id: 1,
-        name: "Getuk Goreng Original",
-        price: "Rp 15.000",
-        image: "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=400&h=400&fit=crop",
-        description: "Getuk goreng original tanpa topping, renyah dan manis",
-        ingredients: ["Singkong pilihan", "Gula pasir", "Garam", "Minyak goreng"],
-        category: "Original"
-      },
-      {
-        id: 2,
-        name: "Getuk Goreng Coklat Keju",
-        price: "Rp 20.000",
-        image: "https://images.unsplash.com/photo-1586985289688-ca3cf47d3e6e?w=400&h=400&fit=crop",
-        description: "Getuk goreng dengan topping coklat dan keju parut",
-        ingredients: ["Getuk singkong", "Saus coklat", "Keju cheddar parut", "Meses coklat"],
-        category: "Special"
-      },
-      {
-        id: 3,
-        name: "Getuk Goreng Green Tea",
-        price: "Rp 22.000",
-        image: "https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=400&h=400&fit=crop",
-        description: "Getuk goreng dengan saus green tea dan toping oreo",
-        ingredients: ["Getuk singkong", "Saus green tea", "Oreo hancur", "Susu kental manis"],
-        category: "Special"
-      },
-      {
-        id: 4,
-        name: "Getuk Goreng Strawberry",
-        price: "Rp 20.000",
-        image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=400&h=400&fit=crop",
-        description: "Getuk goreng dengan saus strawberry segar",
-        ingredients: ["Getuk singkong", "Saus strawberry", "Potongan strawberry", "Whipped cream"],
-        category: "Special"
-      }
-    ],
-    services: ["Take Away", "Pre Order untuk acara"],
+    services: ["Dine In", "Take Away", "Coffee Beans Retail", "Roastery Services"],
     reviews: []
   },
   "4": {
     ...umkmData[3],
-    slug: "kopi-gunung-slamet",
-    nextStatusChange: "23:00",
-    whatsapp: "+62821234567",
-    instagram: "@kopigunslamet",
-    facebook: "Kopi Gunung Slamet",
-    email: "hello@kopigunslamet.com",
+    slug: "madame-mbois",
+    nextStatusChange: "20:00",
+    whatsapp: "62085291375099",
+    instagram: "@madame.mbois",
     images: [
-      "https://images.unsplash.com/photo-1511920170033-f8396924c348?w=800&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=800&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=800&h=600&fit=crop"
+      "/assets/data-umkm/madame/madem1.webp",
+      "/assets/data-umkm/madame/madame2.webp"
     ],
     hours: {
-      monday: "07:00-23:00",
-      tuesday: "07:00-23:00",
-      wednesday: "07:00-23:00",
-      thursday: "07:00-23:00",
-      friday: "07:00-00:00",
-      saturday: "08:00-00:00",
-      sunday: "08:00-23:00"
+      monday: "08:00-20:00",
+      tuesday: "08:00-20:00",
+      wednesday: "08:00-20:00",
+      thursday: "08:00-20:00",
+      friday: "08:00-20:00",
+      saturday: "08:00-20:00",
+      sunday: "09:00-18:00"
     },
-    facilities: ["WiFi", "AC", "Colokan", "Toilet", "Parkir", "Smoking Area", "Non-Smoking Area"],
-    payments: ["Cash", "Debit Card", "Credit Card", "QRIS", "GoPay", "OVO", "DANA", "ShopeePay"],
+    facilities: ["Parkir Motor", "Area Tunggu"],
+    payments: ["Cash", "QRIS", "Transfer Bank"],
     products: [
       {
         id: 1,
-        name: "Arabica V60",
-        price: "Rp 28.000",
-        image: "https://images.unsplash.com/photo-1511920170033-f8396924c348?w=400&h=400&fit=crop",
-        description: "Single origin arabica Gunung Slamet diseduh dengan V60",
-        ingredients: ["Biji kopi arabika Slamet", "Air mineral 93°C", "Metode V60 pour over"],
-        category: "Manual Brew"
+        name: "Stik Jahe 300gr",
+        price: "Rp 42.000",
+        image: "/assets/data-umkm/madame/madem1.webp",
+        description: "Stik jahe renyah dengan rasa jahe yang khas dan hangat (10 terjual)",
+        ingredients: ["Tepung", "Jahe", "Gula", "Mentega"],
+        category: "Kue Kering"
       },
       {
         id: 2,
-        name: "Cappuccino",
+        name: "Brownies Tempe Cookies 90gr",
         price: "Rp 25.000",
-        image: "https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=400&h=400&fit=crop",
-        description: "Espresso dengan steamed milk dan foam yang creamy",
-        ingredients: ["Double shot espresso", "Susu fresh milk", "Foam halus", "Latte art"],
-        category: "Espresso Based"
+        image: "/assets/data-umkm/madame/madame2.webp",
+        description: "Brownies cookies unik dengan campuran tempe yang bergizi (16 terjual)",
+        ingredients: ["Tempe", "Tepung", "Coklat", "Gula"],
+        category: "Kue Kering"
       },
       {
         id: 3,
-        name: "Kopi Susu Gula Aren",
-        price: "Rp 22.000",
-        image: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop",
-        description: "Kopi susu dengan gula aren yang manis legit",
-        ingredients: ["Kopi robusta lokal", "Susu murni", "Gula aren asli", "Es batu"],
-        category: "Signature"
+        name: "Brownies Tempe Cookies 130gr",
+        price: "Rp 30.000",
+        image: "/assets/data-umkm/madame/madem1.webp",
+        description: "Brownies tempe cookies ukuran besar (12 terjual)",
+        ingredients: ["Tempe", "Tepung", "Coklat", "Gula"],
+        category: "Kue Kering"
       },
       {
         id: 4,
-        name: "Matcha Latte",
-        price: "Rp 28.000",
-        image: "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=400&h=400&fit=crop",
-        description: "Matcha premium dengan susu yang creamy",
-        ingredients: ["Matcha powder Jepang", "Susu fresh milk", "Simple syrup", "Es batu"],
-        category: "Non Coffee"
+        name: "Bundling Package",
+        price: "Rp 67.000",
+        image: "/assets/data-umkm/madame/madame2.webp",
+        description: "Paket hemat Brownies 90gr + Stik Jahe 300gr (5 terjual)",
+        ingredients: ["Brownies Tempe 90gr", "Stik Jahe 300gr"],
+        category: "Paket"
+      },
+      {
+        id: 5,
+        name: "Keripik Pisang Karamel 350gr",
+        price: "Rp 39.000",
+        image: "/assets/data-umkm/madame/madem1.webp",
+        description: "Keripik pisang renyah dengan coating karamel manis (1 terjual)",
+        ingredients: ["Pisang", "Gula karamel", "Minyak goreng"],
+        category: "Keripik"
       }
     ],
-    services: ["Dine In", "Take Away", "Delivery", "Coffee Beans Retail"],
+    services: ["Take Away", "Pre Order", "Delivery Area Banyumas"],
     reviews: []
   },
   "5": {
     ...umkmData[4],
-    slug: "salon-cantik-ayu",
+    slug: "kopi-banyumas-mbekayu",
     nextStatusChange: "20:00",
-    whatsapp: "+62813456789",
-    instagram: "@saloncantikay",
-    facebook: "Salon Cantik Ayu",
+    whatsapp: "620811369119",
+    instagram: "@kopimbekayu",
     images: [
-      "https://images.unsplash.com/photo-1562322140-8baeececf3df?w=800&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=800&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?w=800&h=600&fit=crop"
+      "/assets/data-umkm/mbekayu/mbekayu.webp",
+      "/assets/data-umkm/mbekayu/mbekayu1.webp"
     ],
     hours: {
-      monday: "09:00-20:00",
-      tuesday: "09:00-20:00",
-      wednesday: "09:00-20:00",
-      thursday: "09:00-20:00",
-      friday: "09:00-20:00",
-      saturday: "09:00-21:00",
-      sunday: "10:00-18:00"
+      monday: "07:00-20:00",
+      tuesday: "07:00-20:00",
+      wednesday: "07:00-20:00",
+      thursday: "07:00-20:00",
+      friday: "07:00-20:00",
+      saturday: "07:00-21:00",
+      sunday: "08:00-20:00"
     },
-    facilities: ["AC", "WiFi", "Ruang Tunggu", "Parkir", "Toilet", "Musik"],
-    payments: ["Cash", "Debit Card", "QRIS", "GoPay", "OVO"],
+    facilities: ["Parkir Motor", "Area Makan", "WiFi"],
+    payments: ["Cash", "QRIS", "Transfer Bank"],
     products: [
       {
         id: 1,
-        name: "Creambath + Hair Spa",
-        price: "Rp 75.000",
-        image: "https://images.unsplash.com/photo-1562322140-8baeececf3df?w=400&h=400&fit=crop",
-        description: "Perawatan rambut intensif dengan creambath dan hair spa",
-        ingredients: ["Creambath serum", "Hair spa treatment", "Hair mask", "Hair tonic", "Blow dry"],
-        category: "Hair Treatment"
+        name: "Kopi Mbekayu Clebek Blend",
+        price: "Rp 20.000",
+        image: "/assets/data-umkm/mbekayu/mbekayu.webp",
+        description: "Kopi blend khas Mbekayu dengan harga terjangkau (2 terjual)",
+        ingredients: ["Campuran biji kopi lokal"],
+        category: "Kopi Bubuk"
       },
       {
         id: 2,
-        name: "Facial Acne Treatment",
-        price: "Rp 150.000",
-        image: "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=400&h=400&fit=crop",
-        description: "Perawatan wajah khusus untuk kulit berjerawat",
-        ingredients: ["Deep cleansing", "Ekstraksi komedo", "Masker anti acne", "Serum jerawat", "Sunscreen"],
-        category: "Facial Treatment"
+        name: "Kopi Mbekayu Robusta",
+        price: "Rp 30.000",
+        image: "/assets/data-umkm/mbekayu/mbekayu1.webp",
+        description: "Kopi robusta murni dengan body yang kuat (2 terjual)",
+        ingredients: ["Biji kopi robusta"],
+        category: "Kopi Bubuk"
       },
       {
         id: 3,
-        name: "Smoothing Rambut",
-        price: "Rp 450.000",
-        image: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=400&h=400&fit=crop",
-        description: "Smoothing untuk rambut lurus berkilau natural",
-        ingredients: ["Smoothing cream premium", "Treatment serum", "Hair tonic", "Vitamin rambut", "Styling"],
-        category: "Hair Styling"
+        name: "Kopi Mbekayu Tubruk",
+        price: "Rp 35.000",
+        image: "/assets/data-umkm/mbekayu/mbekayu.webp",
+        description: "Kopi tubruk siap seduh ala tradisional (2 terjual)",
+        ingredients: ["Kopi tubruk halus"],
+        category: "Kopi Bubuk"
       },
       {
         id: 4,
-        name: "Manicure + Pedicure",
-        price: "Rp 85.000",
-        image: "https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?w=400&h=400&fit=crop",
-        description: "Perawatan kuku tangan dan kaki lengkap",
-        ingredients: ["Nail soak", "Cuticle care", "Nail polish", "Hand & foot massage", "Nail art (optional)"],
-        category: "Nail Care"
+        name: "Kopi Mbekayu Excelsa",
+        price: "Rp 37.500",
+        image: "/assets/data-umkm/mbekayu/mbekayu1.webp",
+        description: "Kopi excelsa dengan rasa unik yang langka (1 terjual)",
+        ingredients: ["Biji kopi excelsa"],
+        category: "Kopi Bubuk"
+      },
+      {
+        id: 5,
+        name: "Kopi Mbekayu Arabica",
+        price: "Rp 40.000",
+        image: "/assets/data-umkm/mbekayu/mbekayu.webp",
+        description: "Kopi arabika premium lokal Banyumas (1 terjual)",
+        ingredients: ["Biji kopi arabika"],
+        category: "Kopi Bubuk"
+      },
+      {
+        id: 6,
+        name: "Kopi Mbekayu Spesial Slim",
+        price: "Rp 45.000",
+        image: "/assets/data-umkm/mbekayu/mbekayu1.webp",
+        description: "Kopi spesial dengan efek slim untuk diet",
+        ingredients: ["Kopi blend spesial", "Ekstrak alami"],
+        category: "Kopi Spesial"
+      },
+      {
+        id: 7,
+        name: "Kopisusu/Cold Brew",
+        price: "Rp 15.000",
+        image: "/assets/data-umkm/mbekayu/mbekayu.webp",
+        description: "Kopi susu dingin atau cold brew segar",
+        ingredients: ["Kopi", "Susu", "Es"],
+        category: "Minuman"
       }
     ],
-    services: ["Hair Treatment", "Facial", "Makeup", "Nail Care", "Waxing", "Eyelash Extension"],
+    services: ["Dine In", "Take Away", "Coffee Retail"],
     reviews: []
   },
   "6": {
     ...umkmData[5],
-    slug: "mendoan-cokro-kembang",
-    nextStatusChange: "21:00",
-    whatsapp: "+62857890123",
-    instagram: "@mendoancokro",
-    images: [
-      "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=800&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1563379091339-03b87f96ab88?w=800&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1606787366850-de6330128bfc?w=800&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=800&h=600&fit=crop"
-    ],
-    hours: {
-      monday: "06:00-21:00",
-      tuesday: "06:00-21:00",
-      wednesday: "06:00-21:00",
-      thursday: "06:00-21:00",
-      friday: "06:00-21:00",
-      saturday: "06:00-22:00",
-      sunday: "06:00-21:00"
-    },
-    facilities: ["Parkir Luas", "Tempat Makan", "Mushola", "Toilet"],
-    payments: ["Cash", "QRIS"],
-    products: [
-      {
-        id: 1,
-        name: "Mendoan Tempe Original",
-        price: "Rp 15.000",
-        image: "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400&h=400&fit=crop",
-        description: "Mendoan tempe khas Banyumas yang renyah dan gurih",
-        ingredients: ["Tempe segar", "Tepung bumbu khas", "Daun bawang", "Kacang tanah cincang", "Minyak goreng"],
-        category: "Mendoan"
-      },
-      {
-        id: 2,
-        name: "Mendoan Isi",
-        price: "Rp 20.000",
-        image: "https://images.unsplash.com/photo-1563379091339-03b87f96ab88?w=400&h=400&fit=crop",
-        description: "Mendoan dengan isian daging cincang pedas",
-        ingredients: ["Tempe segar", "Daging ayam cincang", "Bumbu rempah", "Cabai rawit", "Tepung krispy"],
-        category: "Mendoan"
-      },
-      {
-        id: 3,
-        name: "Paket Mendoan + Sambal Kacang",
-        price: "Rp 22.000",
-        image: "https://images.unsplash.com/photo-1606787366850-de6330128bfc?w=400&h=400&fit=crop",
-        description: "Paket mendoan dengan sambal kacang dan lalapan",
-        ingredients: ["Mendoan tempe 10 potong", "Sambal kacang spesial", "Cabai rawit", "Timun segar"],
-        category: "Paket"
-      },
-      {
-        id: 4,
-        name: "Paket Lengkap Mendoan",
-        price: "Rp 30.000",
-        image: "https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=400&h=400&fit=crop",
-        description: "Paket mendoan dengan nasi dan teh hangat",
-        ingredients: ["Nasi putih", "Mendoan 12 potong", "Sambal kacang", "Lalapan", "Teh hangat"],
-        category: "Paket"
-      }
-    ],
-    services: ["Dine In", "Take Away", "Catering untuk acara"],
-    reviews: []
-  },
-  "7": {
-    ...umkmData[6],
-    slug: "bengkel-motor-jaya-abadi",
+    slug: "pringmas-batik",
     nextStatusChange: "17:00",
-    whatsapp: "+62818-7890-1234",
-    instagram: "@bengkeljayaabadi",
+    whatsapp: "62085643312590",
+    instagram: "@pringmasbatik",
     images: [
-      "https://images.unsplash.com/photo-1625047509248-ec889cbff17f?w=800&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=800&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?w=800&h=600&fit=crop"
+      "/assets/data-umkm/pringmasbatik/pringmas.webp",
+      "/assets/data-umkm/pringmasbatik/pringmas-2.webp",
+      "/assets/data-umkm/pringmasbatik/pringmas-3.webp",
+      "/assets/data-umkm/pringmasbatik/pringmas-4.webp"
     ],
     hours: {
       monday: "08:00-17:00",
@@ -650,156 +693,338 @@ export const umkmDatabase: Record<string, UMKMDetail> = {
       thursday: "08:00-17:00",
       friday: "08:00-17:00",
       saturday: "08:00-16:00",
-      sunday: "Tutup"
+      sunday: "09:00-15:00"
     },
-    facilities: ["Parkir Luas", "Ruang Tunggu", "WiFi", "Toilet", "Mushola"],
-    payments: ["Cash", "QRIS", "Transfer Bank"],
+    facilities: ["Parkir Luas", "Galeri Batik", "Ruang Fitting", "Toilet", "Photo Spot"],
+    payments: ["Cash", "Transfer Bank", "QRIS"],
     products: [
       {
         id: 1,
-        name: "Service Rutin Motor",
-        price: "Rp 50.000",
-        image: "https://images.unsplash.com/photo-1625047509248-ec889cbff17f?w=400&h=400&fit=crop",
-        description: "Service rutin motor meliputi ganti oli dan tune up",
-        ingredients: ["Oli mesin berkualitas", "Filter oli", "Busi", "Pemeriksaan menyeluruh"],
-        category: "Service"
+        name: "Batik Tulis Premium",
+        price: "Mulai Rp 400.000",
+        image: "/assets/data-umkm/pringmasbatik/pringmas.webp",
+        description: "Batik tulis halus dengan motif khas Banyumas, dikerjakan oleh pengrajin berpengalaman",
+        ingredients: ["Kain katun/sutra premium", "Pewarna alami", "Malam berkualitas", "Dikerjakan secara manual"],
+        category: "Batik Tulis"
       },
       {
         id: 2,
-        name: "Ganti Ban Motor",
-        price: "Rp 150.000",
-        image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=400&fit=crop",
-        description: "Penggantian ban motor dengan ban berkualitas",
-        ingredients: ["Ban motor original", "Pentil baru", "Balancing roda", "Garansi 6 bulan"],
-        category: "Spare Part"
+        name: "Batik Cap",
+        price: "Mulai Rp 150.000",
+        image: "/assets/data-umkm/pringmasbatik/pringmas-2.webp",
+        description: "Batik cap dengan motif tradisional Banyumas yang terjangkau",
+        ingredients: ["Kain katun", "Pewarna berkualitas", "Cap batik tradisional"],
+        category: "Batik Cap"
+      },
+      {
+        id: 3,
+        name: "Batik Kombinasi",
+        price: "Mulai Rp 150.000",
+        image: "/assets/data-umkm/pringmasbatik/pringmas-3.webp",
+        description: "Kombinasi batik tulis dan cap untuk hasil optimal",
+        ingredients: ["Kain premium", "Teknik tulis dan cap", "Finishing rapi"],
+        category: "Batik Kombinasi"
+      },
+      {
+        id: 4,
+        name: "Kemeja Batik Pria",
+        price: "Rp 200.000 - 350.000",
+        image: "/assets/data-umkm/pringmasbatik/pringmas-4.webp",
+        description: "Kemeja batik siap pakai dengan cutting modern",
+        ingredients: ["Kain batik cap/tulis", "Kancing branded", "Jahitan presisi"],
+        category: "Ready to Wear"
+      },
+      {
+        id: 5,
+        name: "Dress Batik Wanita",
+        price: "Rp 250.000 - 450.000",
+        image: "/assets/data-umkm/pringmasbatik/pringmas-2.webp",
+        description: "Dress batik elegan untuk berbagai acara",
+        ingredients: ["Kain batik premium", "Desain eksklusif", "Furing halus"],
+        category: "Ready to Wear"
       }
     ],
-    services: ["Service Motor", "Ganti Spare Part", "Tune Up", "Ganti Oli", "Emergency Service"],
+    services: ["Custom Order", "Wholesale", "Kursus Membatik", "Export"],
     reviews: []
   },
-  "8": {
-    ...umkmData[7],
-    slug: "lanting-bu-narti",
-    nextStatusChange: "20:00",
-    whatsapp: "+62819-8901-2345",
-    instagram: "@lantingbunarti",
+  "7": {
+    ...umkmData[6],
+    slug: "sate-taichan-skuyy",
+    nextStatusChange: "Habis",
+    whatsapp: "62085166447510",
+    instagram: "@satetaichan.skuyy",
     images: [
-      "https://images.unsplash.com/photo-1599490659213-e2b9527bd087?w=800&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=800&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1586985289688-ca3cf47d3e6e?w=800&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=800&h=600&fit=crop"
+      "/assets/data-umkm/SateTaichanSkuyy/sate-1.webp",
+      "/assets/data-umkm/SateTaichanSkuyy/Menu Taichan Skuyy.webp"
     ],
     hours: {
-      monday: "14:00-20:00",
-      tuesday: "14:00-20:00",
-      wednesday: "14:00-20:00",
-      thursday: "14:00-20:00",
-      friday: "14:00-21:00",
-      saturday: "13:00-21:00",
-      sunday: "13:00-20:00"
+      monday: "Tutup",
+      tuesday: "18:00-Habis",
+      wednesday: "18:00-Habis",
+      thursday: "18:00-Habis",
+      friday: "18:00-Habis",
+      saturday: "18:00-Habis",
+      sunday: "18:00-Habis"
     },
-    facilities: ["Parkir Motor", "Area Makan", "WiFi"],
+    facilities: ["Parkir Motor", "Area Makan", "Tempat Cuci Tangan"],
     payments: ["Cash", "QRIS"],
     products: [
       {
         id: 1,
-        name: "Lanting Original",
-        price: "Rp 12.000",
-        image: "https://images.unsplash.com/photo-1599490659213-e2b9527bd087?w=400&h=400&fit=crop",
-        description: "Lanting khas Banyumas yang renyah dan gurih",
-        ingredients: ["Tepung beras", "Kelapa parut", "Garam", "Minyak goreng"],
-        category: "Lanting"
+        name: "Sate Daging",
+        price: "Rp 15.000",
+        image: "/assets/data-umkm/SateTaichanSkuyy/sate-1.webp",
+        description: "Sate taichan daging sapi/ayam dengan sambal pedas khas",
+        ingredients: ["Daging pilihan", "Sambal pedas", "Jeruk nipis"],
+        category: "Sate"
       },
       {
         id: 2,
-        name: "Lanting Pedas",
-        price: "Rp 15.000",
-        image: "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=400&h=400&fit=crop",
-        description: "Lanting dengan bumbu pedas yang menggigit",
-        ingredients: ["Tepung beras", "Cabai rawit", "Bawang putih", "Garam", "Minyak goreng"],
-        category: "Lanting"
+        name: "Sate Kulit",
+        price: "Rp 16.000",
+        image: "/assets/data-umkm/SateTaichanSkuyy/Menu Taichan Skuyy.webp",
+        description: "Sate kulit ayam yang renyah dengan bumbu spesial",
+        ingredients: ["Kulit ayam", "Sambal pedas", "Jeruk nipis"],
+        category: "Sate"
+      },
+      {
+        id: 3,
+        name: "Sate Mix Daging Kulit",
+        price: "Rp 17.000",
+        image: "/assets/data-umkm/SateTaichanSkuyy/sate-1.webp",
+        description: "Kombinasi sate daging dan kulit dalam satu porsi",
+        ingredients: ["Daging", "Kulit ayam", "Sambal pedas", "Jeruk nipis"],
+        category: "Sate"
+      },
+      {
+        id: 4,
+        name: "Ketupat",
+        price: "Rp 1.500",
+        image: "/assets/data-umkm/SateTaichanSkuyy/Menu Taichan Skuyy.webp",
+        description: "Ketupat lontong pendamping sate",
+        ingredients: ["Nasi", "Pembungkus ketupat"],
+        category: "Pendamping"
+      },
+      {
+        id: 5,
+        name: "Strawberry/Lychee/Melon Squash",
+        price: "Rp 7.000",
+        image: "/assets/data-umkm/SateTaichanSkuyy/Menu Taichan Skuyy.webp",
+        description: "Minuman squash segar dengan pilihan rasa",
+        ingredients: ["Sirup pilihan", "Soda", "Es"],
+        category: "Minuman"
+      },
+      {
+        id: 6,
+        name: "Black Tea (Ice/Hot)",
+        price: "Rp 4.000",
+        image: "/assets/data-umkm/Sate Taichan Skuyy/Menu Taichan Skuyy.webp",
+        description: "Teh hitam manis dingin atau hangat",
+        ingredients: ["Teh hitam", "Gula"],
+        category: "Minuman"
       }
     ],
-    services: ["Take Away", "Delivery Area Cilongok"],
+    services: ["Dine In", "Take Away"],
+    reviews: []
+  },
+  "8": {
+    ...umkmData[7],
+    slug: "getuk-goreng-asli-haji-tohirin",
+    nextStatusChange: "21:00",
+    whatsapp: "6208112814141",
+    instagram: "@getukgoreng.aslihajitohirin",
+    images: [
+      "/assets/data-umkm/Getukgorengaslihajitohirin/getuk-1.webp",
+      "/assets/data-umkm/Getukgorengaslihajitohirin/getuk-2.webp",
+      "/assets/data-umkm/Getukgorengaslihajitohirin/getuk-3.webp",
+      "/assets/data-umkm/Getukgorengaslihajitohirin/keripik.webp",
+      "/assets/data-umkm/Getukgorengaslihajitohirin/opak.webp",
+      "/assets/data-umkm/Getukgorengaslihajitohirin/pisang-aroma.webp",
+      "/assets/data-umkm/Getukgorengaslihajitohirin/sale-pisang.webp"
+    ],
+    hours: {
+      monday: "08:00-21:00",
+      tuesday: "08:00-21:00",
+      wednesday: "08:00-21:00",
+      thursday: "08:00-21:00",
+      friday: "08:00-21:00",
+      saturday: "08:00-21:00",
+      sunday: "08:00-21:00"
+    },
+    facilities: ["Parkir Luas", "Area Tunggu", "Toilet", "WiFi"],
+    payments: ["Cash", "QRIS", "GoPay", "OVO", "ShopeePay", "Transfer Bank"],
+    products: [
+      {
+        id: 1,
+        name: "Getuk Goreng ASLI",
+        price: "Rp 25.000",
+        image: "/assets/data-umkm/Getukgorengaslihajitohirin/getuk-1.webp",
+        description: "Getuk goreng legendaris khas Haji Tohirin ★4.7 (4RB+ terjual)",
+        ingredients: ["Singkong pilihan", "Gula", "Kelapa", "Minyak goreng"],
+        category: "Getuk"
+      },
+      {
+        id: 2,
+        name: "Keripik Bayam",
+        price: "Rp 18.000",
+        image: "/assets/data-umkm/Getukgorengaslihajitohirin/keripik.webp",
+        description: "Keripik bayam renyah dan gurih ★4.9 (40 terjual)",
+        ingredients: ["Bayam", "Tepung", "Bumbu", "Minyak goreng"],
+        category: "Keripik"
+      },
+      {
+        id: 3,
+        name: "Pisang Aroma",
+        price: "Rp 27.000",
+        image: "/assets/data-umkm/Getukgorengaslihajitohirin/pisang-aroma.webp",
+        description: "Pisang aroma manis dengan aroma harum ★4.1 (12 terjual)",
+        ingredients: ["Pisang ambon", "Tepung", "Gula", "Wijen"],
+        category: "Oleh-oleh"
+      },
+      {
+        id: 4,
+        name: "Opak Mentah Kucai Pedas",
+        price: "Rp 15.000",
+        image: "/assets/data-umkm/Getukgorengaslihajitohirin/opak.webp",
+        description: "Opak kucai pedas siap goreng ★4.8 (57 terjual)",
+        ingredients: ["Tepung beras", "Kucai", "Cabai", "Bumbu"],
+        category: "Keripik"
+      },
+      {
+        id: 5,
+        name: "Sale Pisang Keju",
+        price: "Rp 27.000",
+        image: "/assets/data-umkm/Getukgorengaslihajitohirin/sale-pisang.webp",
+        description: "Sale pisang dengan topping keju ★4.5 (65 terjual)",
+        ingredients: ["Pisang", "Keju", "Gula", "Tepung"],
+        category: "Oleh-oleh"
+      }
+    ],
+    services: ["Take Away", "Pre Order", "Delivery", "Wholesale"],
     reviews: []
   },
   "9": {
     ...umkmData[8],
-    slug: "toko-kelontong-sari-rejeki",
+    slug: "kubaro",
     nextStatusChange: "21:00",
-    whatsapp: "+62821-9876-5432",
-    instagram: "@tokosarirejeki",
+    whatsapp: "620895422791307",
+    instagram: "@kubaro_pwt",
     images: [
-      "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1604719312566-878b6d57b6c3?w=800&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&h=600&fit=crop"
+      "/assets/data-umkm/kubaro/kubaro.webp",
+      "/assets/data-umkm/kubaro/kubaro-2.webp",
+      "/assets/data-umkm/kubaro/menu-kubaro-1.webp",
+      "/assets/data-umkm/kubaro/menu-kubaro-2.webp",
+      "/assets/data-umkm/kubaro/menu-lengkap.webp"
     ],
     hours: {
-      monday: "06:00-21:00",
-      tuesday: "06:00-21:00",
-      wednesday: "06:00-21:00",
-      thursday: "06:00-21:00",
-      friday: "06:00-21:00",
-      saturday: "06:00-22:00",
-      sunday: "07:00-21:00"
+      monday: "10:00-21:00",
+      tuesday: "10:00-21:00",
+      wednesday: "10:00-21:00",
+      thursday: "10:00-21:00",
+      friday: "10:00-21:00",
+      saturday: "10:00-21:00",
+      sunday: "10:00-21:00"
     },
-    facilities: ["Parkir Motor", "AC", "WiFi"],
-    payments: ["Cash", "QRIS", "Transfer Bank"],
+    facilities: ["AC", "Parkir Motor", "Area Makan", "WiFi", "Toilet"],
+    payments: ["Cash", "QRIS", "GoPay", "OVO", "ShopeePay"],
     products: [
       {
         id: 1,
-        name: "Paket Sembako Lengkap",
-        price: "Rp 150.000",
-        image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400&h=400&fit=crop",
-        description: "Paket sembako lengkap untuk kebutuhan sehari-hari",
-        ingredients: ["Beras 5kg", "Minyak goreng 2L", "Gula pasir 1kg", "Telur 1kg", "Mie instan 10 bungkus"],
-        category: "Paket Sembako"
+        name: "Dimsum Ayam (4 pcs)",
+        price: "Rp 13.000",
+        image: "/assets/data-umkm/kubaro/kubaro.webp",
+        description: "Dimsum dengan isian ayam segar",
+        ingredients: ["Ayam", "Kulit dimsum"],
+        category: "Dimsum"
       },
       {
         id: 2,
-        name: "Snack & Minuman",
-        price: "Rp 5.000 - 25.000",
-        image: "https://images.unsplash.com/photo-1604719312566-878b6d57b6c3?w=400&h=400&fit=crop",
-        description: "Berbagai macam snack dan minuman",
-        ingredients: ["Keripik", "Biskuit", "Permen", "Minuman ringan", "Air mineral"],
-        category: "Snack & Minuman"
+        name: "Dimsum Udang (4 pcs)",
+        price: "Rp 13.000",
+        image: "/assets/data-umkm/kubaro/kubaro-2.webp",
+        description: "Dimsum dengan isian udang segar",
+        ingredients: ["Udang", "Kulit dimsum"],
+        category: "Dimsum"
+      },
+      {
+        id: 3,
+        name: "Dimsum Mentai (4 pcs)",
+        price: "Rp 15.000",
+        image: "/assets/data-umkm/kubaro/menu-kubaro-1.webp",
+        description: "Dimsum dengan saus mentai creamy",
+        ingredients: ["Isian dimsum", "Saus mentai"],
+        category: "Dimsum"
+      },
+      {
+        id: 4,
+        name: "Gyoza Kukus/Goreng (4 pcs)",
+        price: "Rp 12.000",
+        image: "/assets/data-umkm/kubaro/menu-kubaro-2.webp",
+        description: "Gyoza dengan pilihan kukus atau goreng",
+        ingredients: ["Ayam", "Sayuran", "Kulit gyoza"],
+        category: "Dimsum"
+      },
+      {
+        id: 5,
+        name: "Rambutan Keju (3 pcs)",
+        price: "Rp 13.000",
+        image: "/assets/data-umkm/kubaro/menu-lengkap.webp",
+        description: "Dimsum rambutan dengan isian keju mozzarella",
+        ingredients: ["Keju mozzarella", "Kulit rambutan"],
+        category: "Dimsum"
+      },
+      {
+        id: 6,
+        name: "Paket Hemat 1",
+        price: "Rp 14.000",
+        image: "/assets/data-umkm/kubaro/kubaro.webp",
+        description: "Paket hemat dimsum + minuman",
+        ingredients: ["Dimsum pilihan", "Minuman"],
+        category: "Paket"
+      },
+      {
+        id: 7,
+        name: "Lemon Tea",
+        price: "Rp 5.000",
+        image: "/assets/data-umkm/kubaro/menu-lengkap.webp",
+        description: "Teh lemon segar",
+        ingredients: ["Teh", "Lemon", "Gula", "Es"],
+        category: "Minuman"
       }
     ],
-    services: ["Retail", "Grosir", "Delivery Sekitar"],
+    services: ["Dine In", "Take Away", "Delivery"],
     reviews: []
   },
   "10": {
     ...umkmData[9],
-    slug: "minimarket-berkah-jaya",
-    nextStatusChange: "24 Jam",
-    whatsapp: "+62822-1234-5678",
-    instagram: "@minimarketberkah",
-    facebook: "Minimarket Berkah Jaya",
+    slug: "boersa-kampus",
+    nextStatusChange: "23:00",
+    whatsapp: "622816574499",
+    instagram: "@boersakampus",
     images: [
-      "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1604719312566-878b6d57b6c3?w=800&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&h=600&fit=crop"
+      "/assets/data-umkm/Boersakampus/boersa-1.webp",
+      "/assets/data-umkm/Boersakampus/boersa-2.webp",
+      "/assets/data-umkm/Boersakampus/boersa-3.webp",
+      "/assets/data-umkm/Boersakampus/boersa-4.webp"
     ],
     hours: {
-      monday: "24 Jam",
-      tuesday: "24 Jam",
-      wednesday: "24 Jam",
-      thursday: "24 Jam",
-      friday: "24 Jam",
-      saturday: "24 Jam",
-      sunday: "24 Jam"
+      monday: "08:00-22:00",
+      tuesday: "08:00-22:00",
+      wednesday: "08:00-22:00",
+      thursday: "08:00-22:00",
+      friday: "08:00-22:00",
+      saturday: "08:00-23:00",
+      sunday: "08:00-22:00"
     },
-    facilities: ["AC", "CCTV", "Parkir Luas", "ATM", "WiFi"],
-    payments: ["Cash", "Debit Card", "Credit Card", "QRIS", "GoPay", "OVO", "DANA"],
+    facilities: ["AC", "WiFi", "Parkir Luas", "Toilet", "CCTV", "ATM"],
+    payments: ["Cash", "Debit Card", "Credit Card", "QRIS", "GoPay", "OVO", "DANA", "ShopeePay"],
     products: [
       {
         id: 1,
         name: "Produk Segar",
         price: "Rp 3.000 - 50.000",
-        image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=400&fit=crop",
-        description: "Sayuran, buah-buahan, dan produk segar lainnya",
+        image: "/assets/data-umkm/Boersakampus/boersa-1.webp",
+        description: "Sayuran, buah-buahan, dan produk segar berkualitas",
         ingredients: ["Sayuran segar", "Buah-buahan", "Daging", "Ikan", "Telur"],
         category: "Produk Segar"
       },
@@ -807,7 +1032,7 @@ export const umkmDatabase: Record<string, UMKMDetail> = {
         id: 2,
         name: "Kebutuhan Rumah Tangga",
         price: "Rp 2.000 - 100.000",
-        image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400&h=400&fit=crop",
+        image: "/assets/data-umkm/Boersakampus/boersa-2.webp",
         description: "Berbagai kebutuhan rumah tangga dan peralatan",
         ingredients: ["Sabun", "Deterjen", "Shampo", "Pasta gigi", "Peralatan dapur"],
         category: "Rumah Tangga"
@@ -816,58 +1041,40 @@ export const umkmDatabase: Record<string, UMKMDetail> = {
         id: 3,
         name: "Makanan & Minuman",
         price: "Rp 1.000 - 30.000",
-        image: "https://images.unsplash.com/photo-1604719312566-878b6d57b6c3?w=400&h=400&fit=crop",
+        image: "/assets/data-umkm/Boersakampus/boersa-3.webp",
         description: "Makanan ringan, minuman, dan kebutuhan konsumsi",
         ingredients: ["Snack", "Minuman", "Roti", "Susu", "Kopi instan"],
         category: "F&B"
-      }
-    ],
-    services: ["24 Hour Service", "ATM", "Top Up Pulsa", "Bayar Tagihan"],
-    reviews: []
-  },
-  "11": {
-    ...umkmData[10],
-    slug: "warung-sembako-ibu-siti",
-    nextStatusChange: "20:00",
-    whatsapp: "+62823-4567-8901",
-    images: [
-      "https://images.unsplash.com/photo-1604719312566-878b6d57b6c3?w=800&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&h=600&fit=crop"
-    ],
-    hours: {
-      monday: "06:00-20:00",
-      tuesday: "06:00-20:00",
-      wednesday: "06:00-20:00",
-      thursday: "06:00-20:00",
-      friday: "06:00-20:00",
-      saturday: "06:00-21:00",
-      sunday: "07:00-19:00"
-    },
-    facilities: ["Parkir Motor", "Tempat Duduk"],
-    payments: ["Cash", "QRIS"],
-    products: [
+      },
       {
-        id: 1,
-        name: "Beras Berkualitas",
-        price: "Rp 12.000/kg",
-        image: "https://images.unsplash.com/photo-1604719312566-878b6d57b6c3?w=400&h=400&fit=crop",
-        description: "Beras lokal berkualitas dengan harga terjangkau",
-        ingredients: ["Beras lokal", "Kualitas premium", "Bersih dan wangi"],
+        id: 4,
+        name: "Sembako Lengkap",
+        price: "Rp 5.000 - 150.000",
+        image: "/assets/data-umkm/Boersakampus/boersa-4.webp",
+        description: "Paket sembako lengkap untuk kebutuhan sehari-hari",
+        ingredients: ["Beras", "Minyak goreng", "Gula", "Tepung", "Bumbu dapur"],
         category: "Sembako"
       },
       {
-        id: 2,
-        name: "Bumbu Dapur Lengkap",
-        price: "Rp 2.000 - 15.000",
-        image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400&h=400&fit=crop",
-        description: "Berbagai bumbu dapur dan rempah-rempah",
-        ingredients: ["Bawang merah", "Bawang putih", "Cabai", "Jahe", "Kunyit"],
-        category: "Bumbu"
+        id: 5,
+        name: "Alat Tulis & Kantor",
+        price: "Rp 1.000 - 50.000",
+        image: "/assets/data-umkm/Boersakampus/boersa-1.webp",
+        description: "Perlengkapan alat tulis dan kebutuhan kantor",
+        ingredients: ["Pulpen", "Buku", "Kertas", "Penghapus", "Stapler"],
+        category: "ATK"
+      },
+      {
+        id: 6,
+        name: "Produk Frozen & Olahan",
+        price: "Rp 5.000 - 80.000",
+        image: "/assets/data-umkm/Boersakampus/boersa-2.webp",
+        description: "Produk beku dan makanan olahan siap masak",
+        ingredients: ["Nugget", "Sosis", "Bakso", "Dimsum frozen", "Kentang frozen"],
+        category: "Frozen"
       }
     ],
-    services: ["Retail", "Grosir Kecil", "Antar Pesanan"],
+    services: ["Retail", "Delivery", "Top Up Pulsa", "Bayar Tagihan", "ATM"],
     reviews: []
   }
 };
@@ -904,7 +1111,7 @@ export const getUMKMByStatus = (status: "open" | "closed" | "all"): UMKM[] => {
 
 export const searchUMKM = (query: string): UMKM[] => {
   const lowercaseQuery = query.toLowerCase();
-  return umkmData.filter(umkm => 
+  return umkmData.filter(umkm =>
     umkm.name.toLowerCase().includes(lowercaseQuery) ||
     umkm.description.toLowerCase().includes(lowercaseQuery) ||
     umkm.category.toLowerCase().includes(lowercaseQuery) ||
@@ -918,20 +1125,19 @@ export const categories = [
   "Makanan & Minuman",
   "Fashion",
   "Kafe & Resto",
-  "Kecantikan",
-  "Otomotif & Jasa",
   "Retail"
 ];
 
 export const locations = [
   "Semua",
-  "Purwokerto Utara",
-  "Purwokerto Selatan",
-  "Purwokerto Barat",
+  "Purwokerto",
   "Purwokerto Timur",
-  "Sokaraja",
+  "Purwokerto Barat",
   "Banyumas",
-  "Cilongok"
+  "Karanglewas",
+  "Wangon",
+  "Sokaraja",
+  "Bancarkembar"
 ];
 
 // Map-specific data transformations
@@ -957,9 +1163,9 @@ function calculateDistance(lat1: number, lon1: number, lat2: number, lon2: numbe
   const R = 6371; // Earth's radius in kilometers
   const dLat = (lat2 - lat1) * Math.PI / 180;
   const dLon = (lon2 - lon1) * Math.PI / 180;
-  const a = 
+  const a =
     Math.sin(dLat/2) * Math.sin(dLat/2) +
-    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * 
+    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
     Math.sin(dLon/2) * Math.sin(dLon/2);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
   return R * c;

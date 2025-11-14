@@ -290,29 +290,29 @@ export default function DirectoryLatestPage() {
                   delay={index * 0.05}
                   className="h-full"
                 >
-                  <div 
-                    className={`bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer overflow-hidden h-full flex flex-col group ${
-                      viewMode === "list" ? "!flex-row gap-4 p-4" : ""
+                  <div
+                    className={`bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer overflow-hidden flex group ${
+                      viewMode === "list" ? "flex-row gap-4 p-4" : "flex-col h-full"
                     }`}
                     onClick={() => handleUMKMClick(umkm)}
                   >
                     {/* Image */}
-                    <div className={`relative flex-shrink-0 ${
-                      viewMode === "list" ? "w-48 h-32" : "w-full aspect-[16/10]"
+                    <div className={`relative flex-shrink-0 overflow-hidden ${
+                      viewMode === "list" ? "w-48 h-32 rounded-lg" : "w-full h-56"
                     }`}>
                       <LazyImage
                         src={umkm.image}
                         alt={umkm.name}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                       />
                       
                       {/* Status Badge */}
-                      <div className="absolute top-2 left-2">
+                      <div className="absolute top-3 left-3">
                         <Chip
                           size="sm"
                           color={umkm.status === "open" ? "success" : "default"}
                           variant="solid"
-                          className="text-white font-medium"
+                          className="text-white font-medium shadow-md"
                         >
                           {umkm.status === "open" 
                             ? (language === 'en' ? 'Open' : 'Buka') 
@@ -322,17 +322,21 @@ export default function DirectoryLatestPage() {
                       </div>
 
                       {/* Badges */}
-                      <div className="absolute top-2 right-2 flex flex-col gap-1">
+                      <div className="absolute top-3 right-3 flex flex-col gap-1.5">
                         {umkm.isNew && (
-                          <Chip size="sm" color="primary" variant="solid" className="text-white font-medium flex items-center gap-1">
-                            <Calendar size={12} />
-                            <span>{language === 'en' ? 'New' : 'Baru'}</span>
+                          <Chip size="sm" color="primary" variant="solid" className="text-white font-medium shadow-md">
+                            <div className="flex items-center gap-1">
+                              <Calendar size={12} />
+                              <span>{language === 'en' ? 'New' : 'Baru'}</span>
+                            </div>
                           </Chip>
                         )}
                         {umkm.isTrending && (
-                          <Chip size="sm" color="warning" variant="solid" className="text-white font-medium flex items-center gap-1">
-                            <TrendingUp size={12} />
-                            <span>Trending</span>
+                          <Chip size="sm" color="warning" variant="solid" className="text-white font-medium shadow-md">
+                            <div className="flex items-center gap-1">
+                              <TrendingUp size={12} />
+                              <span>Trending</span>
+                            </div>
                           </Chip>
                         )}
                       </div>
@@ -340,77 +344,82 @@ export default function DirectoryLatestPage() {
                       {/* Favorite Button */}
                       <button
                         onClick={(e) => toggleFavorite(umkm.id, e)}
-                        className="absolute bottom-2 right-2 p-2 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-full hover:bg-white dark:hover:bg-gray-800 transition-colors shadow-md"
+                        className="absolute bottom-3 right-3 p-2.5 bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm rounded-full hover:bg-white dark:hover:bg-gray-800 hover:scale-110 transition-all duration-300 shadow-lg"
                       >
                         <Heart 
-                          size={16} 
+                          size={18} 
                           className={umkm.isFavorite ? "fill-red-500 text-red-500" : "text-gray-600 dark:text-gray-300"} 
                         />
                       </button>
                     </div>
 
                     {/* Content */}
-                    <div className={`flex flex-col flex-1 ${viewMode === "list" ? "" : "p-4"}`}>
-                      {/* Category Chip */}
-                      <div className="mb-2">
-                        <Chip size="sm" variant="flat" color="primary">
-                          {umkm.category}
-                        </Chip>
-                      </div>
-
-                      {/* Name */}
-                      <h3 className="font-playfair text-lg font-semibold mb-2 text-gray-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors line-clamp-2">
-                        {umkm.name}
-                      </h3>
-
-                      {/* Rating and Reviews */}
-                      <div className="flex items-center gap-2 mb-2">
-                        <div className="flex items-center gap-1">
-                          <Star size={14} className="fill-yellow-400 text-yellow-400 flex-shrink-0" />
-                          <span className="text-sm font-medium text-gray-900 dark:text-white">
-                            {umkm.rating}
-                          </span>
-                        </div>
-                        <span className="text-sm text-gray-500 dark:text-gray-400">
-                          ({umkm.reviewCount} {language === 'en' ? 'reviews' : 'ulasan'})
-                        </span>
-                      </div>
-
-                      {/* Location & Distance */}
-                      <div className="flex items-center gap-2 mb-2 flex-wrap">
-                        <div className="flex items-center gap-1">
-                          <MapPin size={14} className="text-gray-500 dark:text-gray-400 flex-shrink-0" />
-                          <span className="text-sm text-gray-600 dark:text-gray-300">
-                            {umkm.location}
-                          </span>
-                        </div>
-                        {umkm.distance && (
-                          <>
-                            <span className="text-gray-300 dark:text-gray-600">•</span>
-                            <span className="text-sm text-gray-500 dark:text-gray-400">
-                              {umkm.distance}
-                            </span>
-                          </>
-                        )}
-                      </div>
-
-                      {/* Description */}
-                      <p className="text-gray-600 dark:text-gray-300 mb-3 text-sm leading-relaxed line-clamp-2 flex-grow">
-                        {umkm.description}
-                      </p>
-
-                      {/* Tags */}
-                      <div className="flex flex-wrap gap-1 mb-3">
-                        {(umkm.tags || []).slice(0, 3).map((tag, tagIndex) => (
-                          <Chip key={tagIndex} size="sm" variant="flat" color="default" className="text-xs">
-                            {tag}
+                    <div className={`flex flex-col flex-1 ${viewMode === "list" ? "justify-between" : "p-5"}`}>
+                      {/* Header Section */}
+                      <div className="flex-1">
+                        {/* Category Chip */}
+                        <div className="mb-3">
+                          <Chip size="sm" variant="flat" color="primary" className="font-medium">
+                            {umkm.category}
                           </Chip>
-                        ))}
+                        </div>
+
+                        {/* Name */}
+                        <h3 className="font-playfair text-xl font-bold mb-3 text-gray-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors line-clamp-2">
+                          {umkm.name}
+                        </h3>
+
+                        {/* Rating and Reviews */}
+                        <div className="flex items-center gap-2 mb-3">
+                          <div className="flex items-center gap-1.5">
+                            <Star size={16} className="fill-yellow-400 text-yellow-400 flex-shrink-0" />
+                            <span className="text-sm font-semibold text-gray-900 dark:text-white">
+                              {umkm.rating}
+                            </span>
+                          </div>
+                          <span className="text-sm text-gray-500 dark:text-gray-400">
+                            ({umkm.reviewCount} {language === 'en' ? 'reviews' : 'ulasan'})
+                          </span>
+                        </div>
+
+                        {/* Location & Distance */}
+                        <div className="flex items-center gap-2 mb-3 flex-wrap">
+                          <div className="flex items-center gap-1.5">
+                            <MapPin size={14} className="text-gray-500 dark:text-gray-400 flex-shrink-0" />
+                            <span className="text-sm text-gray-600 dark:text-gray-300 line-clamp-1">
+                              {umkm.location}
+                            </span>
+                          </div>
+                          {umkm.distance && (
+                            <>
+                              <span className="text-gray-300 dark:text-gray-600">•</span>
+                              <span className="text-sm text-gray-500 dark:text-gray-400">
+                                {umkm.distance}
+                              </span>
+                            </>
+                          )}
+                        </div>
+
+                        {/* Description */}
+                        <p className="text-gray-600 dark:text-gray-400 mb-3 text-sm leading-relaxed line-clamp-2">
+                          {umkm.description}
+                        </p>
+
+                        {/* Tags */}
+                        {umkm.tags && umkm.tags.length > 0 && (
+                          <div className="flex flex-wrap gap-1.5 mb-3">
+                            {umkm.tags.slice(0, 3).map((tag, tagIndex) => (
+                              <Chip key={tagIndex} size="sm" variant="flat" color="default" className="text-xs">
+                                {tag}
+                              </Chip>
+                            ))}
+                          </div>
+                        )}
                       </div>
 
                       {/* Footer - Price Range */}
                       {umkm.priceRange && (
-                        <div className="pt-3 border-t border-gray-200 dark:border-gray-700 mt-auto">
+                        <div className="pt-4 border-t border-gray-100 dark:border-gray-700 mt-auto">
                           <Chip size="sm" variant="flat" color="secondary" className="font-medium">
                             {formatPriceRange(umkm.priceRange)}
                           </Chip>

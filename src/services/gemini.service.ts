@@ -47,11 +47,11 @@ Untuk rekomendasi UMKM, return JSON:
   "umkm_cards": [
     {
       "id": "1",
-      "name": "Warung Sate Pak Kumis",
+      "name": "Cuankuy",
       "category": "Makanan & Minuman",
       "rating": 4.8,
-      "location": "Purwokerto Utara",
-      "reason": "Sate kambing enak, harga terjangkau, rating tinggi"
+      "location": "Purwokerto",
+      "reason": "Bakso aci dan cuanky dengan varian keju pedas yang menggugah selera"
     }
   ],
   "quick_replies": ["Lihat menu", "Cari tempat lain", "Info kontak"]
@@ -61,44 +61,60 @@ Untuk pertanyaan info/umum, return plain text dengan emoji yang sesuai.
 
 CONTOH QUERY & RESPONSE:
 
-User: "Cari kopi enak di Purwokerto"
+User: "Cari kopi enak di Banyumas"
 Assistant: {
-  "message": "☕ Ini rekomendasi kopi enak di Purwokerto untuk Anda!",
+  "message": "☕ Ini rekomendasi kopi enak di Banyumas untuk Anda!",
   "umkm_cards": [
     {
-      "id": "4",
-      "name": "Kopi Gunung Slamet",
+      "id": "3",
+      "name": "Nakopi",
+      "category": "Kafe & Resto",
+      "rating": 4.9,
+      "location": "Banyumas",
+      "reason": "Slow bar dan roastery dengan biji kopi arabika premium dari berbagai daerah"
+    },
+    {
+      "id": "5",
+      "name": "Kopi Banyumas Mbekayu",
       "category": "Kafe & Resto",
       "rating": 4.6,
-      "location": "Purwokerto Barat",
-      "reason": "Kopi arabika premium dari Gunung Slamet, tempat nyaman, WiFi gratis"
+      "location": "Wangon",
+      "reason": "Kopi lokal Banyumas dengan berbagai varian dari robusta hingga arabica"
     }
   ],
   "quick_replies": ["Info jam buka", "Lihat menu", "Cari kafe lain"]
 }
 
-User: "Warung Sate Pak Kumis buka jam berapa?"
-Assistant: "Warung Sate Pak Kumis buka setiap hari! 🕐 Senin-Kamis & Minggu: 10:00-22:00 WIB. Jumat-Sabtu: 10:00-23:00 WIB. Yuk mampir! 😊"
+User: "Sate Taichan Skuyy buka jam berapa?"
+Assistant: "Sate Taichan Skuyy buka setiap hari kecuali Senin! 🕐 Buka mulai jam 18.00 sampai habis. Yuk mampir! 😊"
 
-User: "Makanan murah budget 30rb"
+User: "Makanan murah budget 20rb"
 Assistant: {
-  "message": "💰 Ada beberapa pilihan enak dengan budget 30rb-an!",
+  "message": "💰 Ada beberapa pilihan enak dengan budget 20rb-an!",
   "umkm_cards": [
     {
-      "id": "3",
-      "name": "Getuk Goreng Bu Tini",
+      "id": "1",
+      "name": "Cuankuy",
+      "category": "Makanan & Minuman",
+      "rating": 4.8,
+      "location": "Purwokerto",
+      "reason": "Bakso aci dan cuanky dengan paket hemat mulai 14rb"
+    },
+    {
+      "id": "2",
+      "name": "Tuku Dimsum",
+      "category": "Makanan & Minuman",
+      "rating": 4.7,
+      "location": "Purwokerto Timur",
+      "reason": "Dimsum enak dengan paket hemat mulai 14rb"
+    },
+    {
+      "id": "8",
+      "name": "Getuk Goreng Asli Haji Tohirin",
       "category": "Makanan & Minuman",
       "rating": 4.7,
       "location": "Sokaraja",
-      "reason": "Getuk goreng dengan berbagai topping, harga mulai 15rb"
-    },
-    {
-      "id": "6",
-      "name": "Mendoan Cokro Kembang",
-      "category": "Makanan & Minuman",
-      "rating": 4.9,
-      "location": "Banyumas",
-      "reason": "Mendoan khas Banyumas yang legendaris, paket lengkap 30rb"
+      "reason": "Getuk goreng legendaris dengan harga terjangkau"
     }
   ],
   "quick_replies": ["Info lokasi", "Lihat menu lain", "Cari kategori lain"]
@@ -216,24 +232,23 @@ export const processQuery = (query: string) => {
   // Extract category
   if (lowerQuery.includes("kopi") || lowerQuery.includes("cafe") || lowerQuery.includes("kafe")) {
     intent.category = "Kafe & Resto";
-  } else if (lowerQuery.includes("makan") || lowerQuery.includes("food") || lowerQuery.includes("kuliner")) {
+  } else if (lowerQuery.includes("makan") || lowerQuery.includes("food") || lowerQuery.includes("kuliner") || lowerQuery.includes("dimsum") || lowerQuery.includes("sate") || lowerQuery.includes("getuk") || lowerQuery.includes("snack") || lowerQuery.includes("cemilan")) {
     intent.category = "Makanan & Minuman";
-  } else if (lowerQuery.includes("batik") || lowerQuery.includes("baju") || lowerQuery.includes("fashion")) {
+  } else if (lowerQuery.includes("batik") || lowerQuery.includes("baju") || lowerQuery.includes("fashion") || lowerQuery.includes("pakaian")) {
     intent.category = "Fashion";
-  } else if (lowerQuery.includes("salon") || lowerQuery.includes("cantik") || lowerQuery.includes("kecantikan")) {
-    intent.category = "Kecantikan";
-  } else if (lowerQuery.includes("bengkel") || lowerQuery.includes("motor") || lowerQuery.includes("otomotif")) {
-    intent.category = "Otomotif & Jasa";
+  } else if (lowerQuery.includes("minimarket") || lowerQuery.includes("retail") || lowerQuery.includes("toko") || lowerQuery.includes("belanja")) {
+    intent.category = "Retail";
   }
 
-  // Extract location
-  if (lowerQuery.includes("purwokerto utara")) intent.location = "Purwokerto Utara";
-  else if (lowerQuery.includes("purwokerto selatan")) intent.location = "Purwokerto Selatan";
+  // Extract location (based on actual UMKM data)
+  if (lowerQuery.includes("purwokerto timur")) intent.location = "Purwokerto Timur";
   else if (lowerQuery.includes("purwokerto barat")) intent.location = "Purwokerto Barat";
-  else if (lowerQuery.includes("purwokerto timur")) intent.location = "Purwokerto Timur";
+  else if (lowerQuery.includes("purwokerto")) intent.location = "Purwokerto";
   else if (lowerQuery.includes("sokaraja")) intent.location = "Sokaraja";
   else if (lowerQuery.includes("banyumas")) intent.location = "Banyumas";
-  else if (lowerQuery.includes("cilongok")) intent.location = "Cilongok";
+  else if (lowerQuery.includes("karanglewas")) intent.location = "Karanglewas";
+  else if (lowerQuery.includes("wangon")) intent.location = "Wangon";
+  else if (lowerQuery.includes("bancarkembar")) intent.location = "Bancarkembar";
 
   // Extract price range
   if (lowerQuery.includes("murah") || lowerQuery.includes("budget") || lowerQuery.includes("hemat")) {

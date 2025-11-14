@@ -47,18 +47,29 @@ export default function DirectoryCategoriesPage() {
   // Create detailed categories with counts from centralized data
   const categories: Category[] = [
     {
-      id: "kuliner",
-      name: "Kuliner",
-      nameEn: "Culinary",
+      id: "Makanan & Minuman",
+      name: "Makanan & Minuman",
+      nameEn: "Food & Beverage",
       description: "Makanan dan minuman lokal khas Banyumas",
       descriptionEn: "Local food and beverages from Banyumas",
       icon: Utensils,
       count: getUMKMByCategory("Makanan & Minuman").length,
       color: "warning",
-      image: "https://images.unsplash.com/photo-1529042410759-befb1204b468?w=800&h=600&fit=crop"
+      image: "/assets/data-umkm/Cuankuy/cuankuy-1.webp"
     },
     {
-      id: "fashion",
+      id: "Kafe & Resto",
+      name: "Kafe & Resto",
+      nameEn: "Cafe & Restaurant",
+      description: "Kafe dan kedai kopi dengan suasana nyaman",
+      descriptionEn: "Cafes and coffee shops with cozy atmosphere",
+      icon: Store,
+      count: getUMKMByCategory("Kafe & Resto").length,
+      color: "primary",
+      image: "/assets/data-umkm/Nakopi /nakopi.webp"
+    },
+    {
+      id: "Fashion",
       name: "Fashion",
       nameEn: "Fashion",
       description: "Pakaian, batik, dan aksesoris tradisional",
@@ -66,51 +77,18 @@ export default function DirectoryCategoriesPage() {
       icon: Shirt,
       count: getUMKMByCategory("Fashion").length,
       color: "secondary",
-      image: "https://images.unsplash.com/photo-1610003524635-5fe4c7e11b32?w=800&h=600&fit=crop"
+      image: "/assets/data-umkm/pringmasbatik/pringmas.webp"
     },
     {
-      id: "kafe-resto",
-      name: "Kafe & Resto",
-      nameEn: "Cafe & Restaurant",
-      description: "Kafe dan restoran dengan suasana nyaman",
-      descriptionEn: "Cafes and restaurants with cozy atmosphere",
-      icon: Store,
-      count: getUMKMByCategory("Kafe & Resto").length,
-      color: "primary",
-      image: "https://images.unsplash.com/photo-1511920170033-f8396924c348?w=800&h=600&fit=crop"
-    },
-    {
-      id: "kecantikan",
-      name: "Kesehatan & Kecantikan",
-      nameEn: "Health & Beauty",
-      description: "Produk kesehatan dan layanan kecantikan",
-      descriptionEn: "Health products and beauty services",
-      icon: Heart,
-      count: getUMKMByCategory("Kecantikan").length,
-      color: "danger",
-      image: "https://images.unsplash.com/photo-1562322140-8baeececf3df?w=800&h=600&fit=crop"
-    },
-    {
-      id: "otomotif",
-      name: "Otomotif & Jasa",
-      nameEn: "Automotive & Services",
-      description: "Layanan dan produk kendaraan bermotor",
-      descriptionEn: "Automotive services and products",
-      icon: Car,
-      count: getUMKMByCategory("Otomotif & Jasa").length,
-      color: "default",
-      image: "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=800&h=600&fit=crop"
-    },
-    {
-      id: "retail",
+      id: "Retail",
       name: "Retail",
       nameEn: "Retail",
-      description: "Toko kelontong, minimarket, dan warung sembako",
-      descriptionEn: "Grocery stores, minimarkets, and convenience stores",
+      description: "Minimarket dan toko kebutuhan sehari-hari",
+      descriptionEn: "Minimarkets and daily necessities stores",
       icon: ShoppingBag,
       count: getUMKMByCategory("Retail").length,
       color: "success",
-      image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=600&fit=crop"
+      image: "/assets/data-umkm/Boersakampus/boersa-1.webp"
     }
   ];
 
@@ -254,30 +232,32 @@ export default function DirectoryCategoriesPage() {
                     className="h-full"
                   >
                     <div
-                      className={`bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer overflow-hidden h-full flex flex-col group ${
-                        viewMode === "list" ? "!flex-row gap-4 p-4" : ""
+                      className={`bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer overflow-hidden h-full flex group ${
+                        viewMode === "list" ? "flex-row gap-4 p-4" : "flex-col"
                       }`}
                       onClick={() => handleCategoryClick(category.id)}
                     >
                       {/* Image with Icon Overlay */}
-                      <div className={`relative flex-shrink-0 ${
-                        viewMode === "list" ? "w-48 h-32" : "w-full aspect-[16/10]"
+                      <div className={`relative flex-shrink-0 overflow-hidden ${
+                        viewMode === "list" 
+                          ? "w-48 h-32 rounded-lg" 
+                          : "w-full h-48"
                       }`}>
                         <LazyImage
                           src={category.image}
                           alt={name}
-                          className="w-full h-full object-cover"
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                         />
                         
                         {/* Icon Overlay with Gradient */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/20 flex items-center justify-center group-hover:from-black/80 group-hover:via-black/50 transition-all">
-                          <div className="bg-white/95 dark:bg-gray-800/95 rounded-full p-3 sm:p-4 group-hover:scale-110 transition-transform shadow-lg">
-                            <IconComponent size={viewMode === "list" ? 24 : 28} className="text-primary-600 dark:text-primary-400" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/20 flex items-center justify-center group-hover:from-black/80 group-hover:via-black/50 transition-all duration-300">
+                          <div className="bg-white/95 dark:bg-gray-800/95 rounded-full p-4 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                            <IconComponent size={32} className="text-primary-600 dark:text-primary-400" />
                           </div>
                         </div>
 
                         {/* Count Badge */}
-                        <div className="absolute top-2 right-2">
+                        <div className="absolute top-3 right-3">
                           <Chip 
                             color={category.color} 
                             variant="solid" 
@@ -290,14 +270,17 @@ export default function DirectoryCategoriesPage() {
                       </div>
 
                       {/* Content */}
-                      <div className={`flex flex-col flex-1 ${viewMode === "list" ? "" : "p-4"}`}>
-                        <h3 className="font-playfair text-lg sm:text-xl font-semibold mb-2 text-gray-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors line-clamp-1">
-                          {name}
-                        </h3>
-                        <p className="text-gray-600 dark:text-gray-300 mb-4 text-sm leading-relaxed line-clamp-2 flex-grow">
-                          {description}
-                        </p>
-                        <div className="flex items-center justify-between mt-auto">
+                      <div className={`flex flex-col flex-1 ${viewMode === "list" ? "justify-between" : "p-5"}`}>
+                        <div className="flex-1">
+                          <h3 className="font-playfair text-xl font-bold mb-2 text-gray-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors line-clamp-1">
+                            {name}
+                          </h3>
+                          <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed line-clamp-2 mb-4">
+                            {description}
+                          </p>
+                        </div>
+                        
+                        <div className="flex items-center justify-between pt-3 border-t border-gray-100 dark:border-gray-700">
                           <Chip 
                             color={category.color} 
                             variant="flat" 
@@ -307,9 +290,10 @@ export default function DirectoryCategoriesPage() {
                             {category.count} {language === 'en' ? 'businesses' : 'usaha'}
                           </Chip>
                           
-                          {viewMode === "list" && (
-                            <ArrowRight size={20} className="text-gray-400 group-hover:text-primary-500 transition-colors flex-shrink-0" />
-                          )}
+                          <ArrowRight 
+                            size={20} 
+                            className="text-gray-400 group-hover:text-primary-500 group-hover:translate-x-1 transition-all duration-300 flex-shrink-0" 
+                          />
                         </div>
                       </div>
                     </div>
