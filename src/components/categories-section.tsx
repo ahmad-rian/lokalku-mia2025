@@ -8,7 +8,7 @@ import {
 } from "lucide-react";
 import LazySection from "./LazySection";
 import { useLanguage } from "../contexts/LanguageContext";
-import { categories, getUMKMByCategory } from "@/data/umkm-data";
+import { getUMKMByCategory } from "@/data/umkm-data";
 
 export default function CategoriesSection() {
   const { t } = useLanguage();

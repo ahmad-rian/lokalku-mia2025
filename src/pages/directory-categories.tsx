@@ -10,8 +10,6 @@ import {
   Store, 
   Utensils, 
   Shirt, 
-  Heart, 
-  Car, 
   ChevronRight,
   ArrowRight,
   LucideIcon,
@@ -66,7 +64,7 @@ export default function DirectoryCategoriesPage() {
       icon: Store,
       count: getUMKMByCategory("Kafe & Resto").length,
       color: "primary",
-      image: "/assets/data-umkm/Nakopi /nakopi.webp"
+      image: "/assets/data-umkm/Nakopi/nakopi.webp"
     },
     {
       id: "Fashion",

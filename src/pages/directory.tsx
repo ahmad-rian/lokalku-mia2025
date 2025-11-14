@@ -10,8 +10,6 @@ import {
   Store,
   Coffee,
   ShoppingBag,
-  Wrench,
-  Sparkles,
   ChevronDown,
   ChevronRight,
   SearchX
