@@ -73,15 +73,15 @@ export default function HeroSection() {
       {/* Hero Section */}
       <section className="relative overflow-hidden min-h-screen bg-gradient-to-b from-gray-50 via-white to-gray-50 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 flex items-center justify-center pt-20 sm:pt-24">
         {/* Aurora Shader Background - Lazy loaded after LCP */}
-        <div className="absolute inset-0 overflow-hidden opacity-30 dark:opacity-50">
+        <div className="absolute top-0 left-0 right-0 h-[60vh] w-full overflow-hidden opacity-40 dark:opacity-60">
           {showAurora ? (
             <Suspense fallback={
               <div className="absolute inset-0 bg-gradient-to-br from-orange-50/20 via-transparent to-orange-100/20 dark:from-orange-900/10 dark:via-transparent dark:to-orange-800/10" />
             }>
               <AuroraShader
                 colorStops={isDarkMode ? ["#ea580c", "#f97316", "#ea580c"] : ["#fed7aa", "#fdba74", "#fed7aa"]}
-                amplitude={0.8}
-                blend={0.6}
+                amplitude={1.0}
+                blend={0.5}
                 speed={0.5}
               />
             </Suspense>

@@ -19,6 +19,12 @@ body {
   z-index: 9999;
 }
 
+/* Aurora Shader Container */
+.aurora-container {
+  width: 100%;
+  height: 100%;
+}
+
 /* Custom Scrollbar Styles */
 ::-webkit-scrollbar {
   width: 8px;
