@@ -115,6 +115,7 @@ export default function AuroraShader({
 
         let gl: any = null;
         let resizeObserver: ResizeObserver | null = null;
+        let intersectionObserver: IntersectionObserver | null = null;
 
         const cleanup = () => {
             if (animationIdRef.current) {
@@ -123,6 +124,10 @@ export default function AuroraShader({
 
             if (resizeObserver) {
                 resizeObserver.disconnect();
+            }
+
+            if (intersectionObserver) {
+                intersectionObserver.disconnect();
             }
 
             window.removeEventListener("mousemove", onMouseMove);
@@ -196,8 +201,16 @@ export default function AuroraShader({
 
             window.addEventListener("mousemove", onMouseMove, { passive: true });
 
+            let isVisible = true;
+            intersectionObserver = new IntersectionObserver((entries) => {
+                isVisible = entries[0].isIntersecting;
+            });
+            intersectionObserver.observe(container);
+
             const animate = (t: number) => {
                 animationIdRef.current = requestAnimationFrame(animate);
+
+                if (!isVisible) return;
 
                 program.uniforms.uTime.value = t * 0.001 * speed;
                 program.uniforms.uAmplitude.value = amplitude;
