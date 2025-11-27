@@ -21,7 +21,8 @@ export const ChatButton = ({ onClick, hasNotification = false }: ChatButtonProps
           height="96"
           className="w-24 h-24 object-contain drop-shadow-2xl hover:drop-shadow-[0_0_25px_rgba(249,115,22,0.6)] transition-all duration-300"
           loading="eager"
-          fetchPriority="high"
+          // @ts-expect-error - fetchpriority is a valid attribute but not yet in React types
+          fetchpriority="high"
           decoding="async"
           onError={(e) => {
             e.currentTarget.src = "/assets/images/maskot.webp";

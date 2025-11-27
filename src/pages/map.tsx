@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
@@ -340,7 +340,6 @@ function GoogleMapComponent({
           scaledSize: new google.maps.Size(32, 40),
           anchor: new google.maps.Point(16, 40),
         },
-        animation: google.maps.Animation.DROP,
       });
 
       marker.addListener("click", () => {
@@ -732,7 +731,8 @@ export default function MapPage() {
   const [selectedMapType, setSelectedMapType] = useState<string>("roadmap");
   const [is3DMode, setIs3DMode] = useState(false);
 
-  const mapData = getUMKMForMap();
+  // Memoize mapData to prevent re-creation on every render
+  const mapData = useMemo(() => getUMKMForMap(), []);
   const categoryList = categories;
 
   const [isDarkMode, setIsDarkMode] = useState(() => {
@@ -758,16 +758,19 @@ export default function MapPage() {
     return () => observer.disconnect();
   }, []);
 
-  const filteredUMKM = mapData.filter((umkm) => {
-    const matchesSearch =
-      umkm.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      umkm.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      umkm.location.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesCategory =
-      selectedCategory === "Semua" || umkm.category === selectedCategory;
+  // Memoize filteredUMKM to prevent re-creation when other state changes
+  const filteredUMKM = useMemo(() => {
+    return mapData.filter((umkm) => {
+      const matchesSearch =
+        umkm.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        umkm.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        umkm.location.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesCategory =
+        selectedCategory === "Semua" || umkm.category === selectedCategory;
 
-    return matchesSearch && matchesCategory;
-  });
+      return matchesSearch && matchesCategory;
+    });
+  }, [mapData, searchQuery, selectedCategory]);
 
   const handleMarkerClick = useCallback((umkm: UMKMForMap) => {
     setSelectedUMKM(umkm);
@@ -828,9 +831,9 @@ export default function MapPage() {
       const a =
         Math.sin(dLat / 2) * Math.sin(dLat / 2) +
         Math.cos((lat1 * Math.PI) / 180) *
-          Math.cos((lat2 * Math.PI) / 180) *
-          Math.sin(dLon / 2) *
-          Math.sin(dLon / 2);
+        Math.cos((lat2 * Math.PI) / 180) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
       const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
       return R * c;
@@ -929,11 +932,10 @@ export default function MapPage() {
                   {categoryList.map((category) => (
                     <Chip
                       key={category}
-                      className={`cursor-pointer transition-all flex-shrink-0 ${
-                        selectedCategory === category
+                      className={`cursor-pointer transition-all flex-shrink-0 ${selectedCategory === category
                           ? "bg-primary-600 dark:bg-primary-500 text-white shadow-md scale-105"
                           : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600 border-2 border-gray-300 dark:border-gray-600"
-                      }`}
+                        }`}
                       color={
                         selectedCategory === category ? "primary" : "default"
                       }
@@ -965,7 +967,7 @@ export default function MapPage() {
                 size="sm"
                 startContent={React.createElement(
                   mapTypes.find((type) => type.key === selectedMapType)?.icon ||
-                    Layers,
+                  Layers,
                   {
                     size: 16,
                     className: "text-primary-600 dark:text-primary-400",
@@ -1001,11 +1003,10 @@ export default function MapPage() {
           </Dropdown>
 
           <Button
-            className={`backdrop-blur-md shadow-lg border-2 font-medium transition-all hover:shadow-xl ${
-              is3DMode
+            className={`backdrop-blur-md shadow-lg border-2 font-medium transition-all hover:shadow-xl ${is3DMode
                 ? "bg-primary-600 dark:bg-primary-500 border-primary-600 dark:border-primary-500 text-white"
                 : "bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white"
-            }`}
+              }`}
             color={is3DMode ? "primary" : "default"}
             size="sm"
             startContent={<Mountain size={16} />}
@@ -1016,11 +1017,10 @@ export default function MapPage() {
           </Button>
 
           <Button
-            className={`backdrop-blur-md shadow-lg ${
-              showListView
+            className={`backdrop-blur-md shadow-lg ${showListView
                 ? "bg-primary-600 dark:bg-primary-500"
                 : "bg-white/95 dark:bg-gray-900/95"
-            }`}
+              }`}
             color="primary"
             size="sm"
             startContent={<List size={16} />}
@@ -1165,11 +1165,10 @@ export default function MapPage() {
                     {categoryList.map((category) => (
                       <Chip
                         key={category}
-                        className={`cursor-pointer transition-all ${
-                          selectedCategory === category
+                        className={`cursor-pointer transition-all ${selectedCategory === category
                             ? "bg-primary-600 dark:bg-primary-500 text-white"
                             : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600"
-                        }`}
+                          }`}
                         color={
                           selectedCategory === category ? "primary" : "default"
                         }

@@ -28,9 +28,14 @@ import { searchUMKM, umkmData, type UMKM } from "@/data/umkm-data";
 interface SearchModalProps {
   isOpen: boolean;
   onClose: () => void;
+  initialQuery?: string;
 }
 
-export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
+export default function SearchModal({
+  isOpen,
+  onClose,
+  initialQuery = "",
+}: SearchModalProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<UMKM[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -43,12 +48,18 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
 
   // Focus input when modal opens
   useEffect(() => {
-    if (isOpen && inputRef.current) {
-      setTimeout(() => {
-        inputRef.current?.focus();
-      }, 100);
+    if (isOpen) {
+      if (initialQuery) {
+        setSearchQuery(initialQuery);
+      }
+
+      if (inputRef.current) {
+        setTimeout(() => {
+          inputRef.current?.focus();
+        }, 100);
+      }
     }
-  }, [isOpen]);
+  }, [isOpen, initialQuery]);
 
   // Handle search
   useEffect(() => {
@@ -222,11 +233,10 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
                       <Card
                         key={umkm.id}
                         isPressable
-                        className={`transition-all duration-200 ${
-                          index === selectedIndex
+                        className={`transition-all duration-200 ${index === selectedIndex
                             ? "bg-primary-50 dark:bg-primary-900/20 border-primary-200 dark:border-primary-800 ring-2 ring-primary-200 dark:ring-primary-800"
                             : "hover:bg-gray-50 dark:hover:bg-gray-800"
-                        }`}
+                          }`}
                         onPress={() => handleSelectUMKM(umkm)}
                       >
                         <CardBody className="p-2 sm:p-2.5 h-[80px] sm:h-[88px] md:h-[96px]">
@@ -315,11 +325,10 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
                     <Card
                       key={umkm.id}
                       isPressable
-                      className={`transition-all duration-200 ${
-                        index === selectedIndex && !searchQuery.trim()
+                      className={`transition-all duration-200 ${index === selectedIndex && !searchQuery.trim()
                           ? "bg-primary-50 dark:bg-primary-900/20 border-primary-200 dark:border-primary-800 ring-2 ring-primary-200 dark:ring-primary-800"
                           : "hover:bg-gray-50 dark:hover:bg-gray-800"
-                      }`}
+                        }`}
                       onPress={() => handleSelectUMKM(umkm)}
                     >
                       <CardBody className="p-2 sm:p-3 md:p-4 h-[100px] sm:h-[110px] md:h-[120px]">
@@ -388,8 +397,8 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
                           {!(
                             index === selectedIndex && !searchQuery.trim()
                           ) && (
-                            <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400 flex-shrink-0" />
-                          )}
+                              <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400 flex-shrink-0" />
+                            )}
                         </div>
                       </CardBody>
                     </Card>

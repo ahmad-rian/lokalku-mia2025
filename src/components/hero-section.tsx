@@ -23,10 +23,10 @@ const LightRays = ({ isDarkMode }: { isDarkMode: boolean }) => {
 
     return m
       ? [
-          parseInt(m[1], 16) / 255,
-          parseInt(m[2], 16) / 255,
-          parseInt(m[3], 16) / 255,
-        ]
+        parseInt(m[1], 16) / 255,
+        parseInt(m[2], 16) / 255,
+        parseInt(m[3], 16) / 255,
+      ]
       : [1, 1, 1];
   };
 
@@ -234,8 +234,14 @@ void main() {
   );
 };
 
+import SearchModal from "./SearchModal";
+
+// ... existing imports
+
 export default function HeroSection() {
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
   const { t } = useLanguage();
   const navigate = useNavigate();
 
@@ -268,12 +274,15 @@ export default function HeroSection() {
   ];
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("Search value:", e.target.value);
+    setSearchValue(e.target.value);
   };
 
   const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Search submitted");
+    // Small delay to let the vanish animation start
+    setTimeout(() => {
+      setIsSearchOpen(true);
+    }, 300);
   };
 
   return (
@@ -331,7 +340,8 @@ export default function HeroSection() {
                 style={{ fontFamily: "NotoJavaneseRegular, serif" }}
                 text={[
                   "ꦢꦶꦫꦺꦏ꧀ꦠꦺꦴꦂꦶ ꦈꦩ꧀ꦏꦺꦩ꧀ ꦧꦚꦸꦩꦱ꧀",
-                  "ꦭꦺꦴꦏꦭ꧀ꦏꦸ꧈ ꦱꦺꦴꦭꦸꦱꦶ ꦥꦭꦶꦁ ꦲꦥꦶꦏ꧀",
+                  "Direktori UMKM Banyumas",
+                  "Banyumas MSME Directory",
                 ]}
                 typingSpeed={150}
               />
@@ -401,6 +411,12 @@ export default function HeroSection() {
           </div>
         </div>
       </section>
+
+      <SearchModal
+        initialQuery={searchValue}
+        isOpen={isSearchOpen}
+        onClose={() => setIsSearchOpen(false)}
+      />
     </>
   );
 }

@@ -44,6 +44,45 @@ import "swiper/css/thumbs";
 import DefaultLayout from "@/layouts/default";
 import { UMKMDetail, Product, umkmDatabase } from "@/data/umkm-data";
 
+// Helper to calculate price range from products
+const getPriceRange = (products: Product[]) => {
+  if (!products || products.length === 0) return null;
+
+  const prices: number[] = [];
+
+  products.forEach((product) => {
+    const matches = product.price.match(/\d{1,3}(?:\.\d{3})*(?:,\d+)?/g);
+    if (matches) {
+      matches.forEach((match) => {
+        const value = parseInt(match.replace(/\./g, ""), 10);
+        if (!isNaN(value)) {
+          prices.push(value);
+        }
+      });
+    }
+  });
+
+  if (prices.length === 0) return null;
+
+  const min = Math.min(...prices);
+  const max = Math.max(...prices);
+
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(price);
+  };
+
+  if (min === max) {
+    return formatPrice(min);
+  }
+
+  return `${formatPrice(min)} - ${formatPrice(max)}`;
+};
+
 // Product Modal Component
 function ProductModal({
   product,
@@ -397,11 +436,10 @@ export default function DetailPage() {
                   </div>
 
                   <div
-                    className={`px-3 py-1 rounded-full text-sm font-medium ${
-                      umkm.status === "open"
-                        ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400"
-                        : "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400"
-                    }`}
+                    className={`px-3 py-1 rounded-full text-sm font-medium ${umkm.status === "open"
+                      ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400"
+                      : "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400"
+                      }`}
                   >
                     {umkm.status === "open" ? "Buka" : "Tutup"}
                   </div>
@@ -424,10 +462,10 @@ export default function DetailPage() {
               <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
                 <h2 className="text-2xl font-playfair font-bold mb-4">
                   {umkm.category.includes("Salon") ||
-                  umkm.category.includes("Kecantikan")
+                    umkm.category.includes("Kecantikan")
                     ? "Layanan Kami"
                     : umkm.category.includes("Fashion") ||
-                        umkm.category.includes("Batik")
+                      umkm.category.includes("Batik")
                       ? "Produk Kami"
                       : "Menu"}
                 </h2>
@@ -640,7 +678,7 @@ export default function DetailPage() {
                     <div>
                       <p className="font-medium mb-1">Kisaran Harga</p>
                       <p className="text-sm text-gray-600 dark:text-gray-300">
-                        {umkm.priceRange}
+                        {getPriceRange(umkm.products) || umkm.priceRange}
                       </p>
                     </div>
                   </div>

@@ -80,7 +80,7 @@ export default function Navbar({ onSearchOpen }: NavbarProps) {
       label: t("navbar.home"),
       href: "/",
       icon: HomeIcon,
-      bgColor: "from-orange-500 to-orange-600",
+      bgColor: "from-[#FF8040] to-[#A72703]",
       description: "Halaman utama",
       links: [
         {
@@ -110,7 +110,7 @@ export default function Navbar({ onSearchOpen }: NavbarProps) {
       label: t("navbar.directory"),
       href: "/direktori",
       icon: BuildingStorefrontIcon,
-      bgColor: "from-blue-500 to-blue-600",
+      bgColor: "from-[#4A70A9] to-[#1A3D64]",
       description: "Cari UMKM",
       links: [
         {
@@ -134,7 +134,7 @@ export default function Navbar({ onSearchOpen }: NavbarProps) {
       label: t("navbar.map"),
       href: "/peta",
       icon: MapIcon,
-      bgColor: "from-green-500 to-green-600",
+      bgColor: "from-[#658C58] to-[#31694E]",
       description: "Lokasi UMKM",
       links: [
         {
@@ -153,7 +153,7 @@ export default function Navbar({ onSearchOpen }: NavbarProps) {
       label: t("navbar.favorites"),
       href: "/favorit",
       icon: HeartIcon,
-      bgColor: "from-pink-500 to-pink-600",
+      bgColor: "from-[#EE6983] to-[#850E35]",
       description: "UMKM Favorit",
       links: [
         {
@@ -221,9 +221,8 @@ export default function Navbar({ onSearchOpen }: NavbarProps) {
     <div className="fixed inset-x-0 top-0 z-[100] flex justify-center px-2 sm:px-4 pt-2 sm:pt-4">
       <nav
         ref={navRef}
-        className={`w-full max-w-7xl bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl border border-gray-200 dark:border-gray-800 rounded-xl sm:rounded-2xl shadow-xl transition-all duration-500 ease-out overflow-hidden ${
-          isMenuOpen ? "shadow-2xl" : ""
-        }`}
+        className={`w-full max-w-7xl bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl border border-gray-200 dark:border-gray-800 rounded-xl sm:rounded-2xl shadow-xl transition-all duration-500 ease-out overflow-hidden ${isMenuOpen ? "shadow-2xl" : ""
+          }`}
         style={{
           height: isMenuOpen ? calculateHeight() : 70,
           transition: "height 0.5s cubic-bezier(0.4, 0, 0.2, 1)",
@@ -245,18 +244,16 @@ export default function Navbar({ onSearchOpen }: NavbarProps) {
             >
               <div className="w-5 h-5 sm:w-6 sm:h-6 flex flex-col justify-center items-center gap-1 sm:gap-1.5">
                 <div
-                  className={`w-full h-0.5 bg-gray-900 dark:bg-gray-100 transition-all duration-300 ${
-                    isMenuOpen
-                      ? "rotate-45 translate-y-1.5 sm:translate-y-2"
-                      : ""
-                  }`}
+                  className={`w-full h-0.5 bg-gray-900 dark:bg-gray-100 transition-all duration-300 ${isMenuOpen
+                    ? "rotate-45 translate-y-1.5 sm:translate-y-2"
+                    : ""
+                    }`}
                 />
                 <div
-                  className={`w-full h-0.5 bg-gray-900 dark:bg-gray-100 transition-all duration-300 ${
-                    isMenuOpen
-                      ? "-rotate-45 -translate-y-0.5 sm:-translate-y-1"
-                      : ""
-                  }`}
+                  className={`w-full h-0.5 bg-gray-900 dark:bg-gray-100 transition-all duration-300 ${isMenuOpen
+                    ? "-rotate-45 -translate-y-0.5 sm:-translate-y-1"
+                    : ""
+                    }`}
                 />
               </div>
             </button>
@@ -355,9 +352,8 @@ export default function Navbar({ onSearchOpen }: NavbarProps) {
 
         {/* Cards Content */}
         <div
-          className={`absolute left-0 right-0 top-[70px] bottom-0 p-2 sm:p-4 overflow-y-auto ${
-            isMenuOpen ? "pointer-events-auto" : "pointer-events-none"
-          }`}
+          className={`absolute left-0 right-0 top-[70px] bottom-0 p-2 sm:p-4 overflow-y-auto ${isMenuOpen ? "pointer-events-auto" : "pointer-events-none"
+            }`}
           id="navigation-menu"
         >
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 min-h-full">
@@ -369,13 +365,11 @@ export default function Navbar({ onSearchOpen }: NavbarProps) {
                 <div
                   key={item.href}
                   ref={setCardRef(idx)}
-                  className={`bg-gradient-to-br ${item.bgColor} rounded-lg sm:rounded-xl p-3 sm:p-5 flex flex-col gap-2 sm:gap-3 shadow-lg hover:shadow-xl transition-all duration-300 lg:h-full ${
-                    isActive ? "ring-2 ring-white ring-offset-2" : ""
-                  } ${
-                    isMenuOpen
+                  className={`bg-gradient-to-br ${item.bgColor} rounded-lg sm:rounded-xl p-3 sm:p-5 flex flex-col gap-2 sm:gap-3 shadow-lg hover:shadow-xl transition-all duration-300 lg:h-full ${isActive ? "ring-2 ring-white ring-offset-2" : ""
+                    } ${isMenuOpen
                       ? "opacity-100 translate-y-0 scale-100"
                       : "opacity-0 translate-y-8 scale-95"
-                  }`}
+                    }`}
                   style={{
                     transitionDelay: isMenuOpen ? `${idx * 60}ms` : "0ms",
                     transitionDuration: "400ms",
