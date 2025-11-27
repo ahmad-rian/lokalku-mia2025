@@ -2,9 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
-
 import { cn } from "../lib/utils";
-
 import { SunFilledIcon, MoonFilledIcon } from "./icons";
 
 interface AnimatedThemeTogglerProps
@@ -43,18 +41,24 @@ export const AnimatedThemeToggler = ({
     // Check if View Transition API is supported
     if (!document.startViewTransition) {
       // Fallback for browsers that don't support View Transition API
+      const newTheme = !isDark;
+      setIsDark(newTheme);
+      document.documentElement.classList.toggle("dark");
+      localStorage.setItem("theme", newTheme ? "dark" : "light");
+      return;
+    }
+
+    // Start view transition
+    await document.startViewTransition(() => {
       flushSync(() => {
         const newTheme = !isDark;
-
         setIsDark(newTheme);
         document.documentElement.classList.toggle("dark");
         localStorage.setItem("theme", newTheme ? "dark" : "light");
       });
+    }).ready;
 
-      return;
-    }
-
-    // Get button position before starting transition
+    // Get button position
     const { top, left, width, height } =
       buttonRef.current.getBoundingClientRect();
     const x = left + width / 2;
@@ -64,37 +68,20 @@ export const AnimatedThemeToggler = ({
       Math.max(top, window.innerHeight - top),
     );
 
-    // Start view transition with improved performance
-    const transition = document.startViewTransition(() => {
-      flushSync(() => {
-        const newTheme = !isDark;
-
-        setIsDark(newTheme);
-        document.documentElement.classList.toggle("dark");
-        localStorage.setItem("theme", newTheme ? "dark" : "light");
-      });
-    });
-
-    // Wait for transition to be ready and apply circular reveal
-    try {
-      await transition.ready;
-
-      document.documentElement.animate(
-        {
-          clipPath: [
-            `circle(0px at ${x}px ${y}px)`,
-            `circle(${maxRadius}px at ${x}px ${y}px)`,
-          ],
-        },
-        {
-          duration,
-          easing: "ease-in-out",
-          pseudoElement: "::view-transition-new(root)",
-        },
-      );
-    } catch (error) {
-      console.warn("View transition animation failed:", error);
-    }
+    // Animate
+    document.documentElement.animate(
+      {
+        clipPath: [
+          `circle(0px at ${x}px ${y}px)`,
+          `circle(${maxRadius}px at ${x}px ${y}px)`,
+        ],
+      },
+      {
+        duration,
+        easing: "ease-in-out",
+        pseudoElement: "::view-transition-new(root)",
+      },
+    );
   }, [isDark, duration]);
 
   return (
@@ -112,19 +99,17 @@ export const AnimatedThemeToggler = ({
       <div className="relative w-5 h-5 overflow-hidden">
         <SunFilledIcon
           aria-hidden="true"
-          className={`absolute inset-0 w-5 h-5 transition-all duration-700 ease-in-out transform ${
-            isDark
+          className={`absolute inset-0 w-5 h-5 transition-all duration-700 ease-in-out transform ${isDark
               ? "rotate-180 scale-0 opacity-0"
               : "rotate-0 scale-100 opacity-100"
-          } group-hover:scale-110`}
+            } group-hover:scale-110`}
         />
         <MoonFilledIcon
           aria-hidden="true"
-          className={`absolute inset-0 w-5 h-5 transition-all duration-700 ease-in-out transform ${
-            isDark
+          className={`absolute inset-0 w-5 h-5 transition-all duration-700 ease-in-out transform ${isDark
               ? "rotate-0 scale-100 opacity-100"
               : "-rotate-180 scale-0 opacity-0"
-          } group-hover:scale-110`}
+            } group-hover:scale-110`}
         />
       </div>
       <span className="sr-only">Toggle theme</span>

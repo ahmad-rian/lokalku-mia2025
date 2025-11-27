@@ -1,30 +1,49 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/png" href="/assets/images/logo.webp" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>LokalKu - Direktori UMKM</title>
-    <meta key="title" content="LokalKu - Direktori UMKM" property="og:title" />
-    <meta
-      content="Platform direktori digital yang menghubungkan masyarakat dengan UMKM lokal terbaik di Banyumas."
-      property="og:description"
-    />
-    <meta
-      content="Platform direktori digital yang menghubungkan masyarakat dengan UMKM lokal terbaik di Banyumas."
-      name="description"
-    />
-    <!-- Preload critical images for better LCP -->
-    <link rel="preload" as="image" href="/assets/images/maskot.webp" fetchpriority="high">
-    
-    <!-- Preload critical fonts for better performance -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&display=swap" media="print" onload="this.media='all'">
-    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&display=swap"></noscript>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/png" href="/assets/images/logo.webp" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LokalKu - Direktori UMKM</title>
+  <meta key="title" content="LokalKu - Direktori UMKM" property="og:title" />
+  <meta content="Platform direktori digital yang menghubungkan masyarakat dengan UMKM lokal terbaik di Banyumas."
+    property="og:description" />
+  <meta content="Platform direktori digital yang menghubungkan masyarakat dengan UMKM lokal terbaik di Banyumas."
+    name="description" />
+
+  <!-- DNS Prefetch for faster connections -->
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+  <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+
+  <!-- Preconnect for critical third-party origins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Load fonts with font-display: swap for better LCP -->
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&display=swap">
+
+  <!-- Inline critical CSS for instant render -->
+  <style>
+    /* Prevent FOUC */
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Prevent layout shift */
+    #root {
+      min-height: 100vh;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+
 </html>

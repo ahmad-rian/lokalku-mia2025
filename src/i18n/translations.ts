@@ -181,6 +181,15 @@ export const translations = {
         registerButton: "Daftarkan UMKM",
       },
     },
+    // Map Showcase Section
+    mapShowcase: {
+      title: "Jelajahi UMKM dengan",
+      highlight: "Peta Interaktif 3D",
+      description:
+        "Temukan UMKM terdekat dengan mudah menggunakan peta interaktif 3D kami. Navigasi yang akurat, informasi real-time, dan pengalaman visual yang memukau.",
+      cta: "Buka Peta Interaktif",
+      imageAlt: "Peta Interaktif 3D LokalKU",
+    },
 
     // Footer
     footer: {
@@ -652,6 +661,15 @@ export const translations = {
         exploreButton: "Start Exploring",
         registerButton: "Register SME",
       },
+    },
+    // Map Showcase Section
+    mapShowcase: {
+      title: "Explore SMEs with",
+      highlight: "Interactive 3D Map",
+      description:
+        "Easily find nearby SMEs using our interactive 3D map. Accurate navigation, real-time information, and stunning visual experience.",
+      cta: "Open Interactive Map",
+      imageAlt: "LokalKU Interactive 3D Map",
     },
     // Stats Section
     stats: {

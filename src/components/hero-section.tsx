@@ -1,247 +1,22 @@
 import { MapPinIcon } from "@heroicons/react/24/outline";
 import { Link, useNavigate } from "react-router-dom";
-import { useRef, useEffect, useState } from "react";
-import { Renderer, Program, Triangle, Mesh } from "ogl";
+import { useEffect, useState, lazy, Suspense } from "react";
 
 import { PlaceholdersAndVanishInput } from "./ui/placeholders-and-vanish-input";
 import TextType from "./ui/TextType";
 import { InteractiveHoverButton } from "./ui/interactive-hover-button";
+import SearchModal from "./SearchModal";
 
 import { useLanguage } from "@/contexts/LanguageContext";
 
-// Light Rays Component using OGL
-const LightRays = ({ isDarkMode }: { isDarkMode: boolean }) => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const uniformsRef = useRef<any>(null);
-  const rendererRef = useRef<Renderer | null>(null);
-  const animationIdRef = useRef<number | null>(null);
-  const meshRef = useRef<any>(null);
-  const cleanupFunctionRef = useRef<(() => void) | null>(null);
-
-  const hexToRgb = (hex: string): [number, number, number] => {
-    const m = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-
-    return m
-      ? [
-        parseInt(m[1], 16) / 255,
-        parseInt(m[2], 16) / 255,
-        parseInt(m[3], 16) / 255,
-      ]
-      : [1, 1, 1];
-  };
-
-  useEffect(() => {
-    if (!containerRef.current) return;
-
-    if (cleanupFunctionRef.current) {
-      cleanupFunctionRef.current();
-      cleanupFunctionRef.current = null;
-    }
-
-    const initializeWebGL = async () => {
-      if (!containerRef.current) return;
-
-      const renderer = new Renderer({
-        dpr: Math.min(window.devicePixelRatio, 2),
-        alpha: true,
-      });
-
-      rendererRef.current = renderer;
-
-      const gl = renderer.gl;
-
-      gl.canvas.style.width = "100%";
-      gl.canvas.style.height = "100%";
-
-      while (containerRef.current.firstChild) {
-        containerRef.current.removeChild(containerRef.current.firstChild);
-      }
-      containerRef.current.appendChild(gl.canvas);
-
-      const vert = `
-attribute vec2 position;
-varying vec2 vUv;
-void main() {
-  vUv = position * 0.5 + 0.5;
-  gl_Position = vec4(position, 0.0, 1.0);
-}`;
-
-      const frag = `precision highp float;
-
-uniform float iTime;
-uniform vec2  iResolution;
-uniform vec2  rayPos;
-uniform vec2  rayDir;
-uniform vec3  raysColor;
-uniform float raysSpeed;
-uniform float lightSpread;
-uniform float rayLength;
-
-varying vec2 vUv;
-
-float rayStrength(vec2 raySource, vec2 rayRefDirection, vec2 coord, float seedA, float seedB, float speed) {
-  vec2 sourceToCoord = coord - raySource;
-  vec2 dirNorm = normalize(sourceToCoord);
-  float cosAngle = dot(dirNorm, rayRefDirection);
-  
-  float spreadFactor = pow(max(cosAngle, 0.0), 1.0 / max(lightSpread, 0.001));
-  float distance = length(sourceToCoord);
-  float maxDistance = iResolution.x * rayLength;
-  float lengthFalloff = clamp((maxDistance - distance) / maxDistance, 0.0, 1.0);
-  
-  float baseStrength = clamp(
-    (0.45 + 0.15 * sin(cosAngle * seedA + iTime * speed)) +
-    (0.3 + 0.2 * cos(-cosAngle * seedB + iTime * speed)),
-    0.0, 1.0
-  );
-
-  return baseStrength * lengthFalloff * spreadFactor;
-}
-
-void main() {
-  vec2 coord = vec2(gl_FragCoord.x, iResolution.y - gl_FragCoord.y);
-  
-  vec4 rays1 = vec4(1.0) * rayStrength(rayPos, rayDir, coord, 36.2214, 21.11349, 1.5 * raysSpeed);
-  vec4 rays2 = vec4(1.0) * rayStrength(rayPos, rayDir, coord, 22.3991, 18.0234, 1.1 * raysSpeed);
-
-  vec4 fragColor = rays1 * 0.5 + rays2 * 0.4;
-
-  float brightness = 1.0 - (coord.y / iResolution.y);
-  fragColor.x *= 0.1 + brightness * 0.8;
-  fragColor.y *= 0.3 + brightness * 0.6;
-  fragColor.z *= 0.5 + brightness * 0.5;
-
-  fragColor.rgb *= raysColor;
-  gl_FragColor = fragColor;
-}`;
-
-      // Different colors for light and dark mode
-      // Light mode: Warm amber/yellow (#fbbf24)
-      // Dark mode: Orange (#f97316)
-      const rayColor = isDarkMode ? "#f97316" : "#fbbf24";
-
-      const uniforms = {
-        iTime: { value: 0 },
-        iResolution: { value: [1, 1] },
-        rayPos: { value: [0, 0] },
-        rayDir: { value: [0, 1] },
-        raysColor: { value: hexToRgb(rayColor) },
-        raysSpeed: { value: isDarkMode ? 1.0 : 0.7 },
-        lightSpread: { value: isDarkMode ? 0.8 : 1.2 },
-        rayLength: { value: isDarkMode ? 2.0 : 1.8 },
-      };
-
-      uniformsRef.current = uniforms;
-
-      const geometry = new Triangle(gl);
-      const program = new Program(gl, {
-        vertex: vert,
-        fragment: frag,
-        uniforms,
-      });
-      const mesh = new Mesh(gl, { geometry, program });
-
-      meshRef.current = mesh;
-
-      const updatePlacement = () => {
-        if (!containerRef.current || !renderer) return;
-
-        const { clientWidth: wCSS, clientHeight: hCSS } = containerRef.current;
-
-        renderer.setSize(wCSS, hCSS);
-
-        const dpr = renderer.dpr;
-        const w = wCSS * dpr;
-        const h = hCSS * dpr;
-
-        uniforms.iResolution.value = [w, h];
-        uniforms.rayPos.value = [0.5 * w, -0.2 * h];
-        uniforms.rayDir.value = [0, 1];
-      };
-
-      const loop = (t: number) => {
-        if (!rendererRef.current || !uniformsRef.current || !meshRef.current) {
-          return;
-        }
-
-        uniforms.iTime.value = t * 0.001;
-
-        try {
-          renderer.render({ scene: mesh });
-          animationIdRef.current = requestAnimationFrame(loop);
-        } catch (error) {
-          console.warn("WebGL rendering error:", error);
-
-          return;
-        }
-      };
-
-      window.addEventListener("resize", updatePlacement);
-      updatePlacement();
-      animationIdRef.current = requestAnimationFrame(loop);
-
-      cleanupFunctionRef.current = () => {
-        if (animationIdRef.current) {
-          cancelAnimationFrame(animationIdRef.current);
-          animationIdRef.current = null;
-        }
-
-        window.removeEventListener("resize", updatePlacement);
-
-        if (renderer) {
-          try {
-            const canvas = renderer.gl.canvas;
-            const loseContextExt =
-              renderer.gl.getExtension("WEBGL_lose_context");
-
-            if (loseContextExt) {
-              loseContextExt.loseContext();
-            }
-
-            if (canvas && canvas.parentNode) {
-              canvas.parentNode.removeChild(canvas);
-            }
-          } catch (error) {
-            console.warn("Error during WebGL cleanup:", error);
-          }
-        }
-
-        rendererRef.current = null;
-        uniformsRef.current = null;
-        meshRef.current = null;
-      };
-    };
-
-    initializeWebGL();
-
-    return () => {
-      if (cleanupFunctionRef.current) {
-        cleanupFunctionRef.current();
-        cleanupFunctionRef.current = null;
-      }
-    };
-  }, [isDarkMode]);
-
-  return (
-    <div
-      ref={containerRef}
-      className="absolute inset-0 w-full h-full pointer-events-none z-0"
-      style={{
-        mixBlendMode: isDarkMode ? "screen" : "multiply",
-        opacity: isDarkMode ? 1 : 0.2,
-      }}
-    />
-  );
-};
-
-import SearchModal from "./SearchModal";
-
-// ... existing imports
+// Lazy load Aurora Shader after LCP
+const AuroraShader = lazy(() => import("./ui/aurora-shader"));
 
 export default function HeroSection() {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
+  const [showAurora, setShowAurora] = useState(false);
   const { t } = useLanguage();
   const navigate = useNavigate();
 
@@ -261,7 +36,15 @@ export default function HeroSection() {
       attributeFilter: ["class"],
     });
 
-    return () => observer.disconnect();
+    // Delay Aurora loading until after LCP (after preloader finishes)
+    const timer = setTimeout(() => {
+      setShowAurora(true);
+    }, 3500); // After preloader (3s) + small buffer
+
+    return () => {
+      observer.disconnect();
+      clearTimeout(timer);
+    };
   }, []);
 
   // Search placeholders for PlaceholdersAndVanishInput
@@ -289,9 +72,23 @@ export default function HeroSection() {
     <>
       {/* Hero Section */}
       <section className="relative overflow-hidden min-h-screen bg-gradient-to-b from-gray-50 via-white to-gray-50 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 flex items-center justify-center pt-20 sm:pt-24">
-        {/* Light Rays Background - Works in both modes */}
-        <div className="absolute inset-0 overflow-hidden">
-          <LightRays isDarkMode={isDarkMode} />
+        {/* Aurora Shader Background - Lazy loaded after LCP */}
+        <div className="absolute inset-0 overflow-hidden opacity-30 dark:opacity-50">
+          {showAurora ? (
+            <Suspense fallback={
+              <div className="absolute inset-0 bg-gradient-to-br from-orange-50/20 via-transparent to-orange-100/20 dark:from-orange-900/10 dark:via-transparent dark:to-orange-800/10" />
+            }>
+              <AuroraShader
+                colorStops={isDarkMode ? ["#ea580c", "#f97316", "#ea580c"] : ["#fed7aa", "#fdba74", "#fed7aa"]}
+                amplitude={0.8}
+                blend={0.6}
+                speed={0.5}
+              />
+            </Suspense>
+          ) : (
+            <div className="absolute inset-0 bg-gradient-to-br from-orange-50/20 via-transparent to-orange-100/20 dark:from-orange-900/10 dark:via-transparent dark:to-orange-800/10" />
+          )}
+
           {isDarkMode && (
             <>
               <div className="absolute inset-0 bg-gradient-to-b from-primary-900/20 via-transparent to-transparent" />
@@ -318,8 +115,14 @@ export default function HeroSection() {
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center max-w-5xl mx-auto hero-content">
-            {/* Main Heading - Using font-display Tailwind class */}
-            <h1 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6 blur-fade-in-delay-100">
+            {/* Main Heading - Optimized for LCP with content-visibility */}
+            <h1
+              className="font-display text-4xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6"
+              style={{
+                contentVisibility: 'auto',
+                containIntrinsicSize: '1px 200px'
+              }}
+            >
               <span className="block text-gray-900 dark:text-white mb-2">
                 {t("hero.title")}
               </span>
@@ -328,8 +131,8 @@ export default function HeroSection() {
               </span>
             </h1>
 
-            {/* Javanese Script with Typing Effect */}
-            <div className="mb-6 blur-fade-in-delay-300">
+            {/* Javanese Script with Typing Effect - Deferred */}
+            <div className="mb-6">
               <TextType
                 className="text-2xl md:text-3xl font-medium text-orange-600 dark:text-orange-400/80"
                 cursorCharacter="|"
@@ -348,12 +151,12 @@ export default function HeroSection() {
             </div>
 
             {/* Subheading */}
-            <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300 leading-relaxed mb-12 max-w-3xl mx-auto blur-fade-in-delay-500">
+            <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300 leading-relaxed mb-12 max-w-3xl mx-auto">
               {t("hero.subtitle")}
             </p>
 
             {/* Search Bar with PlaceholdersAndVanishInput */}
-            <div className="mb-10 max-w-2xl mx-auto blur-fade-in-delay-700">
+            <div className="mb-10 max-w-2xl mx-auto">
               <PlaceholdersAndVanishInput
                 placeholders={searchPlaceholders}
                 onChange={handleSearchChange}
@@ -362,7 +165,7 @@ export default function HeroSection() {
             </div>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center blur-fade-in-delay-900">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <InteractiveHoverButton
                 className="bg-gray-900 dark:bg-white/10 backdrop-blur-md border border-gray-900 dark:border-white/20 text-white font-semibold hover:bg-gray-800 dark:hover:bg-white/20 transition-all shadow-lg"
                 onClick={() => navigate("/direktori")}
@@ -379,34 +182,6 @@ export default function HeroSection() {
                   <span>{t("hero.nearbyButton")}</span>
                 </button>
               </Link>
-            </div>
-
-            {/* Stats */}
-            <div className="grid grid-cols-3 gap-8 mt-16 max-w-2xl mx-auto blur-fade-in-delay-1100">
-              <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-1">
-                  150+
-                </div>
-                <div className="text-xs md:text-sm text-gray-600 dark:text-gray-400">
-                  {t("hero.stats.registered")}
-                </div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-1">
-                  4.8
-                </div>
-                <div className="text-xs md:text-sm text-gray-600 dark:text-gray-400">
-                  {t("hero.stats.rating")}
-                </div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-1">
-                  2.5K+
-                </div>
-                <div className="text-xs md:text-sm text-gray-600 dark:text-gray-400">
-                  {t("hero.stats.users")}
-                </div>
-              </div>
             </div>
           </div>
         </div>
