@@ -138,7 +138,7 @@ export default function Aurora({
         const ctn = ctnRef.current;
         if (!ctn) return;
 
-        let gl: WebGLRenderingContext | null = null;
+        let renderer: Renderer | null = null;
         let resizeObserver: ResizeObserver | null = null;
         let intersectionObserver: IntersectionObserver | null = null;
         let program: Program | undefined;
@@ -157,30 +157,35 @@ export default function Aurora({
                 intersectionObserver.disconnect();
             }
 
-            if (gl && gl.canvas && ctn.contains(gl.canvas)) {
-                ctn.removeChild(gl.canvas);
+            if (renderer && renderer.gl.canvas && ctn.contains(renderer.gl.canvas as Node)) {
+                ctn.removeChild(renderer.gl.canvas as Node);
             }
 
-            if (gl) {
-                const loseContext = gl.getExtension("WEBGL_lose_context");
+            if (renderer) {
+                const loseContext = renderer.gl.getExtension("WEBGL_lose_context");
                 if (loseContext) loseContext.loseContext();
             }
         };
 
         try {
             // Initialize renderer with optimized settings
-            const renderer = new Renderer({
+            renderer = new Renderer({
                 alpha: true,
                 premultipliedAlpha: true,
                 antialias: false, // Disable for better performance
                 dpr: Math.min(window.devicePixelRatio, 2), // Limit DPR for performance
             });
-            gl = renderer.gl;
+
+            const gl = renderer.gl;
 
             gl.clearColor(0, 0, 0, 0);
             gl.enable(gl.BLEND);
             gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
-            gl.canvas.style.backgroundColor = "transparent";
+
+            // Type assertion for canvas style
+            if ('style' in gl.canvas) {
+                (gl.canvas as HTMLCanvasElement).style.backgroundColor = "transparent";
+            }
 
             const geometry = new Triangle(gl);
             if (geometry.attributes.uv) {
@@ -205,11 +210,11 @@ export default function Aurora({
             });
 
             const mesh = new Mesh(gl, { geometry, program });
-            ctn.appendChild(gl.canvas);
+            ctn.appendChild(gl.canvas as Node);
 
             // Resize handler with debounce via requestAnimationFrame
             const resize = () => {
-                if (!ctn || !program) return;
+                if (!ctn || !program || !renderer) return;
                 const width = ctn.offsetWidth;
                 const height = ctn.offsetHeight;
                 renderer.setSize(width, height);
@@ -236,7 +241,7 @@ export default function Aurora({
                 animationIdRef.current = requestAnimationFrame(update);
 
                 // Skip rendering if not visible (CRITICAL optimization)
-                if (!isVisibleRef.current || !program) return;
+                if (!isVisibleRef.current || !program || !renderer) return;
 
                 const { speed: currentSpeed, amplitude: currentAmplitude, blend: currentBlend, colorStops: currentColorStops } = propsRef.current;
 
