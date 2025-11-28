@@ -72,9 +72,9 @@ function calculateDistance(
   const a =
     Math.sin(dLat / 2) * Math.sin(dLat / 2) +
     Math.cos((lat1 * Math.PI) / 180) *
-      Math.cos((lat2 * Math.PI) / 180) *
-      Math.sin(dLon / 2) *
-      Math.sin(dLon / 2);
+    Math.cos((lat2 * Math.PI) / 180) *
+    Math.sin(dLon / 2) *
+    Math.sin(dLon / 2);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   const distance = R * c;
 
@@ -88,6 +88,20 @@ function formatDistance(distance: number): string {
   }
 
   return `${distance.toFixed(1)} km`;
+}
+
+// Format price range to Indonesian Rupiah
+function formatPriceRange(priceRange?: "$" | "$$" | "$$$"): string {
+  switch (priceRange) {
+    case "$":
+      return "Rp 10.000 - 25.000";
+    case "$$":
+      return "Rp 25.000 - 50.000";
+    case "$$$":
+      return "Rp 50.000 - 100.000";
+    default:
+      return "Harga bervariasi";
+  }
 }
 
 interface UMKMCardProps {
@@ -176,7 +190,7 @@ const UMKMCard = forwardRef<HTMLDivElement, UMKMCardProps>(
 
                   {umkm.priceRange && (
                     <Chip color="secondary" size="sm" variant="flat">
-                      {umkm.priceRange}
+                      {formatPriceRange(umkm.priceRange)}
                     </Chip>
                   )}
                 </div>
@@ -299,9 +313,11 @@ export default function MapNearbyPage() {
     });
 
     // Filter only UMKM within 10km by default
-    const nearby = processed.filter((umkm) => umkm.calculatedDistance <= 10);
+    // REMOVED: Now showing all UMKM regardless of distance
+    // Users can still sort by distance to see closest ones first
+    const nearby = processed; // Show all UMKM
 
-    console.log(`✅ Found ${nearby.length} UMKM within 10km`);
+    console.log(`✅ Found ${nearby.length} UMKM (showing all, sorted by distance)`);
 
     return nearby;
   }, [userLocation]);
