@@ -258,17 +258,7 @@ export default function Navbar({ onSearchOpen }: NavbarProps) {
               </div>
             </button>
 
-            {/* Mia Competitions - All Devices */}
-            <a
-              className="flex items-center px-2 sm:px-3 py-1.5 sm:py-2 text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md sm:rounded-lg transition-colors whitespace-nowrap"
-              href="https://mia2025.com/"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              <span className="hidden sm:inline">Mia Competitions</span>
-              <span className="sm:hidden">Mia</span>
-              <ArrowUpRightIcon className="w-3 h-3 sm:w-4 sm:h-4 ml-1" />
-            </a>
+            {/* Mia Competitions removed */}
           </div>
 
           {/* Center: Logo */}
