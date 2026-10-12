@@ -377,13 +377,13 @@ export default function Footer() {
             <div className="space-y-4">
               <a
                 className="group flex items-start gap-3 text-gray-400 hover:text-primary-400 transition-colors duration-200"
-                href="mailto:alriansr@gmail.com"
+                href="mailto:informasi@lokalku.site"
               >
                 <div className="p-1.5 rounded-lg bg-gray-800/50 group-hover:bg-primary-500/10 transition-colors mt-0.5">
                   <EnvelopeIcon className="w-4 h-4" />
                 </div>
                 <span className="text-sm font-medium break-all">
-                  alriansr@gmail.com
+                  informasi@lokalku.site
                 </span>
               </a>
 

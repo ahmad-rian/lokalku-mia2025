@@ -117,9 +117,11 @@ export default function NotFound() {
               size="sm"
               startContent={<Mail size={16} />}
               variant="light"
-              onPress={() => window.open("mailto:alriansr@gmail.com", "_blank")}
+              onPress={() =>
+                window.open("mailto:informasi@lokalku.site", "_blank")
+              }
             >
-              alriansr@gmail.com
+              informasi@lokalku.site
             </Button>
           </div>
         </div>
